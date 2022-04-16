@@ -8,4 +8,7 @@ module.exports = withPWA({
     runtimeCaching,
   },
   future: { webpack5: true },
+  experimental: {
+    outputStandalone: true,
+  },
 });
