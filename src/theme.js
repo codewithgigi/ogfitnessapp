@@ -6,6 +6,7 @@ export const palette = {
   red: "#F14447",
   purple: "#4D246E",
   brightgreen: "#ACD94A",
+  white: "#FFFFFF",
 };
 
 const theme = createTheme({
@@ -16,15 +17,13 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      light: palette.brightgreen,
-      main: palette.brightgreen,
+      light: palette.white,
+      main: palette.purple,
       dark: palette.purple,
       contrastText: "#fff",
     },
     secondary: {
-      light: palette.brightgreen,
-      main: palette.brightgreen,
-      dark: palette.brightgreen,
+      main: "#fff",
       contrastText: "#000",
     },
     // secondary: {
@@ -34,16 +33,12 @@ const theme = createTheme({
     //   contrastText: "#fff",
     // },
     error: {
-      light: "#c70000",
-      main: "#ff6347",
-      dark: "#d0533c",
-      contrastText: "#1e2022",
+      main: "#EEE",
+      contrastText: "#2A2A2B",
     },
     default: {
-      light: "#c70000",
-      main: "#ff6347",
-      dark: "#d0533c",
-      contrastText: "#1e2022",
+      main: "#EEE",
+      contrastText: "#2A2A2B",
     },
     background: {
       default: "whitesmoke",
