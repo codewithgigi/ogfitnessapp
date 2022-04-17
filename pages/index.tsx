@@ -1,59 +1,50 @@
-import styles from '../styles/Home.module.css'
-
+import styles from "../styles/Home.module.css";
+import { Box, Button, TextField, Grid, Typography } from "@mui/material";
+import Section from "../components/Section";
+import { palette } from "../src/theme";
 export default function Home() {
   return (
-    <div className={styles.container}>
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+    <Box
+      sx={{
+        backgroundColor: palette.purple,
+        padding: 2,
+        minHeight: "90vh",
+        color: "white",
+      }}
+    >
+      <h1 className={styles.title}>Welcome to OGFitness</h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+      <p className={styles.description}>
+        Get started in your fitness journey with Oksana Grishina, 5x Ms Olympia.
+      </p>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+      <div className={styles.grid}>
+        <iframe
+          width="100%"
+          height="100%"
+          src="https://player.vimeo.com/video/403530213"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen=""
+        ></iframe>
+      </div>
+      <Button
+        type="submit"
+        variant="outlined"
+        size="large"
+        sx={{
+          background: "white",
+          border: "1px solid black",
+          color: "black",
+          fontWeight: "bold",
+          borderRadius: 50,
+          width: "100%",
+        }}
+        //className={classes.submit}
+        //onClick={onSubmit}
+      >
+        Let's start
+      </Button>
+    </Box>
+  );
 }
