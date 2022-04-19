@@ -10,6 +10,11 @@
       "StackName": "amplify-ogfitnessapp-dev-192906",
       "StackId": "arn:aws:cloudformation:us-west-2:597051921246:stack/amplify-ogfitnessapp-dev-192906/ff012ac0-bd2c-11ec-821f-0a2fb041c589",
       "AmplifyAppId": "d3qksnyw1h0r6a"
+    },
+    "categories": {
+      "auth": {
+        "ogfitnessapp": {}
+      }
     }
   }
 }

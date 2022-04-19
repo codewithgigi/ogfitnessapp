@@ -44,7 +44,7 @@ export default function ResendConfirmation() {
             required
             fullWidth
             name="username"
-            label="Username"
+            label="Email"
             type="username"
             id="username"
             autoComplete="email"
@@ -64,7 +64,7 @@ export default function ResendConfirmation() {
           >
             Resend Confirmation
           </Button>
-          <Grid item>
+          <Grid item xs={8}>
             <Link href="/auth/signin">
               <a>
                 Already have an account?{" "}

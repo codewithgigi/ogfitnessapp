@@ -90,7 +90,7 @@ export default function SignUp() {
               onChange={onChange}
               value={values.email}
               type="email"
-              placeholder="email"
+              placeholder="Email"
             />
             <TextField
               variant="outlined"
@@ -100,12 +100,10 @@ export default function SignUp() {
               id="username"
               label="username"
               name="username"
-              autoComplete="email"
               autoFocus
               onChange={onChange}
               value={values.username}
-              type="email"
-              placeholder="Email"
+              placeholder="Username"
             />
             <TextField
               variant="outlined"
