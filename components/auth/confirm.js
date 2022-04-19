@@ -94,7 +94,7 @@ export default function Confirm({ setForm }) {
             Confirm
           </Button>
           <Grid item xs>
-            <Button onClick={() => setForm("signin")}>
+            <Button onClick={() => setForm("signin")} color="secondary">
               Click here to Sign In
             </Button>
           </Grid>

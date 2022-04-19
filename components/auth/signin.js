@@ -92,10 +92,14 @@ export default function SignIn({ setForm, handleClose }) {
         </Button>
         <Grid container>
           <Grid item xs>
-            <Button onClick={() => setForm("forgot")}>Forgot Password</Button>
+            <Button onClick={() => setForm("forgot")} color="default">
+              Forgot Password
+            </Button>
           </Grid>
           <Grid item>
-            <Button onClick={() => setForm("signup")}>Sign up for free</Button>
+            <Button onClick={() => setForm("signup")} color="secondary">
+              Sign up for free
+            </Button>
           </Grid>
         </Grid>
       </Grid>

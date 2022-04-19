@@ -7,6 +7,7 @@ import Context from "../../src/context";
 import Section from "../../components/Section";
 import Link from "next/link";
 import useForm from "../../src/hooks/useForm";
+import { palette } from "../../src/theme";
 
 export default function SignIn() {
   const { state, dispatch } = useContext(Context);
@@ -61,14 +62,14 @@ export default function SignIn() {
             Sign in
           </Typography>
         </Grid>
-        <div>
+        <Grid item md={8}>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
             id="username"
-            label="username"
+            label="Email Address"
             name="username"
             autoComplete="email"
             autoFocus
@@ -84,7 +85,6 @@ export default function SignIn() {
             fullWidth
             name="password"
             label="Password"
-            type="password"
             id="password"
             autoComplete="current-password"
             onChange={onChange}
@@ -104,19 +104,23 @@ export default function SignIn() {
           >
             SignIn
           </Button>
-          <Grid container>
+          <Grid container sx={{ marginTop: 1 }}>
             <Grid item xs>
               <Link href="/auth/forgot">
-                <a>Forgot Password</a>
+                <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
+                  FORGOT PASSWORD
+                </a>
               </Link>
             </Grid>
             <Grid item>
               <Link href="/auth/signup">
-                <a>Sign up for free</a>
+                <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
+                  SIGNUP
+                </a>
               </Link>
             </Grid>
           </Grid>
-        </div>
+        </Grid>
       </Grid>
     </Section>
   );

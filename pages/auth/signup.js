@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import { Avatar, Button, TextField, Grid, Typography } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { Button, TextField, Grid, Typography } from "@mui/material";
 import { Auth } from "aws-amplify";
 import { useRouter } from "next/router";
+import { palette } from "../../src/theme";
 import {
   validatePassword,
   validateEmail,
@@ -65,86 +65,92 @@ export default function SignUp() {
   else
     return (
       <Section>
-        <Typography component="h1" variant="h5">
-          Signup
-        </Typography>
-        <div>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="username"
-            label="Username"
-            type="username"
-            id="username"
-            autoComplete="username"
-            onChange={onChange}
-            placeholder="Enter username"
-            value={values.username}
-            type="username"
-          />
-          {errors?.username && (
-            <p style={{ color: "red" }}>{errors?.username}</p>
-          )}
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={onChange}
-            value={values.email}
-            type="email"
-            placeholder="email"
-          />
-          {errors?.email && <p style={{ color: "red" }}>{errors?.email}</p>}
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={onChange}
-            placeholder="Enter password"
-            value={values.password}
-            type="password"
-          />
-          {errors?.password && (
-            <p style={{ color: "red" }}>{errors?.password}</p>
-          )}
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            size="large"
-            onClick={onSubmit}
-          >
-            Signup
-          </Button>
-          <Grid container direction="column" alignItems="center" spacing={2}>
-            <Grid item>
-              <Link href="/auth/signin">
-                <a>Already have an account? Sign In</a>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/auth/confirm">
-                <a>Click here to Cofirm Signup</a>
-              </Link>
+        <Grid
+          container
+          flexDirection={"column"}
+          justifyContent="center"
+          alignItems={"center"}
+        >
+          <Grid item>
+            <Typography component="h1" variant="h5">
+              Signup
+            </Typography>
+          </Grid>
+          <Grid item md={8}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={onChange}
+              value={values.email}
+              type="email"
+              placeholder="email"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="username"
+              name="username"
+              autoComplete="email"
+              autoFocus
+              onChange={onChange}
+              value={values.username}
+              type="email"
+              placeholder="Email"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              id="password"
+              autoComplete="current-password"
+              onChange={onChange}
+              placeholder="Enter password"
+              value={values.password}
+              type="password"
+            />
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              size="large"
+              //className={classes.submit}
+              onClick={onSubmit}
+            >
+              SignIn
+            </Button>
+            <Grid container sx={{ marginTop: 1 }}>
+              <Grid item xs>
+                <Link href="/auth/confirm">
+                  <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
+                    Cofirm Signup
+                  </a>
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/auth/signin">
+                  <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
+                    Already have an account? Sign In
+                  </a>
+                </Link>
+              </Grid>
             </Grid>
           </Grid>
-        </div>
+        </Grid>
       </Section>
     );
 }

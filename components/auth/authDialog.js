@@ -32,7 +32,7 @@ export default function AuthDialog({ action, price }) {
           Purchase For {price}
         </Button>
       ) : (
-        <Button color="primary" onClick={handleClickOpen}>
+        <Button color="secondary" size="large" onClick={handleClickOpen}>
           Sign In
         </Button>
       )}

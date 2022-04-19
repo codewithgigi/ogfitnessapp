@@ -2,6 +2,8 @@ import Head from "next/head";
 import "../styles/globals.css";
 import { AppProps } from "next/app";
 import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import ResposiveAppBar from "../components/app-bar";
 import theme from "../src/theme";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
@@ -35,7 +37,19 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <meta name="theme-color" content="#317EFB" />
       </Head>
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <CssBaseline />
+        <div
+          style={{
+            maxWidth: 1000,
+            margin: "0 auto",
+          }}
+        >
+          {/* {!isMdDown && <Header />} */}
+          <ResposiveAppBar />
+          <div style={{ minHeight: "80vh" }}>
+            <Component {...pageProps} />
+          </div>
+        </div>
       </ThemeProvider>
     </>
   );

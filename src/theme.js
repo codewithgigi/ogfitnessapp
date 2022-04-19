@@ -1,12 +1,19 @@
 import { createTheme } from "@mui/material/styles";
 export const palette = {
-  green: "#26A456",
+  green: "#62BD4E",
+  orange: "#FF9F19",
   yellow: "#F9CA25",
-  blue: "#2D97E8",
+  blue: "#01aecc",
+  contrastBlue: "#0092AB",
   red: "#F14447",
-  purple: "#4D246E",
+  purple: "#C377E0",
   brightgreen: "#ACD94A",
   white: "#FFFFFF",
+  lightgrey: "#EBECF0",
+};
+export const layout = {
+  //contentWidth: 1236,
+  contentWidth: 1000,
 };
 
 const theme = createTheme({
@@ -17,21 +24,13 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      light: palette.white,
-      main: palette.purple,
-      dark: palette.purple,
+      main: palette.blue,
       contrastText: "#fff",
     },
     secondary: {
-      main: "#fff",
+      main: palette.lightgrey,
       contrastText: "#000",
     },
-    // secondary: {
-    //   light: "",
-    //   main: "lightgrey",
-    //   dark: "lightgrey",
-    //   contrastText: "#fff",
-    // },
     error: {
       main: "#EEE",
       contrastText: "#2A2A2B",

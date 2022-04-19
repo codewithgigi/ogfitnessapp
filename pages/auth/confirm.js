@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import { Button, TextField, Grid } from "@mui/material";
+import { Button, TextField, Grid, Typography } from "@mui/material";
 import { Auth } from "aws-amplify";
 import { useRouter } from "next/router";
 import useForm from "../../src/hooks/useForm";
 import Context from "../../src/context";
 import Link from "next/link";
 import Section from "../../components/Section";
+import { palette } from "../../src/theme";
 
 const initialValues = {
   username: "",
@@ -50,61 +51,74 @@ export default function Confirm() {
   else
     return (
       <Section>
-        <Grid container item md={4} sm={6} xs={12} justifyContent="center">
-          <div>
-            <p>
+        <Grid
+          container
+          flexDirection={"column"}
+          justifyContent="center"
+          alignItems={"center"}
+        >
+          <Grid item>
+            <Typography component="h1" variant="h5">
               We have sent a code by email. Enter it below to confirm your
               account.
-            </p>
-          </div>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="username"
-            label="Username"
-            type="username"
-            id="username"
-            autoComplete="username"
-            onChange={onChange}
-            placeholder="Enter email"
-            value={values.username}
-            type="email"
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="code"
-            label="Cofirmation Code"
-            id="code"
-            onChange={onChange}
-            value={values.code}
-            type="number"
-            placeholder="Enter verification code"
-          />
-          {error && <div style={{ color: "red" }}>{error}</div>}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            size="large"
-            onClick={onSubmit}
-          >
-            Confirm
-          </Button>
-          <Grid item xs>
-            <Link href="/auth/signin">
-              <a>Click here to Sign In</a>
-            </Link>
+            </Typography>
           </Grid>
-          <Grid item xs>
-            <Link href="/auth/resend-confirmation">
-              <a>Click here to resend confirmation</a>
-            </Link>
+          <Grid item md={8}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="username"
+              label="Username"
+              type="username"
+              id="username"
+              autoComplete="username"
+              onChange={onChange}
+              placeholder="Enter email"
+              value={values.username}
+              type="email"
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="code"
+              label="Cofirmation Code"
+              id="code"
+              onChange={onChange}
+              value={values.code}
+              type="number"
+              placeholder="Enter verification code"
+            />
+            {error && <div style={{ color: "red" }}>{error}</div>}
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              size="large"
+              onClick={onSubmit}
+            >
+              Confirm
+            </Button>
+            <Grid container sx={{ marginTop: 1 }}>
+              <Grid item xs>
+                <Link href="/auth/signin">
+                  <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
+                    Click here to Sign In
+                  </a>
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/auth/resend-confirmation">
+                  <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
+                    Click here to resend confirmation
+                  </a>
+                </Link>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </Section>

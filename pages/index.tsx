@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <Box
       sx={{
-        backgroundColor: palette.purple,
+        backgroundColor: palette.blue,
         padding: 2,
         minHeight: "98vh",
         color: "white",
@@ -20,19 +20,20 @@ export default function Home() {
       <p className={styles.description}>
         Get started in your fitness journey with Oksana Grishina, 5x Ms Olympia.
       </p>
-
-      <iframe
-        src={`https://www.youtube.com/embed/iu9zLwO905o`}
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        title="Embedded youtube"
-      />
+      <Box>
+        <iframe
+          src={`https://www.youtube.com/embed/iu9zLwO905o`}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          title="OGFit.app welcome screen"
+        />
+      </Box>
       <Button
         type="submit"
         variant="contained"
         size="large"
-        color="default"
+        color="secondary"
         sx={{
           fontWeight: "bold",
           borderRadius: 50,

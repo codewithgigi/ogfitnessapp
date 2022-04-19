@@ -3,8 +3,9 @@ import { Auth } from "aws-amplify";
 import Link from "next/link";
 import useForm from "../../src/hooks/useForm";
 import { useRouter } from "next/router";
-import { Button, TextField, Grid } from "@mui/material";
+import { Button, TextField, Grid, Typography } from "@mui/material";
 import Section from "../../components/Section";
+import { palette } from "../../src/theme";
 
 export default function ForgotPasword() {
   const router = useRouter();
@@ -40,87 +41,101 @@ export default function ForgotPasword() {
 
   return (
     <Section>
-      <Grid container item md={4} sm={6} xs={12}>
-        <h2>Forgot Password</h2>
+      <Grid
+        container
+        flexDirection={"column"}
+        justifyContent="center"
+        alignItems={"center"}
+      >
+        <Grid item>
+          <Typography component="h1" variant="h5">
+            Forgot Password
+          </Typography>
+        </Grid>
         <div>{message}</div>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label="username"
-          name="username"
-          autoComplete="username"
-          autoFocus
-          onChange={onChange}
-          value={values.username}
-          type="email"
-          placeholder="Email"
-        />
-        {errors?.username && <p style={{ color: "red" }}>{errors.username}</p>}
-        {message && (
+        <div>
           <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="number"
-            label="confirmation code"
-            name="code"
-            autoComplete="code"
+            id="email"
+            label="username"
+            name="username"
+            autoComplete="username"
             autoFocus
             onChange={onChange}
-            value={values.code}
-            type="number"
-            placeholder="code"
+            value={values.username}
+            type="email"
+            placeholder="Email"
           />
-        )}
-        {message && (
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={onChange}
-            placeholder="Enter password"
-            value={values.password}
-            type="password"
-          />
-        )}
+          {errors?.username && (
+            <p style={{ color: "red" }}>{errors.username}</p>
+          )}
+          {message && (
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="number"
+              label="confirmation code"
+              name="code"
+              autoComplete="code"
+              autoFocus
+              onChange={onChange}
+              value={values.code}
+              type="number"
+              placeholder="code"
+            />
+          )}
+          {message && (
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              onChange={onChange}
+              placeholder="Enter password"
+              value={values.password}
+            />
+          )}
 
-        {!message ? (
-          <Button
-            type="submit"
-            fullWidth
-            size="large"
-            variant="contained"
-            color="primary"
-            onClick={onSubmitForgot}
-          >
-            Submit
-          </Button>
-        ) : (
-          <Button
-            type="submit"
-            fullWidth
-            size="large"
-            variant="contained"
-            color="primary"
-            onClick={changePassword}
-          >
-            Change Password
-          </Button>
-        )}
-        {error && <div style={{ color: "red" }}>{error}</div>}
-        <Link href="/auth/signin">
-          <a> Sign In</a>
-        </Link>
+          {!message ? (
+            <Button
+              type="submit"
+              fullWidth
+              size="large"
+              variant="contained"
+              color="primary"
+              onClick={onSubmitForgot}
+            >
+              Submit
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              fullWidth
+              size="large"
+              variant="contained"
+              color="primary"
+              onClick={changePassword}
+            >
+              Change Password
+            </Button>
+          )}
+          {error && <div style={{ color: "red" }}>{error}</div>}
+          <Link href="/auth/signin">
+            <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
+              SignIn
+            </a>
+          </Link>
+        </div>
       </Grid>
     </Section>
   );
