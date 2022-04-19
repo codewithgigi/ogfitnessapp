@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Avatar, Button, TextField, Grid, Typography } from "@mui/material";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { Button, TextField, Grid, Typography } from "@mui/material";
 import { Auth } from "aws-amplify";
 import { useRouter } from "next/router";
 import Context from "../../src/context";
@@ -55,7 +54,8 @@ export default function SignIn() {
         container
         flexDirection={"column"}
         justifyContent="center"
-        alignItems={"center"}
+        alignItems="center"
+        spacing="2"
       >
         <Grid item>
           <Typography component="h1" variant="h5">
@@ -99,27 +99,28 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             size="large"
-            //className={classes.submit}
+            sx={{ marginBottom: 1 }}
             onClick={onSubmit}
           >
             SignIn
           </Button>
-          <Grid container sx={{ marginTop: 1 }}>
-            <Grid item xs>
-              <Link href="/auth/forgot">
-                <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
-                  FORGOT PASSWORD
-                </a>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/auth/signup">
-                <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
-                  SIGNUP
-                </a>
-              </Link>
-            </Grid>
-          </Grid>
+        </Grid>
+        <Grid item>
+          <Link href="/auth/signup">
+            <a>
+              Don't have an account?{" "}
+              <span style={{ color: palette.contrastBlue, fontWeight: "bold" }}>
+                Sign up
+              </span>
+            </a>
+          </Link>
+        </Grid>
+        <Grid item>
+          <Link href="/auth/forgot">
+            <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
+              Forgot Password
+            </a>
+          </Link>
         </Grid>
       </Grid>
     </Section>

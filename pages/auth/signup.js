@@ -128,27 +128,32 @@ export default function SignUp() {
               variant="contained"
               color="primary"
               size="large"
-              //className={classes.submit}
+              style={{ marginBottom: 10 }}
               onClick={onSubmit}
             >
               SignIn
             </Button>
-            <Grid container sx={{ marginTop: 1 }}>
-              <Grid item xs>
-                <Link href="/auth/confirm">
-                  <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
-                    Cofirm Signup
-                  </a>
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/auth/signin">
-                  <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
-                    Already have an account? Sign In
-                  </a>
-                </Link>
-              </Grid>
-            </Grid>
+          </Grid>
+          <Grid item>
+            <Link href="/auth/signin">
+              <a>
+                Already have an account?{" "}
+                <span
+                  style={{ color: palette.contrastBlue, fontWeight: "bold" }}
+                >
+                  Sign In
+                </span>
+              </a>
+            </Link>
+          </Grid>
+          <Grid item>
+            <div>
+              <Link href="/auth/confirm">
+                <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
+                  Cofirm Sign up
+                </a>
+              </Link>
+            </div>
           </Grid>
         </Grid>
       </Section>

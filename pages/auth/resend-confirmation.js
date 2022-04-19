@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Context from "../../src/context";
 import Link from "next/link";
 import Section from "../../components/Section";
+import { palette } from "../../src/theme";
 
 export default function ResendConfirmation() {
   let router = useRouter();
@@ -50,7 +51,6 @@ export default function ResendConfirmation() {
             onChange={onChange}
             placeholder="Enter email"
             value={username}
-            type="email"
           />
           {error && <div style={{ color: "red" }}>{error}</div>}
           <Button
@@ -60,20 +60,28 @@ export default function ResendConfirmation() {
             color="primary"
             size="large"
             onClick={() => resendConfirmationCode()}
+            style={{ marginBottom: 10 }}
           >
             Resend Confirmation
           </Button>
-          <Grid container justifyContent="space-between">
-            <Grid item xs>
-              <Link href="/auth/signin">
-                <a>Click here to Sign In</a>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/auth/forgot">
-                <a>Forgot password?</a>
-              </Link>
-            </Grid>
+          <Grid item>
+            <Link href="/auth/signin">
+              <a>
+                Already have an account?{" "}
+                <span
+                  style={{ color: palette.contrastBlue, fontWeight: "bold" }}
+                >
+                  Sign In
+                </span>
+              </a>
+            </Link>
+          </Grid>
+          <Grid item>
+            <Link href="/auth/forgot">
+              <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
+                Forgot Password
+              </a>
+            </Link>
           </Grid>
         </Grid>
       </Section>

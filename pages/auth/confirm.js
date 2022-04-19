@@ -77,7 +77,6 @@ export default function Confirm() {
               onChange={onChange}
               placeholder="Enter email"
               value={values.username}
-              type="email"
             />
             <TextField
               variant="outlined"
@@ -100,25 +99,30 @@ export default function Confirm() {
               color="primary"
               size="large"
               onClick={onSubmit}
+              style={{ marginBottom: 10 }}
             >
               Confirm
             </Button>
-            <Grid container sx={{ marginTop: 1 }}>
-              <Grid item xs>
-                <Link href="/auth/signin">
-                  <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
-                    Click here to Sign In
-                  </a>
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/auth/resend-confirmation">
-                  <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
-                    Click here to resend confirmation
-                  </a>
-                </Link>
-              </Grid>
-            </Grid>
+          </Grid>
+          <Grid item>
+            <Link href="/auth/signin">
+              <a>
+                <span
+                  style={{ color: palette.contrastBlue, fontWeight: "bold" }}
+                >
+                  Sign In
+                </span>
+              </a>
+            </Link>
+          </Grid>
+          <Grid item>
+            <div>
+              <Link href="/auth/resend-confirmation">
+                <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
+                  Resend Cofirmation
+                </a>
+              </Link>
+            </div>
           </Grid>
         </Grid>
       </Section>

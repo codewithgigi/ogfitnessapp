@@ -53,7 +53,7 @@ export default function ForgotPasword() {
           </Typography>
         </Grid>
         <div>{message}</div>
-        <div>
+        <Grid item>
           <TextField
             variant="outlined"
             margin="normal"
@@ -125,17 +125,25 @@ export default function ForgotPasword() {
               variant="contained"
               color="primary"
               onClick={changePassword}
+              style={{ marginBottom: 10 }}
             >
               Change Password
             </Button>
           )}
           {error && <div style={{ color: "red" }}>{error}</div>}
+        </Grid>
+        <Grid item>
           <Link href="/auth/signin">
-            <a style={{ color: palette.contrastBlue, fontWeight: "700" }}>
-              SignIn
+            <a
+              style={{
+                color: palette.contrastBlue,
+                fontWeight: "700",
+              }}
+            >
+              Sign In
             </a>
           </Link>
-        </div>
+        </Grid>
       </Grid>
     </Section>
   );
