@@ -49,6 +49,7 @@ const theme = createTheme({
   },
   typography: {
     fontSize: 12,
+    fontFamily: ['"Helvetica Neue"', "Arial", "sans-serif"].join(","),
     h1: {
       fontSize: "1.4rem",
       fontWeight: "700",
