@@ -63,20 +63,15 @@ const ResponsiveAppBar = () => {
     <AppBar position="static" sx={{ backgroundColor: palette.contrastBlue }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h2"
-            noWrap
-            component="div"
-            onClick={() => router.push("/")}
-            sx={{
-              mr: 4,
-              color: "white",
-              display: { xs: "none", md: "flex", cursor: "pointer" },
-            }}
-          >
-            OGFit.App
-          </Typography>
-          {state?.user && (
+          {!state?.user ? (
+            <Box sx={{ flexGrow: 1 }}>
+              <img
+                onClick={() => router.push("/")}
+                src="/ogLogoBlack.png"
+                width={80}
+              />
+            </Box>
+          ) : (
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
@@ -136,19 +131,20 @@ const ResponsiveAppBar = () => {
               </Menu>
             </Box>
           )}
-          <Typography
-            variant="h2"
-            noWrap
-            onClick={() => router.push("/")}
-            component="div"
-            sx={{
-              color: "white",
-              flexGrow: 1,
-              display: { xs: "flex", md: "none", cursor: "pointer" },
-            }}
-          >
-            OGFit.app
-          </Typography>
+          {state?.user && (
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: "flex", md: "flex", cursor: "pointer" },
+              }}
+            >
+              <img
+                onClick={() => router.push("/")}
+                src="/ogLogoBlack.png"
+                width={65}
+              />
+            </Box>
+          )}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {state?.user &&
               pages.map((page) => (

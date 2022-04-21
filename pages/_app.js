@@ -75,6 +75,7 @@ function MyApp({
               style={{
                 maxWidth: maintheme.layout.contentWidth,
                 margin: "0 auto",
+                backgroundColor: "green",
               }}
             >
               {/* {!isMdDown && <Header />} */}

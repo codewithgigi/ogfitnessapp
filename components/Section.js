@@ -1,4 +1,6 @@
 import React from "react";
+import { palette } from "../src/theme";
+import { Box } from "@mui/material";
 
 /**
  * Component to display the sections
@@ -10,12 +12,21 @@ const Section = ({ bgColor, children, ...rest }) => {
     <section
       style={{
         minHeight: "90vh",
-        backgroundColor: bgColor ? bgColor : "white",
-        padding: 20,
+        backgroundColor: palette.lightgrey,
+        padding: 5,
       }}
       {...rest}
     >
-      {children}
+      <Box
+        sx={{
+          backgroundColor: "white",
+          borderRadius: 1,
+          padding: 1.5,
+          minHeight: "90vh",
+        }}
+      >
+        {children}
+      </Box>
     </section>
   );
 };

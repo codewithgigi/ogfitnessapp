@@ -12,7 +12,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright ©  "}
       <Link color="inherit" href="/">
-        <a>Strongshape</a>
+        <a>ogfit.training</a>
       </Link>
       {"  "}
       {new Date().getFullYear()}
@@ -28,7 +28,7 @@ export default function Footer() {
     <footer sx={{ padding: 10 }} id="footer">
       <Container maxWidth="lg">
         <Typography variant="h6" align="center" gutterBottom>
-          StrongShape
+          OGFit.training
         </Typography>
         <Typography
           variant="subtitle1"
@@ -36,7 +36,7 @@ export default function Footer() {
           color="textSecondary"
           component="p"
         >
-          The best fitness tracker
+          Fitness training by 4x Ms Olympia Oksana Grishina
         </Typography>
         <Copyright />
         <Grid container direction="row" justifyContent="center">
