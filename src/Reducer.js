@@ -5,6 +5,12 @@ const Reducer = (state, action) => {
         ...state,
         user: action.payload,
       };
+    case "updateUser":
+      return {
+        ...state,
+        user: action.payload,
+      };
+
     case "removeUser":
       return {
         ...state,

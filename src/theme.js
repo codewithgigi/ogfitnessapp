@@ -19,7 +19,7 @@ export const layout = {
 const theme = createTheme({
   body: {
     backroundColor: "white",
-    fontSize: "1rem",
+    fontSize: 16,
     color: "#2A2A2B",
   },
   palette: {
