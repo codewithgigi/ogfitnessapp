@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../styles/Home.module.css";
 import { Box, Button, Chip, Grid } from "@mui/material";
 import Section from "../components/Section";
@@ -24,6 +24,10 @@ export default function Onboarding() {
     experience: "",
     compete: "",
   });
+  useEffect(() => {
+    if (onboarding)
+      setOnboarding({ ...onboarding, ...state?.user?.onboarding });
+  }, [state?.user?.onboarding]);
 
   const onSubmit = () => {
     const newUser = { ...state.user, onboarding };
@@ -149,13 +153,33 @@ export default function Onboarding() {
                 </Grid>
               ))}
           </Grid>
+          <h3>Compete Level</h3>
+          <Grid container spacing={1}>
+            {["Local", "State", "Regional", "National"].map((x) => (
+              <Grid item key={x}>
+                <Chip
+                  color="primary"
+                  variant={
+                    onboarding.competeLevel === x ? "contained" : "outlined"
+                  }
+                  label={x}
+                  className={styles.chip}
+                  onClick={() => {
+                    setOnboarding({ ...onboarding, competeLevel: x });
+                  }}
+                />
+              </Grid>
+            ))}
+          </Grid>
         </Box>
       )}
       {onboarding.gender &&
         onboarding.age &&
         onboarding.experience &&
         ((onboarding.goal && onboarding.goal !== "Compete") ||
-          (onboarding.goal === "Compete" && onboarding.compete)) && (
+          (onboarding.goal === "Compete" &&
+            onboarding.compete &&
+            onboarding.competeLevel)) && (
           <Button
             type="submit"
             fullWidth
