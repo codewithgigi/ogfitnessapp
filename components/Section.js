@@ -13,20 +13,11 @@ const Section = ({ bgColor, children, ...rest }) => {
       style={{
         minHeight: "90vh",
         backgroundColor: palette.lightgrey,
-        padding: 5,
+        padding: 16,
       }}
       {...rest}
     >
-      <Box
-        sx={{
-          backgroundColor: "white",
-          borderRadius: 1,
-          padding: 1.5,
-          minHeight: "90vh",
-        }}
-      >
-        {children}
-      </Box>
+      {children}
     </section>
   );
 };

@@ -75,14 +75,11 @@ function MyApp({
               style={{
                 maxWidth: maintheme.layout.contentWidth,
                 margin: "0 auto",
-                backgroundColor: "green",
               }}
             >
               {/* {!isMdDown && <Header />} */}
               <ResposiveAppBar />
-              <div style={{ minHeight: "80vh" }}>
-                <Component {...pageProps} />
-              </div>
+              <Component {...pageProps} />
             </div>
             {!isMdDown && <Footer />}
             {/* {isMdDown && router?.pathname !== "/recipes" && (

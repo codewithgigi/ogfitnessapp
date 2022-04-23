@@ -80,9 +80,7 @@ export default function Workouts() {
   const card = (x) => (
     <Card>
       <CardContent>
-        <Typography variant="h5" component="div">
-          {x?.name}
-        </Typography>
+        <h2>{x?.name}</h2>
         <Typography variant="body2" sx={{ mb: 1 }}>
           {x?.description}
         </Typography>
@@ -121,14 +119,18 @@ export default function Workouts() {
             are ready.
           </p>
           <p>Try one of the workouts below in the meantime.</p>
-          {(workoutPlans || []).map((x) => (
-            <Box sx={{ margin: 1, width: 300, height: 200 }}>{card(x)}</Box>
-          ))}
+          <Grid container flexDirection={"column"}>
+            {(workoutPlans || []).map((x) => (
+              <Box sx={{ mb: 2, maxWidth: 320 }}>{card(x)}</Box>
+            ))}
+          </Grid>
         </Box>
       )}
-      {(workoutByGoal || []).map((x) => (
-        <Box sx={{ margin: 1, width: 300, height: 200 }}>{card(x)}</Box>
-      ))}
+      <Grid container flexDirection={"column"}>
+        {(workoutByGoal || []).map((x) => (
+          <Box sx={{ mb: 2, maxWidth: 320 }}>{card(x)}</Box>
+        ))}
+      </Grid>
     </Section>
   );
 }
