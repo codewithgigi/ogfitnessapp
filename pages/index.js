@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <Section>
-      <h1 className={styles.title}>Welcome to OGFitness</h1>
+      <h1 className={styles.title}>Welcome to OGFit.Training</h1>
       <p className={styles.description}>
         Get started in your fitness journey with Oksana Grishina, 4x Ms Fitness
         Olympia.

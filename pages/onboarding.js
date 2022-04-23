@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "../styles/Home.module.css";
-import { Box, Button, Chip, Grid } from "@mui/material";
+import { Box, Button, Chip, Typography } from "@mui/material";
 import Section from "../components/Section";
 import Context from "../src/context";
 import { useRouter } from "next/router";
@@ -37,140 +37,120 @@ export default function Onboarding() {
 
   return (
     <Section>
-      <h1>Select answers below to find your perfect training.</h1>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <h3>Gender</h3>
-        </Grid>
-        {["Female", "Male"].map((g) => (
-          <Grid item key={g}>
-            <Chip
-              color="primary"
-              variant={onboarding.gender === g ? "contained" : "outlined"}
-              label={g}
-              className={styles.chip}
-              onClick={() => {
-                setOnboarding({
-                  ...onboarding,
-                  gender: g,
-                  goal: "",
-                  compete: "",
-                });
-              }}
-            />
-          </Grid>
-        ))}
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <h3>Age range</h3>
-        </Grid>
-        {["18-30", "31-45", "46-65", "65+"].map((a) => (
-          <Grid item key={a}>
-            <Chip
-              color="primary"
-              variant={onboarding.age === a ? "contained" : "outlined"}
-              label={a}
-              className={styles.chip}
-              onClick={() => {
-                setOnboarding({ ...onboarding, age: a });
-              }}
-            />
-          </Grid>
-        ))}
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <h3>Weight training experience</h3>
-        </Grid>
-        {["No experience", "Less than 1 year", "1-2 years", "2+ years"].map(
-          (e) => (
-            <Grid item key={e}>
-              <Chip
-                color="primary"
-                variant={onboarding.experience === e ? "contained" : "outlined"}
-                label={e}
-                className={styles.chip}
-                onClick={() => {
-                  setOnboarding({ ...onboarding, experience: e });
-                }}
-              />
-            </Grid>
-          ),
-        )}
-      </Grid>
-      <h3>Primary Training goal?</h3>
-      <Grid container spacing={1}>
-        {["Lose Fat / Get Lean", "Gain Weight/Muscle", "Compete"].map((g) => (
-          <Grid item key={g}>
-            <Chip
-              color="primary"
-              variant={onboarding.goal === g ? "contained" : "outlined"}
-              label={g}
-              className={styles.chip}
-              onClick={() => {
-                setOnboarding({ ...onboarding, goal: g, compete: "" });
-              }}
-            />
-          </Grid>
-        ))}
-      </Grid>
+      <h1>Get your perfect OGfit training</h1>
+      <h2>Gender</h2>
+      {["Female", "Male"].map((g) => (
+        <Chip
+          key={g}
+          color="primary"
+          variant={onboarding.gender === g ? "contained" : "outlined"}
+          sx={{ mr: 0.5, fontSize: "1rem" }}
+          label={g}
+          className={styles.chip}
+          onClick={() => {
+            setOnboarding({
+              ...onboarding,
+              gender: g,
+              goal: "",
+              compete: "",
+            });
+          }}
+        />
+      ))}
+      <h2>Age range</h2>
+      {["18-30", "31-45", "46-65", "65+"].map((a) => (
+        <Chip
+          key={a}
+          sx={{ mr: 0.5 }}
+          color="primary"
+          variant={onboarding.age === a ? "contained" : "outlined"}
+          label={a}
+          className={styles.chip}
+          onClick={() => {
+            setOnboarding({ ...onboarding, age: a });
+          }}
+        />
+      ))}
+      <h2>Weight training experience</h2>
+      {[
+        "0 - 3 months",
+        "3 - 6 months",
+        "6 months - 1 year",
+        "1 - 2 years",
+        "2+ years",
+      ].map((e) => (
+        <Chip
+          key={e}
+          sx={{ mr: 0.5, mb: 0.5 }}
+          color="primary"
+          variant={onboarding.experience === e ? "contained" : "outlined"}
+          label={e}
+          className={styles.chip}
+          onClick={() => {
+            setOnboarding({ ...onboarding, experience: e });
+          }}
+        />
+      ))}
+      <h2>Primary Training goal?</h2>
+      {["Lose Fat / Get Lean", "Gain Weight/Muscle", "Compete"].map((g) => (
+        <Chip
+          key={g}
+          sx={{ mr: 0.5, mb: 0.5 }}
+          color="primary"
+          variant={onboarding.goal === g ? "contained" : "outlined"}
+          label={g}
+          className={styles.chip}
+          onClick={() => {
+            setOnboarding({ ...onboarding, goal: g, compete: "" });
+          }}
+        />
+      ))}
 
       {onboarding.goal === "Compete" && (
         <Box>
-          <h3>Compete</h3>
-          <Grid container spacing={1}>
-            {onboarding.gender === "Male" &&
-              menCompete.map((c) => (
-                <Grid item key={c}>
-                  <Chip
-                    color="primary"
-                    variant={
-                      onboarding.compete === c ? "contained" : "outlined"
-                    }
-                    label={c}
-                    className={styles.chip}
-                    onClick={() => {
-                      setOnboarding({ ...onboarding, compete: c });
-                    }}
-                  />
-                </Grid>
-              ))}
-            {onboarding.gender === "Female" &&
-              womenCompete.map((c) => (
-                <Grid item key={c}>
-                  <Chip
-                    color="primary"
-                    variant={
-                      onboarding.compete === c ? "contained" : "outlined"
-                    }
-                    label={c}
-                    className={styles.chip}
-                    onClick={() => {
-                      setOnboarding({ ...onboarding, compete: c });
-                    }}
-                  />
-                </Grid>
-              ))}
-          </Grid>
-          <h3>Compete Level</h3>
-          <Grid container spacing={1}>
-            {["Local", "State", "Regional", "National"].map((x) => (
-              <Grid item key={x}>
-                <Chip
-                  color="primary"
-                  variant={
-                    onboarding.competeLevel === x ? "contained" : "outlined"
-                  }
-                  label={x}
-                  className={styles.chip}
-                  onClick={() => {
-                    setOnboarding({ ...onboarding, competeLevel: x });
-                  }}
-                />
-              </Grid>
+          <h2>Compete</h2>
+          {onboarding.gender === "Male" &&
+            menCompete.map((c) => (
+              <Chip
+                key={c}
+                sx={{ mr: 0.5, mb: 0.5 }}
+                color="primary"
+                variant={onboarding.compete === c ? "contained" : "outlined"}
+                label={c}
+                className={styles.chip}
+                onClick={() => {
+                  setOnboarding({ ...onboarding, compete: c });
+                }}
+              />
             ))}
-          </Grid>
+          {onboarding.gender === "Female" &&
+            womenCompete.map((c) => (
+              <Chip
+                key={c}
+                sx={{ mr: 0.5, mb: 0.5 }}
+                color="primary"
+                variant={onboarding.compete === c ? "contained" : "outlined"}
+                label={c}
+                className={styles.chip}
+                onClick={() => {
+                  setOnboarding({ ...onboarding, compete: c });
+                }}
+              />
+            ))}
+          <h3>Compete Level</h3>
+          {["Local", "State", "Regional", "National"].map((x) => (
+            <Chip
+              key={x}
+              sx={{ mr: 0.5, mb: 0.5 }}
+              color="primary"
+              variant={onboarding.competeLevel === x ? "contained" : "outlined"}
+              label={x}
+              className={styles.chip}
+              onClick={() => {
+                setOnboarding({ ...onboarding, competeLevel: x });
+              }}
+            />
+          ))}
         </Box>
       )}
       {onboarding.gender &&

@@ -21,6 +21,7 @@ const theme = createTheme({
     backroundColor: "white",
     fontSize: 16,
     color: "#2A2A2B",
+    fontFamily: ['"Helvetica Neue"', "Arial", "sans-serif"].join(","),
   },
   palette: {
     primary: {
@@ -48,31 +49,31 @@ const theme = createTheme({
     contentWidth: 1000,
   },
   typography: {
-    fontSize: 12,
+    fontSize: 16,
     fontFamily: ['"Helvetica Neue"', "Arial", "sans-serif"].join(","),
     h1: {
-      fontSize: "1.4rem",
+      fontSize: "1.2rem",
       fontWeight: "700",
       textTransform: "capitalize",
       textAlign: "center",
       color: "#1e2022",
-      marginBottom: 16,
+      marginBottom: 10,
       "@media (min-width:600px)": {
         fontSize: "1.5rem",
       },
     },
     h2: {
-      fontSize: "1.2rem",
+      fontSize: "1rem",
       fontWeight: "700",
       color: "#1e2022",
     },
     h3: {
-      fontSize: 18,
+      fontSize: "1.125rem",
       fontWeight: "600",
       color: "#1e2022",
     },
     h4: {
-      fontSize: "2.024rem",
+      fontSize: "1.125rem",
       fontWeight: "700",
       color: "#1e2022",
     },
