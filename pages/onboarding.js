@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "../styles/Home.module.css";
 import { Box, Button, Chip, Typography } from "@mui/material";
 import Section from "../components/Section";
@@ -16,6 +16,7 @@ const womenCompete = [
 export default function Onboarding() {
   const { state, dispatch } = React.useContext(Context);
   const router = useRouter();
+  const buttonRef = useRef();
 
   const [onboarding, setOnboarding] = React.useState({
     goal: "",
@@ -33,6 +34,14 @@ export default function Onboarding() {
     const newUser = { ...state.user, onboarding };
     dispatch({ type: "addUser", payload: newUser });
     router.push("/workouts");
+  };
+
+  const scrollToBottom = () => {
+    window.scroll({
+      top: document.body.offsetHeight,
+      left: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -53,6 +62,7 @@ export default function Onboarding() {
               gender: g,
               goal: "",
               compete: "",
+              competeLevel: "",
             });
           }}
         />
@@ -106,7 +116,10 @@ export default function Onboarding() {
         />
       ))}
 
-      {onboarding.goal === "Compete" && (
+      {onboarding.goal === "Compete" && !onboarding?.gender && (
+        <h2>Select a gender above to see compete divisions</h2>
+      )}
+      {onboarding.goal === "Compete" && onboarding?.gender && (
         <Box>
           <h2>Compete</h2>
           {onboarding.gender === "Male" &&
@@ -148,6 +161,7 @@ export default function Onboarding() {
               className={styles.chip}
               onClick={() => {
                 setOnboarding({ ...onboarding, competeLevel: x });
+                scrollToBottom();
               }}
             />
           ))}
@@ -161,6 +175,7 @@ export default function Onboarding() {
             onboarding.compete &&
             onboarding.competeLevel)) && (
           <Button
+            ref={buttonRef}
             type="submit"
             fullWidth
             variant="contained"
