@@ -133,6 +133,7 @@ export default function Onboarding() {
                 className={styles.chip}
                 onClick={() => {
                   setOnboarding({ ...onboarding, compete: c });
+                  scrollToBottom();
                 }}
               />
             ))}
@@ -147,6 +148,7 @@ export default function Onboarding() {
                 className={styles.chip}
                 onClick={() => {
                   setOnboarding({ ...onboarding, compete: c });
+                  scrollToBottom();
                 }}
               />
             ))}
