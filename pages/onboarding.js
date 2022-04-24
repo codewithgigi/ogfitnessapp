@@ -148,7 +148,7 @@ export default function Onboarding() {
     if (Object.keys(profile).length === 0) addProfile();
     else editProfile();
     dispatch({ type: "addUser", payload: newUser });
-    //router.push("/workouts");
+    router.push("/workouts");
   };
 
   const scrollToBottom = () => {
