@@ -18,6 +18,7 @@ export default function Profile() {
         <Typography>Profile</Typography>
         <Typography>
           Signed in as {state?.user?.attributes?.preferred_username}
+          {/* Signed in as {state?.user?.attributes?.email} */}
         </Typography>
       </div>
     </Section>

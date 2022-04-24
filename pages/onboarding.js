@@ -4,6 +4,55 @@ import { Box, Button, Chip, Typography } from "@mui/material";
 import Section from "../components/Section";
 import Context from "../src/context";
 import { useRouter } from "next/router";
+import { API, Auth } from "aws-amplify";
+
+const createProfile = /* GraphQL */ `
+  mutation CreateProfile(
+    $input: CreateProfileInput!
+    $condition: ModelProfileConditionInput
+  ) {
+    createProfile(input: $input, condition: $condition) {
+      id
+    }
+  }
+`;
+
+const updateProfile = /* GraphQL */ `
+  mutation UpdateProfile(
+    $input: UpdateProfileInput!
+    $condition: ModelProfileConditionInput
+  ) {
+    updateProfile(input: $input, condition: $condition) {
+      id
+      owner
+      onboarding {
+        goal
+        gender
+        age
+        experience
+        compete
+        competeLevel
+      }
+    }
+  }
+`;
+
+const getProfile = /* GraphQL */ `
+  query GetProfile($id: ID!) {
+    getProfile(id: $id) {
+      id
+      owner
+      onboarding {
+        goal
+        gender
+        age
+        experience
+        compete
+        competeLevel
+      }
+    }
+  }
+`;
 
 const menCompete = ["Bodybuilding", "Classic Physique", "Men’s Physique"];
 const womenCompete = [
@@ -25,13 +74,72 @@ export default function Onboarding() {
     experience: "",
     compete: "",
   });
+
   useEffect(() => {
-    if (onboarding)
-      setOnboarding({ ...onboarding, ...state?.user?.onboarding });
-  }, [state?.user?.onboarding]);
+    if (!state.user?.profile) myProfile();
+    console.log("state?.user", state?.user);
+  }, [state?.user]);
+
+  async function myProfile() {
+    const profileId = state?.user?.attributes?.email;
+    if (profileId)
+      try {
+        const { data } = await API.graphql({
+          query: getProfile,
+          variables: { id: profileId },
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+        });
+        const myProfile = data?.getProfile ?? {};
+        const newUser = { ...state.user, profile: myProfile };
+        if (myProfile?.onboarding) setOnboarding({ ...myProfile?.onboarding });
+        dispatch({ type: "addUser", payload: newUser });
+      } catch (error) {
+        console.warn("Error with api getProfile", error);
+      }
+  }
+
+  async function addProfile() {
+    const profileId = state?.user?.attributes?.email;
+    if (profileId)
+      try {
+        const { data } = await API.graphql({
+          query: createProfile,
+          variables: {
+            input: { id: profileId, owner: profileId, onboarding: onboarding },
+          },
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+        });
+        const myProfile = data?.getProfile ?? {};
+        const newUser = { ...state.user, profile: myProfile };
+        dispatch({ type: "addUser", payload: newUser });
+      } catch (error) {
+        console.warn("Error with api createProfile", error);
+      }
+  }
+
+  async function editProfile() {
+    const profileId = state?.user?.attributes?.email;
+    if (profileId && onboarding)
+      try {
+        const { data } = await API.graphql({
+          query: updateProfile,
+          variables: {
+            input: { id: profileId, owner: profileId, onboarding: onboarding },
+          },
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+        });
+        const myProfile = data?.getProfile ?? {};
+        const newUser = { ...state.user, profile: myProfile };
+        dispatch({ type: "addUser", payload: newUser });
+      } catch (error) {
+        console.warn("Error with api updateProfile", error);
+      }
+  }
 
   const onSubmit = () => {
     const newUser = { ...state.user, onboarding };
+    if (!state.user?.profile) addProfile();
+    else editProfile();
     dispatch({ type: "addUser", payload: newUser });
     router.push("/workouts");
   };

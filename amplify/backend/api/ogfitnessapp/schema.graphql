@@ -1,13 +1,9 @@
 type Profile
   @model
   @aws_cognito_user_pools
-  @auth(
-    rules: [
-      { allow: owner, groups: ["Admin"] } # owner and admin can update, delete, and read
-    ]
-  ) {
+  @auth(rules: [{ allow: owner }, { allow: groups, groups: ["Admin"] }]) {
   id: ID!
-  owner: String!
+  owner: String
   onboarding: Onboarding
   weight: [Weight]
   progressPhotos: [ProgressPhotos]

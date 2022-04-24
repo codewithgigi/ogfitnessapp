@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Button, TextField, Grid, Typography } from "@mui/material";
-import { Auth } from "aws-amplify";
+import { API, Auth } from "aws-amplify";
 import { useRouter } from "next/router";
 import Context from "../../src/context";
 import Section from "../../components/Section";
@@ -31,6 +31,7 @@ export default function SignIn() {
         username,
         password,
       });
+
       dispatch({
         type: "addUser",
         payload: userData,
@@ -38,6 +39,7 @@ export default function SignIn() {
       //if (query?.r) router.push(`/${query?.r}`);
     } catch (error) {
       setError(error.message);
+      console.log("error", error);
     }
   }
 

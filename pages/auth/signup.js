@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Button, TextField, Grid, Typography } from "@mui/material";
-import { Auth } from "aws-amplify";
 import { useRouter } from "next/router";
 import { palette } from "../../src/theme";
 import {
@@ -12,6 +11,7 @@ import Context from "../../src/context";
 import Link from "next/link";
 import Section from "../../components/Section";
 import useForm from "../../src/hooks/useForm";
+import { Auth } from "aws-amplify";
 
 const initialValues = {
   username: "",
@@ -40,6 +40,7 @@ export default function SignUp() {
           preferred_username: username,
         },
       });
+
       router.push({ pathname: "/auth/confirm", query: { email } });
     } catch (error) {
       console.log("error", error);
