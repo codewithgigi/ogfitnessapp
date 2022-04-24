@@ -64,6 +64,7 @@ const womenCompete = [
 ];
 export default function Onboarding() {
   const { state, dispatch } = React.useContext(Context);
+  const [step, setStep] = React.useState(0);
   const router = useRouter();
   const buttonRef = useRef();
 
@@ -162,82 +163,104 @@ export default function Onboarding() {
   return (
     <Section>
       <h1>Get your perfect OGfit training</h1>
-      <h2>Gender</h2>
-      {["Female", "Male"].map((g) => (
-        <Chip
-          key={g}
-          color="primary"
-          variant={onboarding.gender === g ? "contained" : "outlined"}
-          sx={{ mr: 0.5, fontSize: "1rem" }}
-          label={g}
-          className={styles.chip}
-          onClick={() => {
-            setOnboarding({
-              ...onboarding,
-              gender: g,
-              goal: "",
-              compete: "",
-              competeLevel: "",
-            });
-          }}
-        />
-      ))}
-      <h2>Age range</h2>
-      {["18-30", "31-45", "46-65", "65+"].map((a) => (
-        <Chip
-          key={a}
-          sx={{ mr: 0.5 }}
-          color="primary"
-          variant={onboarding.age === a ? "contained" : "outlined"}
-          label={a}
-          className={styles.chip}
-          onClick={() => {
-            setOnboarding({ ...onboarding, age: a });
-          }}
-        />
-      ))}
-      <h2>Weight training experience</h2>
-      {[
-        "0 - 3 months",
-        "3 - 6 months",
-        "6 months - 1 year",
-        "1 - 2 years",
-        "2+ years",
-      ].map((e) => (
-        <Chip
-          key={e}
-          sx={{ mr: 0.5, mb: 0.5 }}
-          color="primary"
-          variant={onboarding.experience === e ? "contained" : "outlined"}
-          label={e}
-          className={styles.chip}
-          onClick={() => {
-            setOnboarding({ ...onboarding, experience: e });
-          }}
-        />
-      ))}
-      <h2>Primary Training goal?</h2>
-      {["Lose Fat / Get Lean", "Gain Weight/Muscle", "Compete"].map((g) => (
-        <Chip
-          key={g}
-          sx={{ mr: 0.5, mb: 0.5 }}
-          color="primary"
-          variant={onboarding.goal === g ? "contained" : "outlined"}
-          label={g}
-          className={styles.chip}
-          onClick={() => {
-            setOnboarding({ ...onboarding, goal: g, compete: "" });
-          }}
-        />
-      ))}
-
-      {onboarding.goal === "Compete" && !onboarding?.gender && (
-        <h2>Select a gender above to see compete divisions</h2>
+      {step >= 0 && (
+        <>
+          <h2>Gender</h2>
+          {["Female", "Male"].map((g) => (
+            <Chip
+              key={g}
+              color="primary"
+              variant={onboarding.gender === g ? "contained" : "outlined"}
+              sx={{ mr: 0.5, fontSize: "1rem" }}
+              label={g}
+              className={styles.chip}
+              onClick={() => {
+                setOnboarding({
+                  ...onboarding,
+                  gender: g,
+                  compete: "",
+                  competeLevel: "",
+                });
+                scrollToBottom();
+                if (step > 0) setStep(4);
+                else setStep(1);
+              }}
+            />
+          ))}
+        </>
       )}
-      {onboarding.goal === "Compete" && onboarding?.gender && (
+      {step >= 1 && (
+        <>
+          <h2>Age range</h2>
+          {["18-30", "31-45", "46-65", "65+"].map((a) => (
+            <Chip
+              key={a}
+              sx={{ mr: 0.5 }}
+              color="primary"
+              variant={onboarding.age === a ? "contained" : "outlined"}
+              label={a}
+              className={styles.chip}
+              onClick={() => {
+                setOnboarding({ ...onboarding, age: a });
+                scrollToBottom();
+                setStep(2);
+              }}
+            />
+          ))}
+        </>
+      )}
+      {step >= 2 && (
+        <>
+          <h2>Weight training experience</h2>
+          {[
+            "0 - 3 months",
+            "3 - 6 months",
+            "6 months - 1 year",
+            "1 - 2 years",
+            "2+ years",
+          ].map((e) => (
+            <Chip
+              key={e}
+              sx={{ mr: 0.5, mb: 0.5 }}
+              color="primary"
+              variant={onboarding.experience === e ? "contained" : "outlined"}
+              label={e}
+              className={styles.chip}
+              onClick={() => {
+                setOnboarding({ ...onboarding, experience: e });
+                scrollToBottom();
+                setStep(3);
+              }}
+            />
+          ))}
+        </>
+      )}
+      {step >= 3 && (
+        <>
+          <h2>Primary Training goal?</h2>
+          {["Lose Fat / Get Lean", "Gain Weight/Muscle", "Compete"].map((g) => (
+            <Chip
+              key={g}
+              sx={{ mr: 0.5, mb: 0.5 }}
+              color="primary"
+              variant={onboarding.goal === g ? "contained" : "outlined"}
+              label={g}
+              className={styles.chip}
+              onClick={() => {
+                setOnboarding({ ...onboarding, goal: g, compete: "" });
+                scrollToBottom();
+                setStep(4);
+              }}
+            />
+          ))}
+        </>
+      )}
+
+      {step >= 4 && onboarding.goal === "Compete" && onboarding?.gender && (
         <Box>
           <h2>Compete</h2>
-          {onboarding.gender === "Male" &&
+          {step >= 4 &&
+            onboarding.gender === "Male" &&
             menCompete.map((c) => (
               <Chip
                 key={c}
@@ -249,10 +272,13 @@ export default function Onboarding() {
                 onClick={() => {
                   setOnboarding({ ...onboarding, compete: c });
                   scrollToBottom();
+                  setStep(5);
                 }}
               />
             ))}
-          {onboarding.gender === "Female" &&
+
+          {step >= 4 &&
+            onboarding.gender === "Female" &&
             womenCompete.map((c) => (
               <Chip
                 key={c}
@@ -264,24 +290,31 @@ export default function Onboarding() {
                 onClick={() => {
                   setOnboarding({ ...onboarding, compete: c });
                   scrollToBottom();
+                  setStep(5);
                 }}
               />
             ))}
-          <h3>Compete Level</h3>
-          {["Local", "State", "Regional", "National"].map((x) => (
-            <Chip
-              key={x}
-              sx={{ mr: 0.5, mb: 0.5 }}
-              color="primary"
-              variant={onboarding.competeLevel === x ? "contained" : "outlined"}
-              label={x}
-              className={styles.chip}
-              onClick={() => {
-                setOnboarding({ ...onboarding, competeLevel: x });
-                scrollToBottom();
-              }}
-            />
-          ))}
+          {step >= 5 && (
+            <>
+              <h3>Compete Level</h3>
+              {["Local", "State", "Regional", "National"].map((x) => (
+                <Chip
+                  key={x}
+                  sx={{ mr: 0.5, mb: 0.5 }}
+                  color="primary"
+                  variant={
+                    onboarding.competeLevel === x ? "contained" : "outlined"
+                  }
+                  label={x}
+                  className={styles.chip}
+                  onClick={() => {
+                    setOnboarding({ ...onboarding, competeLevel: x });
+                    scrollToBottom();
+                  }}
+                />
+              ))}
+            </>
+          )}
         </Box>
       )}
       {onboarding.gender &&
