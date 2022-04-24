@@ -1,0 +1,12 @@
+{
+  "resourceName": "ogfitnessapp",
+  "policyUUID": "81d64d82",
+  "bucketName": "ogfitnessapp",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

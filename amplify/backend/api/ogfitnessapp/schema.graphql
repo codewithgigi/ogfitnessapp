@@ -1,0 +1,41 @@
+type Profile
+  @model
+  @aws_cognito_user_pools
+  @auth(
+    rules: [
+      { allow: owner, groups: ["Admin"] } # owner and admin can update, delete, and read
+    ]
+  ) {
+  id: ID!
+  owner: String!
+  onboarding: Onboarding
+  weight: [Weight]
+  progressPhotos: [ProgressPhotos]
+}
+
+type Onboarding {
+  goal: String
+  gender: String
+  age: String
+  experience: String
+  compete: String
+  competeLevel: String
+}
+
+type Weight {
+  weight: Float
+  date: AWSDate
+}
+
+type ProgressPhotos {
+  frontImage: S3Object
+  sideImage: S3Object
+  backImage: S3Object
+  date: AWSDate
+}
+
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
+}

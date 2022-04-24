@@ -26,5 +26,38 @@
         ]
       }
     }
+  },
+  "api": {
+    "ogfitnessapp": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 365,
+              "apiKeyExpirationDate": "2023-04-23T22:22:52.164Z",
+              "description": "guestaccess"
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authogfitnessapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "storage": {
+    "ogfitnessapp": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
   }
 }
