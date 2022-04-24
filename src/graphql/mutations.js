@@ -41,7 +41,6 @@ export const createProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      Admin
     }
   }
 `;
@@ -85,7 +84,6 @@ export const updateProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      Admin
     }
   }
 `;
@@ -129,7 +127,6 @@ export const deleteProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      Admin
     }
   }
 `;

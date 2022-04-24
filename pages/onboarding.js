@@ -76,8 +76,7 @@ export default function Onboarding() {
   });
 
   useEffect(() => {
-    if (!state.user?.profile) myProfile();
-    console.log("state?.user", state?.user);
+    if (!state.user) myProfile();
   }, [state?.user]);
 
   async function myProfile() {
@@ -90,6 +89,7 @@ export default function Onboarding() {
           authMode: "AMAZON_COGNITO_USER_POOLS",
         });
         const myProfile = data?.getProfile ?? {};
+        console.log("got profile", myProfile);
         const newUser = { ...state.user, profile: myProfile };
         if (myProfile?.onboarding) setOnboarding({ ...myProfile?.onboarding });
         dispatch({ type: "addUser", payload: newUser });
@@ -99,6 +99,7 @@ export default function Onboarding() {
   }
 
   async function addProfile() {
+    console.log("edit profile");
     const profileId = state?.user?.attributes?.email;
     if (profileId)
       try {
@@ -110,6 +111,7 @@ export default function Onboarding() {
           authMode: "AMAZON_COGNITO_USER_POOLS",
         });
         const myProfile = data?.getProfile ?? {};
+        console.log("edit profile", myProfile);
         const newUser = { ...state.user, profile: myProfile };
         dispatch({ type: "addUser", payload: newUser });
       } catch (error) {
@@ -118,6 +120,7 @@ export default function Onboarding() {
   }
 
   async function editProfile() {
+    console.log("add profile");
     const profileId = state?.user?.attributes?.email;
     if (profileId && onboarding)
       try {
@@ -129,6 +132,7 @@ export default function Onboarding() {
           authMode: "AMAZON_COGNITO_USER_POOLS",
         });
         const myProfile = data?.getProfile ?? {};
+        console.log("add profile", myProfile);
         const newUser = { ...state.user, profile: myProfile };
         dispatch({ type: "addUser", payload: newUser });
       } catch (error) {
@@ -138,10 +142,13 @@ export default function Onboarding() {
 
   const onSubmit = () => {
     const newUser = { ...state.user, onboarding };
-    if (!state.user?.profile) addProfile();
+    console.log("submit profile.....", state?.user);
+    const profile = state?.user?.profile ?? {};
+    console.log("submit profile.....", profile);
+    if (Object.keys(profile).length === 0) addProfile();
     else editProfile();
     dispatch({ type: "addUser", payload: newUser });
-    router.push("/workouts");
+    //router.push("/workouts");
   };
 
   const scrollToBottom = () => {

@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateProfile = /* GraphQL */ `
-  subscription OnCreateProfile($Admin: String) {
-    onCreateProfile(Admin: $Admin) {
+  subscription OnCreateProfile($owner: String) {
+    onCreateProfile(owner: $owner) {
       id
       owner
       onboarding {
@@ -38,13 +38,12 @@ export const onCreateProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      Admin
     }
   }
 `;
 export const onUpdateProfile = /* GraphQL */ `
-  subscription OnUpdateProfile($Admin: String) {
-    onUpdateProfile(Admin: $Admin) {
+  subscription OnUpdateProfile($owner: String) {
+    onUpdateProfile(owner: $owner) {
       id
       owner
       onboarding {
@@ -79,13 +78,12 @@ export const onUpdateProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      Admin
     }
   }
 `;
 export const onDeleteProfile = /* GraphQL */ `
-  subscription OnDeleteProfile($Admin: String) {
-    onDeleteProfile(Admin: $Admin) {
+  subscription OnDeleteProfile($owner: String) {
+    onDeleteProfile(owner: $owner) {
       id
       owner
       onboarding {
@@ -120,7 +118,6 @@ export const onDeleteProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      Admin
     }
   }
 `;

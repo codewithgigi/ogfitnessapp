@@ -38,7 +38,6 @@ export const getProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      Admin
     }
   }
 `;
@@ -69,7 +68,6 @@ export const listProfiles = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        Admin
       }
       nextToken
     }
