@@ -8,7 +8,6 @@ export const createProfile = /* GraphQL */ `
   ) {
     createProfile(input: $input, condition: $condition) {
       id
-      owner
       onboarding {
         goal
         gender
@@ -41,6 +40,7 @@ export const createProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -51,7 +51,6 @@ export const updateProfile = /* GraphQL */ `
   ) {
     updateProfile(input: $input, condition: $condition) {
       id
-      owner
       onboarding {
         goal
         gender
@@ -84,6 +83,7 @@ export const updateProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -94,7 +94,6 @@ export const deleteProfile = /* GraphQL */ `
   ) {
     deleteProfile(input: $input, condition: $condition) {
       id
-      owner
       onboarding {
         goal
         gender
@@ -127,6 +126,7 @@ export const deleteProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;

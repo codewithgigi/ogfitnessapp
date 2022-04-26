@@ -9,7 +9,7 @@ type Profile
     ]
   ) {
   id: ID!
-  owner: String
+  email: String!
   onboarding: Onboarding
   weight: [Weight]
   progressPhotos: [ProgressPhotos]

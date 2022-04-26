@@ -5,7 +5,6 @@ export const getProfile = /* GraphQL */ `
   query GetProfile($id: ID!) {
     getProfile(id: $id) {
       id
-      owner
       onboarding {
         goal
         gender
@@ -38,6 +37,7 @@ export const getProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -50,7 +50,6 @@ export const listProfiles = /* GraphQL */ `
     listProfiles(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        owner
         onboarding {
           goal
           gender
@@ -68,6 +67,7 @@ export const listProfiles = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }

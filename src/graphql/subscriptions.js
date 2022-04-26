@@ -5,7 +5,6 @@ export const onCreateProfile = /* GraphQL */ `
   subscription OnCreateProfile($owner: String) {
     onCreateProfile(owner: $owner) {
       id
-      owner
       onboarding {
         goal
         gender
@@ -38,6 +37,7 @@ export const onCreateProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -45,7 +45,6 @@ export const onUpdateProfile = /* GraphQL */ `
   subscription OnUpdateProfile($owner: String) {
     onUpdateProfile(owner: $owner) {
       id
-      owner
       onboarding {
         goal
         gender
@@ -78,6 +77,7 @@ export const onUpdateProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -85,7 +85,6 @@ export const onDeleteProfile = /* GraphQL */ `
   subscription OnDeleteProfile($owner: String) {
     onDeleteProfile(owner: $owner) {
       id
-      owner
       onboarding {
         goal
         gender
@@ -118,6 +117,7 @@ export const onDeleteProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      owner
     }
   }
 `;

@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
-import styles from "../styles/Home.module.css";
-import Section from "../components/Section";
-import Context from "../src/context";
+import { API } from "aws-amplify";
 import {
   Card,
   Box,
@@ -12,6 +10,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
+
+import styles from "../styles/Home.module.css";
+import Section from "../components/Section";
+import Context from "../src/context";
 
 const workoutPlans = [
   {
@@ -69,12 +71,8 @@ export default function Workouts() {
   const { state } = React.useContext(Context);
   const router = useRouter();
 
-  useEffect(() => {
-    if (!state?.user?.onboarding) router.push("/");
-  }, [state?.user]);
-
   const workoutByGoal = workoutPlans.filter(
-    (x) => x.goal === state?.user?.onboarding?.goal,
+    (x) => x.goal === state?.user?.profile?.onboarding?.goal,
   );
 
   const card = (x) => (
@@ -97,38 +95,44 @@ export default function Workouts() {
       </CardActions>
     </Card>
   );
+  const profile = state?.user?.profile ?? null;
 
+  console.log("workouts", state?.user);
   return (
     <Section>
       <h1 className={styles.title}>Workouts</h1>
 
       <p>
-        Goal:{" "}
-        {state?.user?.onboarding?.compete
-          ? `Compete in ${state?.user?.onboarding?.compete}`
-          : state?.user?.onboarding?.goal}
+        Goal: {profile?.onboarding?.goal}
+        {profile?.onboarding?.compete
+          ? `Compete in ${profile?.onboarding?.compete}`
+          : profile?.onboarding?.goal}
         <Button size="small" onClick={() => router.push("/onboarding")}>
           Change Goal
         </Button>
       </p>
-      {state?.user?.onboarding?.compete && (
+      {profile?.onboarding?.compete && (
         <Box>
           <p>
-            {state?.user?.onboarding?.goal} {state?.user?.onboarding?.compete}{" "}
-            Workouts are being created by Oksana. We will contact you when these
-            are ready.
+            {profile?.onboarding?.goal} {profile?.onboarding?.compete} Workouts
+            are being created by Oksana. We will contact you when these are
+            ready.
           </p>
           <p>Try one of the workouts below in the meantime.</p>
           <Grid container flexDirection={"column"}>
-            {(workoutPlans || []).map((x) => (
-              <Box sx={{ mb: 2, maxWidth: 320 }}>{card(x)}</Box>
+            {(workoutPlans || []).map((x, index) => (
+              <Box key={index} sx={{ mb: 2, maxWidth: 320 }}>
+                {card(x)}
+              </Box>
             ))}
           </Grid>
         </Box>
       )}
       <Grid container flexDirection={"column"}>
-        {(workoutByGoal || []).map((x) => (
-          <Box sx={{ mb: 2, maxWidth: 320 }}>{card(x)}</Box>
+        {(workoutByGoal || []).map((x, index) => (
+          <Box key={index} sx={{ mb: 2, maxWidth: 320 }}>
+            {card(x)}
+          </Box>
         ))}
       </Grid>
     </Section>

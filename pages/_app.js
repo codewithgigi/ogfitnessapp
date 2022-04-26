@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
-import Amplify, { Auth } from "aws-amplify";
+import Amplify, { Auth, API } from "aws-amplify";
 
 import awsConfig from "../src/aws-exports";
 import Footer from "../components/Footer";
@@ -17,6 +17,25 @@ import theme from "../src/theme";
 import "../src/styles/payments.css";
 import "../src/styles/global.css";
 import ResposiveAppBar from "../components/app-bar";
+
+const myProfile = /* GraphQL */ `
+  query listProfiles {
+    listProfiles {
+      items {
+        id
+        owner
+        onboarding {
+          goal
+          gender
+          age
+          experience
+          compete
+          competeLevel
+        }
+      }
+    }
+  }
+`;
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -38,6 +57,8 @@ function MyApp({
   async function getUser() {
     try {
       const userData = await Auth.currentAuthenticatedUser();
+      const profile = await getMyProfile(userData);
+      userData.profile = profile;
       dispatch({ type: "addUser", payload: userData });
     } catch (error) {
       dispatch({ type: "removeUser", payload: null });
@@ -58,6 +79,20 @@ function MyApp({
       setPathname(path);
     }
   }, [router]);
+
+  async function getMyProfile(userData) {
+    try {
+      const { data } = await API.graphql({
+        query: myProfile,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+      });
+      const profiles = data?.listProfiles?.items ?? [];
+      const profile = profiles.find((x) => x.owner === userData?.username);
+      return profile;
+    } catch (error) {
+      console.warn("Error with api getProfile", error);
+    }
+  }
 
   if (router?.pathname.includes("amazonfresh"))
     return (

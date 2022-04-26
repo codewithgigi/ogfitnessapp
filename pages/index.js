@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "../styles/Home.module.css";
-import { Box, Button, Chip, Grid } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Section from "../components/Section";
 import Context from "../src/context";
 import { useRouter } from "next/router";
@@ -10,10 +10,10 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (state?.user?.onboarding) router.push("/workouts");
-    else if (state?.user && !state?.user?.onboarding)
+    if (state?.user?.profile?.onboarding) router.push("/workouts");
+    else if (state?.user && !state?.user?.profile?.onboarding)
       router.push("/onboarding");
-  }, [state?.user]);
+  }, []);
 
   return (
     <Section>
