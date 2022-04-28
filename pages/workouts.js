@@ -97,7 +97,6 @@ export default function Workouts() {
   );
   const profile = state?.user?.profile ?? null;
 
-  console.log("workouts", state?.user);
   return (
     <Section>
       <h1 className={styles.title}>Workouts</h1>

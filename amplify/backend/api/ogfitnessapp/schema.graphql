@@ -3,16 +3,19 @@ type Profile
   @aws_cognito_user_pools
   @auth(
     rules: [
-      { allow: private, operations: [create] }
-      { allow: owner }
+      { allow: owner, ownerField: "user" }
       { allow: groups, groups: ["Admin"] }
     ]
   ) {
   id: ID!
-  email: String!
+  user: String
   onboarding: Onboarding
   weight: [Weight]
   progressPhotos: [ProgressPhotos]
+}
+
+type Query {
+  getMyProfile: Profile @aws_cognito_user_pools @auth(rules: [{ allow: owner }])
 }
 
 type Onboarding {

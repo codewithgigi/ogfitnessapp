@@ -18,20 +18,18 @@ import "../src/styles/payments.css";
 import "../src/styles/global.css";
 import ResposiveAppBar from "../components/app-bar";
 
-const myProfile = /* GraphQL */ `
-  query listProfiles {
-    listProfiles {
-      items {
-        id
-        owner
-        onboarding {
-          goal
-          gender
-          age
-          experience
-          compete
-          competeLevel
-        }
+const getProfile = /* GraphQL */ `
+  query getProfile($id: ID!) {
+    getProfile(id: $id) {
+      id
+      user
+      onboarding {
+        goal
+        gender
+        age
+        experience
+        compete
+        competeLevel
       }
     }
   }
@@ -52,13 +50,12 @@ function MyApp({
 
   useEffect(() => {
     if (!state?.user) getUser();
+    if (state?.user && !state?.user?.profile) myProfile();
   }, [state?.user]);
 
   async function getUser() {
     try {
       const userData = await Auth.currentAuthenticatedUser();
-      const profile = await getMyProfile(userData);
-      userData.profile = profile;
       dispatch({ type: "addUser", payload: userData });
     } catch (error) {
       dispatch({ type: "removeUser", payload: null });
@@ -80,18 +77,23 @@ function MyApp({
     }
   }, [router]);
 
-  async function getMyProfile(userData) {
-    try {
-      const { data } = await API.graphql({
-        query: myProfile,
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-      });
-      const profiles = data?.listProfiles?.items ?? [];
-      const profile = profiles.find((x) => x.owner === userData?.username);
-      return profile;
-    } catch (error) {
-      console.warn("Error with api getProfile", error);
-    }
+  async function myProfile() {
+    if (state?.user?.username)
+      try {
+        const { data } = await API.graphql({
+          query: getProfile,
+          variables: { id: state?.user?.username },
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+        });
+        const profile = data?.getProfile;
+        if (profile) {
+          const userdata = state?.user;
+          userdata.profile = profile;
+          dispatch({ type: "addUser", payload: userdata });
+        }
+      } catch (error) {
+        console.warn("Error with api getProfile", error);
+      }
   }
 
   if (router?.pathname.includes("amazonfresh"))

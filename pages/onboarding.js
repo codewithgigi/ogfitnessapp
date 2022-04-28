@@ -13,18 +13,7 @@ const createProfile = /* GraphQL */ `
   ) {
     createProfile(input: $input, condition: $condition) {
       id
-    }
-  }
-`;
-
-const updateProfile = /* GraphQL */ `
-  mutation UpdateProfile(
-    $input: UpdateProfileInput!
-    $condition: ModelProfileConditionInput
-  ) {
-    updateProfile(input: $input, condition: $condition) {
-      id
-      owner
+      user
       onboarding {
         goal
         gender
@@ -37,20 +26,38 @@ const updateProfile = /* GraphQL */ `
   }
 `;
 
-const myProfile = /* GraphQL */ `
-  query listProfiles {
-    listProfiles {
-      items {
-        id
-        owner
-        onboarding {
-          goal
-          gender
-          age
-          experience
-          compete
-          competeLevel
-        }
+const updateProfile = /* GraphQL */ `
+  mutation UpdateProfile(
+    $input: UpdateProfileInput!
+    $condition: ModelProfileConditionInput
+  ) {
+    updateProfile(input: $input, condition: $condition) {
+      id
+      user
+      onboarding {
+        goal
+        gender
+        age
+        experience
+        compete
+        competeLevel
+      }
+    }
+  }
+`;
+
+const getProfile = /* GraphQL */ `
+  query getProfile($id: ID!) {
+    getProfile(id: $id) {
+      id
+      user
+      onboarding {
+        goal
+        gender
+        age
+        experience
+        compete
+        competeLevel
       }
     }
   }
@@ -79,8 +86,8 @@ export default function Onboarding() {
   });
 
   useEffect(() => {
-    if (state?.user && !state.user?.profile?.onboarding) getMyProfile();
-  }, [state?.user]);
+    if (state?.user && !state.user?.profile?.onboarding) myProfile();
+  }, []);
 
   useEffect(() => {
     if (state?.user?.profile?.onboarding) {
@@ -89,18 +96,14 @@ export default function Onboarding() {
     }
   }, [state?.user]);
 
-  async function getMyProfile() {
+  async function myProfile() {
     if (state?.user?.username)
       try {
-        const { data } = await API.graphql({
-          query: myProfile,
+        await API.graphql({
+          query: getProfile,
+          variables: { id: state?.user?.username },
           authMode: "AMAZON_COGNITO_USER_POOLS",
         });
-        const profiles = data?.listProfiles?.items ?? [];
-        const profile = profiles.find((x) => x.owner === state?.user?.username);
-        const newUser = { ...state.user, profile: profile };
-        if (profile?.onboarding) setOnboarding({ ...profile?.onboarding });
-        dispatch({ type: "addUser", payload: newUser });
       } catch (error) {
         console.warn("Error with api getProfile", error);
       }
@@ -113,11 +116,14 @@ export default function Onboarding() {
         const { data } = await API.graphql({
           query: createProfile,
           variables: {
-            input: { onboarding: onboarding },
+            input: {
+              id: state?.user?.username,
+              onboarding: onboarding,
+            },
           },
           authMode: "AMAZON_COGNITO_USER_POOLS",
         });
-        const myProfile = data?.getProfile ?? {};
+        const myProfile = data?.createProfile ?? {};
         const newUser = { ...state.user, profile: myProfile };
         dispatch({ type: "addUser", payload: newUser });
       } catch (error) {
