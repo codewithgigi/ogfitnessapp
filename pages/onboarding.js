@@ -46,23 +46,6 @@ const updateProfile = /* GraphQL */ `
   }
 `;
 
-const getProfile = /* GraphQL */ `
-  query getProfile($id: ID!) {
-    getProfile(id: $id) {
-      id
-      user
-      onboarding {
-        goal
-        gender
-        age
-        experience
-        compete
-        competeLevel
-      }
-    }
-  }
-`;
-
 const menCompete = ["Bodybuilding", "Classic Physique", "Men’s Physique"];
 const womenCompete = [
   "Bikini",
@@ -86,28 +69,11 @@ export default function Onboarding() {
   });
 
   useEffect(() => {
-    if (state?.user && !state.user?.profile?.onboarding) myProfile();
-  }, []);
-
-  useEffect(() => {
     if (state?.user?.profile?.onboarding) {
       setOnboarding(state.user.profile.onboarding);
       setStep(5);
     }
-  }, [state?.user]);
-
-  async function myProfile() {
-    if (state?.user?.username)
-      try {
-        await API.graphql({
-          query: getProfile,
-          variables: { id: state?.user?.username },
-          authMode: "AMAZON_COGNITO_USER_POOLS",
-        });
-      } catch (error) {
-        console.warn("Error with api getProfile", error);
-      }
-  }
+  }, [state]);
 
   async function addProfile() {
     const profileId = state?.user?.attributes?.email;

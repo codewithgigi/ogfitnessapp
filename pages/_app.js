@@ -78,6 +78,7 @@ function MyApp({
   }, [router]);
 
   async function myProfile() {
+    console.log("app get my profile");
     if (state?.user?.username)
       try {
         const { data } = await API.graphql({
