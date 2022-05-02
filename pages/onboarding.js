@@ -210,16 +210,23 @@ export default function Onboarding() {
       {step >= 3 && (
         <>
           <h2>Primary Training goal?</h2>
-          {["Lose Fat / Get Lean", "Gain Weight/Muscle", "Compete"].map((g) => (
+          {[
+            { name: "Lose Fat / Get Lean", id: "fatloss" },
+            {
+              name: "Gain Weight/Muscle",
+              id: "gainmuscle",
+            },
+            { name: "Compete", id: "compete" },
+          ].map((g) => (
             <Chip
               key={g}
               sx={{ mr: 0.5, mb: 0.5 }}
               color="primary"
-              variant={onboarding.goal === g ? "contained" : "outlined"}
-              label={g}
+              variant={onboarding.goal === g.id ? "contained" : "outlined"}
+              label={g.name}
               className={styles.chip}
               onClick={() => {
-                setOnboarding({ ...onboarding, goal: g, compete: "" });
+                setOnboarding({ ...onboarding, goal: g.id, compete: "" });
                 scrollToBottom();
                 setStep(4);
               }}

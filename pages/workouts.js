@@ -18,7 +18,7 @@ import Context from "../src/context";
 const workoutPlans = [
   {
     id: 1,
-    goal: "Lose Fat / Get Lean",
+    goal: "fatloss",
     name: "Get Lean Circuits",
     length: 12,
     levels: 3,
