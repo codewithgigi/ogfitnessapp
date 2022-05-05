@@ -1,7 +1,7 @@
 //Data structure:
 //{muscles, name, level, bodypart, pp, modality, joint, ..... add these: description, instructions, video, image, id}
 
-const ExerciseList = [
+export const ExerciseList = [
   "Abdominals - Lower,Full Reverse Crunch,Advanced,Core,Push,FW,M",
   "Abdominals - Lower,Incline Hip Thrust,Advanced,Core,Push,FW,M",
   "Abdominals - Lower,Incline Reverse Crunch,Advanced,Core,Push,FW,M",

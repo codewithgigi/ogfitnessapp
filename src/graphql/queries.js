@@ -79,11 +79,12 @@ export const getExercise = /* GraphQL */ `
       id
       exercise {
         name
-        musclesWorked
-        level
+        muscles
         bodypart
-        pushOrPull
-        multiJoint
+        level
+        push
+        joint
+        modality
         description
         instructions
         image {
@@ -114,11 +115,12 @@ export const listExercises = /* GraphQL */ `
         id
         exercise {
           name
-          musclesWorked
-          level
+          muscles
           bodypart
-          pushOrPull
-          multiJoint
+          level
+          push
+          joint
+          modality
           description
           instructions
           vimeoId

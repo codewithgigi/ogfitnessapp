@@ -127,11 +127,12 @@ export const onCreateExercise = /* GraphQL */ `
       id
       exercise {
         name
-        musclesWorked
-        level
+        muscles
         bodypart
-        pushOrPull
-        multiJoint
+        level
+        push
+        joint
+        modality
         description
         instructions
         image {
@@ -157,11 +158,12 @@ export const onUpdateExercise = /* GraphQL */ `
       id
       exercise {
         name
-        musclesWorked
-        level
+        muscles
         bodypart
-        pushOrPull
-        multiJoint
+        level
+        push
+        joint
+        modality
         description
         instructions
         image {
@@ -187,11 +189,12 @@ export const onDeleteExercise = /* GraphQL */ `
       id
       exercise {
         name
-        musclesWorked
-        level
+        muscles
         bodypart
-        pushOrPull
-        multiJoint
+        level
+        push
+        joint
+        modality
         description
         instructions
         image {

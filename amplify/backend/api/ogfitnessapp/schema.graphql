@@ -29,11 +29,12 @@ type Exercise
 
 type ExerciseType {
   name: String
-  musclesWorked: String # Abs - Lower
-  level: String
+  muscles: String # Abs - Lower
   bodypart: String # Core, Lower, upper
-  pushOrPull: String
-  multiJoint: Boolean
+  level: String
+  push: Boolean #if false its a pull
+  joint: String
+  modality: String
   description: String
   instructions: String
   image: S3Object
