@@ -14,8 +14,31 @@ type Profile
   progressPhotos: [ProgressPhotos]
 }
 
-type Query {
-  getMyProfile: Profile @aws_cognito_user_pools @auth(rules: [{ allow: owner }])
+type ExerciseList
+  @model
+  @aws_cognito_user_pools
+  @auth(
+    rules: [
+      { allow: private, operations: [read] }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID!
+  exercise: ExerciseType
+}
+
+type ExerciseType {
+  name: String
+  musclesWorked: String # Abs - Lower
+  level: String
+  bodypart: String # Core, Lower, upper
+  pushOrPull: String
+  multiJoint: Boolean
+  description: String
+  instructions: String
+  image: S3Object
+  video: S3Object
+  vimeoId: String
 }
 
 type Onboarding {
