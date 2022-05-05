@@ -36,7 +36,6 @@ export default function SignIn() {
         type: "addUser",
         payload: userData,
       });
-      //if (query?.r) router.push(`/${query?.r}`);
     } catch (error) {
       setError(error.message);
       console.log("error", error);
@@ -46,7 +45,7 @@ export default function SignIn() {
   useEffect(() => {
     if (state?.user?.username) {
       if (query?.r) router.push(`/${query?.r}`);
-      else router.push("/workouts");
+      else router.push("/");
     }
   });
 

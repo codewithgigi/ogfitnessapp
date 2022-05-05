@@ -121,3 +121,93 @@ export const onDeleteProfile = /* GraphQL */ `
     }
   }
 `;
+export const onCreateExercise = /* GraphQL */ `
+  subscription OnCreateExercise {
+    onCreateExercise {
+      id
+      exercise {
+        name
+        musclesWorked
+        level
+        bodypart
+        pushOrPull
+        multiJoint
+        description
+        instructions
+        image {
+          bucket
+          region
+          key
+        }
+        video {
+          bucket
+          region
+          key
+        }
+        vimeoId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateExercise = /* GraphQL */ `
+  subscription OnUpdateExercise {
+    onUpdateExercise {
+      id
+      exercise {
+        name
+        musclesWorked
+        level
+        bodypart
+        pushOrPull
+        multiJoint
+        description
+        instructions
+        image {
+          bucket
+          region
+          key
+        }
+        video {
+          bucket
+          region
+          key
+        }
+        vimeoId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteExercise = /* GraphQL */ `
+  subscription OnDeleteExercise {
+    onDeleteExercise {
+      id
+      exercise {
+        name
+        musclesWorked
+        level
+        bodypart
+        pushOrPull
+        multiJoint
+        description
+        instructions
+        image {
+          bucket
+          region
+          key
+        }
+        video {
+          bucket
+          region
+          key
+        }
+        vimeoId
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
