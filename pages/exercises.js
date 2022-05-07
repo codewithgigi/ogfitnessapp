@@ -2,7 +2,6 @@ import Section from "../components/Section";
 import React, { useEffect, useState } from "react";
 import { API } from "aws-amplify";
 import { ExerciseList } from "../src/exerciselist";
-import { Glutes } from "../src/glutes";
 import { createExercise } from "../src/graphql/mutations";
 import { listExercises } from "../src/graphql/queries";
 

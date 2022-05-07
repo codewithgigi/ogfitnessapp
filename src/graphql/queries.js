@@ -19,21 +19,9 @@ export const getProfile = /* GraphQL */ `
         date
       }
       progressPhotos {
-        frontImage {
-          bucket
-          region
-          key
-        }
-        sideImage {
-          bucket
-          region
-          key
-        }
-        backImage {
-          bucket
-          region
-          key
-        }
+        frontImage
+        sideImage
+        backImage
         date
       }
       createdAt
@@ -64,6 +52,9 @@ export const listProfiles = /* GraphQL */ `
           date
         }
         progressPhotos {
+          frontImage
+          sideImage
+          backImage
           date
         }
         createdAt
@@ -84,19 +75,10 @@ export const getExercise = /* GraphQL */ `
         level
         push
         joint
-        modality
-        description
+        equipment
         instructions
-        image {
-          bucket
-          region
-          key
-        }
-        video {
-          bucket
-          region
-          key
-        }
+        image
+        video
         vimeoId
       }
       createdAt
@@ -120,9 +102,10 @@ export const listExercises = /* GraphQL */ `
           level
           push
           joint
-          modality
-          description
+          equipment
           instructions
+          image
+          video
           vimeoId
         }
         createdAt

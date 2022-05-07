@@ -22,21 +22,9 @@ export const createProfile = /* GraphQL */ `
         date
       }
       progressPhotos {
-        frontImage {
-          bucket
-          region
-          key
-        }
-        sideImage {
-          bucket
-          region
-          key
-        }
-        backImage {
-          bucket
-          region
-          key
-        }
+        frontImage
+        sideImage
+        backImage
         date
       }
       createdAt
@@ -65,21 +53,9 @@ export const updateProfile = /* GraphQL */ `
         date
       }
       progressPhotos {
-        frontImage {
-          bucket
-          region
-          key
-        }
-        sideImage {
-          bucket
-          region
-          key
-        }
-        backImage {
-          bucket
-          region
-          key
-        }
+        frontImage
+        sideImage
+        backImage
         date
       }
       createdAt
@@ -108,21 +84,9 @@ export const deleteProfile = /* GraphQL */ `
         date
       }
       progressPhotos {
-        frontImage {
-          bucket
-          region
-          key
-        }
-        sideImage {
-          bucket
-          region
-          key
-        }
-        backImage {
-          bucket
-          region
-          key
-        }
+        frontImage
+        sideImage
+        backImage
         date
       }
       createdAt
@@ -144,19 +108,10 @@ export const createExercise = /* GraphQL */ `
         level
         push
         joint
-        modality
-        description
+        equipment
         instructions
-        image {
-          bucket
-          region
-          key
-        }
-        video {
-          bucket
-          region
-          key
-        }
+        image
+        video
         vimeoId
       }
       createdAt
@@ -178,19 +133,10 @@ export const updateExercise = /* GraphQL */ `
         level
         push
         joint
-        modality
-        description
+        equipment
         instructions
-        image {
-          bucket
-          region
-          key
-        }
-        video {
-          bucket
-          region
-          key
-        }
+        image
+        video
         vimeoId
       }
       createdAt
@@ -212,19 +158,10 @@ export const deleteExercise = /* GraphQL */ `
         level
         push
         joint
-        modality
-        description
+        equipment
         instructions
-        image {
-          bucket
-          region
-          key
-        }
-        video {
-          bucket
-          region
-          key
-        }
+        image
+        video
         vimeoId
       }
       createdAt

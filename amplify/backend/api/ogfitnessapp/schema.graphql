@@ -34,11 +34,10 @@ type ExerciseType {
   level: String
   push: Boolean #if false its a pull
   joint: String
-  modality: String
-  description: String
+  equipment: String
   instructions: String
-  image: S3Object
-  video: S3Object
+  image: String
+  video: String
   vimeoId: String
 }
 
@@ -57,14 +56,8 @@ type Weight {
 }
 
 type ProgressPhotos {
-  frontImage: S3Object
-  sideImage: S3Object
-  backImage: S3Object
+  frontImage: String
+  sideImage: String
+  backImage: String
   date: AWSDate
-}
-
-type S3Object {
-  bucket: String!
-  region: String!
-  key: String!
 }
