@@ -1,6 +1,6 @@
 import Section from "../components/Section";
 import React, { useEffect, useState } from "react";
-import { API } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
 import { ExerciseList } from "../src/exerciselist";
 import { createExercise } from "../src/graphql/mutations";
 import { listExercises } from "../src/graphql/queries";
@@ -17,6 +17,20 @@ export default function Exercises() {
   useEffect(() => {
     groupBy();
   }, [exercises]);
+
+  useEffect(() => {
+    getVideos();
+  }, [exercises]);
+
+  async function getVideos() {
+    const newExs = (exercises ?? []).map(async (x) => {
+      if (x?.exercise?.video) {
+        const videoUri = await Storage.get(x.exercise.video);
+        return { id: x.id, exercise: { ...x?.exercise, videoUri } };
+      } else return x;
+    });
+    setExercises(newExs);
+  }
 
   async function getExerciseList() {
     try {
@@ -88,11 +102,22 @@ export default function Exercises() {
         return (
           <div key={x}>
             <h2>{x}</h2>
-            {(groupedExercises[x] ?? []).map((e, index) => (
-              <div key={index} style={{ textTransform: "capitalize" }}>
-                {e?.exercise?.name}
-              </div>
-            ))}
+            {(groupedExercises[x] ?? []).map((e, index) => {
+              return (
+                <div key={index} style={{ textTransform: "capitalize" }}>
+                  {e?.exercise?.name}
+                  {e?.exercise?.video}
+                  {
+                    e?.exercise.videoUri && <div>video</div>
+                    // <video width="320" height="240" controls>
+                    //   <source src={videoUri} type="video/mov" />
+                    //   <source src={videoUri} type="video/ogg" />
+                    //   Your browser does not support the video tag.
+                    // </video>
+                  }
+                </div>
+              );
+            })}
           </div>
         );
       })}

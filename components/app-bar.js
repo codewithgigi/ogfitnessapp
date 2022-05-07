@@ -60,14 +60,19 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: palette.contrastBlue }}>
+    <AppBar
+      //position="static"
+      sx={{ backgroundColor: palette.white }}
+      position="fixed"
+      elevation={0}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {!state?.user ? (
             <Box sx={{ flexGrow: 1 }}>
               <img
                 onClick={() => router.push("/")}
-                src="/ogLogoWhite.png"
+                src="/ogLogoblack.png"
                 width={75}
               />
             </Box>
@@ -79,7 +84,6 @@ const ResponsiveAppBar = () => {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
-                color="inherit"
               >
                 <MenuIcon />
               </IconButton>
@@ -104,7 +108,7 @@ const ResponsiveAppBar = () => {
                 {pages.map((page) => (
                   <MenuItem
                     key={page?.name}
-                    sx={{ color: "white" }}
+                    sx={{ color: palette.black }}
                     onClick={() => handleCloseNavMenu(page?.path)}
                   >
                     <Link href={page.path}>
@@ -114,8 +118,8 @@ const ResponsiveAppBar = () => {
                         <a
                           style={{
                             textDecoration: "none",
-                            color: "#2E8B57",
-                            borderBottom: "2px solid #2E8B57",
+                            color: "black",
+                            borderBottom: "2px solid black",
                           }}
                         >
                           {page.name}
@@ -140,7 +144,7 @@ const ResponsiveAppBar = () => {
             >
               <img
                 onClick={() => router.push("/")}
-                src="/ogLogoWhite.png"
+                src="/ogLogoBlack.png"
                 width={75}
               />
             </Box>
@@ -148,34 +152,34 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {state?.user &&
               pages.map((page) => (
-                <Button
-                  key={page?.name}
+                <Link
+                  href={page.path}
                   onClick={() => handleCloseNavMenu(page?.name)}
                 >
-                  <Link href={page.path}>
-                    {(router.pathname === "/more" && page?.name === "Log") ||
-                    router?.pathname === page?.path ? (
-                      <a
-                        style={{
-                          textDecoration: "none",
-                          color: "white",
-                          borderBottom: "2px solid #2E8B57",
-                        }}
-                      >
-                        {page.name}
-                      </a>
-                    ) : (
-                      <a
-                        style={{
-                          color: "white",
-                          textDecoration: "none",
-                        }}
-                      >
-                        {page.name}
-                      </a>
-                    )}
-                  </Link>
-                </Button>
+                  {(router.pathname === "/more" && page?.name === "Log") ||
+                  router?.pathname === page?.path ? (
+                    <a
+                      style={{
+                        textDecoration: "none",
+                        color: palette.black,
+                        borderBottom: "2px solid black",
+                        marginRight: 15,
+                      }}
+                    >
+                      {page.name}
+                    </a>
+                  ) : (
+                    <a
+                      style={{
+                        color: palette.black,
+                        textDecoration: "none",
+                        marginRight: 15,
+                      }}
+                    >
+                      {page.name}
+                    </a>
+                  )}
+                </Link>
               ))}
           </Box>
 
@@ -189,7 +193,8 @@ const ResponsiveAppBar = () => {
                   aria-expanded={open ? "true" : undefined}
                   onClick={handleClick}
                   startIcon={<Person />}
-                  color="secondary"
+                  color={"secondary"}
+                  size="small"
                 >
                   {state?.user?.attributes?.preferred_username}
                 </Button>

@@ -3,7 +3,6 @@ import { Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import Context from "../src/context";
 import Section from "../components/Section";
-import SignIn from "./auth/signin";
 
 export default function Dashboard() {
   const { state } = useContext(Context);
@@ -15,12 +14,10 @@ export default function Dashboard() {
 
   return (
     <Section>
-      <div>
-        <Typography>Dashboard</Typography>
-        <Typography>
-          Signed in as {state?.user?.attributes?.preferred_username}
-        </Typography>
-      </div>
+      <Typography>Dashboard</Typography>
+      <Typography>
+        Signed in as {state?.user?.attributes?.preferred_username}
+      </Typography>
     </Section>
   );
 }

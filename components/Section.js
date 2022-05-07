@@ -11,8 +11,8 @@ const Section = ({ bgColor, children, ...rest }) => {
   return (
     <section
       style={{
+        marginTop: 65,
         minHeight: "90vh",
-        backgroundColor: palette.lightgrey,
         padding: 16,
       }}
       {...rest}

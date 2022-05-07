@@ -3,13 +3,14 @@ export const palette = {
   green: "#62BD4E",
   orange: "#FF9F19",
   yellow: "#F9CA25",
-  blue: "#01aecc",
+  blue: "#3e6ae1",
   contrastBlue: "#0092AB",
   red: "#F14447",
   purple: "#C377E0",
   brightgreen: "#ACD94A",
   white: "#FFFFFF",
   lightgrey: "#EBECF0",
+  black: "#000000",
 };
 export const layout = {
   //contentWidth: 1236,
@@ -29,8 +30,8 @@ const theme = createTheme({
       contrastText: "#fff",
     },
     secondary: {
-      main: "#FFF",
-      contrastText: "#000",
+      main: "#000",
+      contrastText: "#FFF",
     },
     error: {
       main: "#EEE",
@@ -41,7 +42,7 @@ const theme = createTheme({
       contrastText: "#2A2A2B",
     },
     background: {
-      default: "whitesmoke",
+      default: "white",
     },
   },
   layout: {
@@ -53,24 +54,22 @@ const theme = createTheme({
     fontFamily: ['"Helvetica Neue"', "Arial", "sans-serif"].join(","),
     h1: {
       fontSize: "1.2rem",
-      fontWeight: "700",
+      fontWeight: "600",
       textTransform: "capitalize",
       textAlign: "center",
       color: "#1e2022",
       marginBottom: 10,
-      "@media (min-width:600px)": {
-        fontSize: "1.5rem",
-      },
     },
     h2: {
       fontSize: "1rem",
-      fontWeight: "700",
       color: "#1e2022",
+      textAlign: "center",
     },
     h3: {
       fontSize: "1.125rem",
       fontWeight: "600",
       color: "#1e2022",
+      textAlign: "center",
     },
     h4: {
       fontSize: "1.125rem",
