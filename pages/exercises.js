@@ -82,7 +82,7 @@ export default function Exercises() {
   return (
     <Section>
       <h1>Exercise List</h1>
-      {/* //<button onClick={() => importExercises()}>Import</button> */}
+      <button onClick={() => importExercises()}>Import</button>
       {(exerciseGroups ?? []).map((x) => {
         return (
           <div key={x}>

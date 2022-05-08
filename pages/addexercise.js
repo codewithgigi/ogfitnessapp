@@ -1,12 +1,5 @@
 import React, { useState, useContext } from "react";
-import {
-  Button,
-  Typography,
-  TextField,
-  CircularProgress,
-  Grid,
-  Chip,
-} from "@mui/material";
+import { Button, TextField, CircularProgress, Grid } from "@mui/material";
 import { API, Storage } from "aws-amplify";
 import { createExercise, updateExercise } from "../src/graphql/mutations";
 import Section from "../components/Section";
@@ -16,9 +9,9 @@ import { ChipSelection } from "./onboarding";
 
 const initialState = {
   name: "",
-  muscles: "", //Abs - Lower
-  bodypart: "", // Core, Lower, upper
+  muscles: "",
   level: "",
+  bodypart: "",
   instructions: "",
   image: "",
   video: "",
@@ -28,7 +21,6 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
   const [formData, setFormData] = useState(initialState);
   const [imageUpload, setImageUpload] = useState();
   const [image, setImage] = useState();
-  const [videoUpload, setVideoUpload] = useState();
   const [video, setVideo] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -46,13 +38,13 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
 
       let newdata = {
         name: formData?.name,
+        muscles: formData?.muscles,
+        level: formData?.level,
+        bodypart: formData?.bodypart,
+        //equipment: formData?.equipment,
         instructions: formData?.instructions,
         image: formData?.image,
-        videoLink: formData?.videoLink,
-        level: formData?.level,
-        joint: formData?.joint,
-        muscles: formData?.muscles,
-        equipment: formData?.equipment,
+        video: formData?.video,
       };
       const { data } = await API.graphql({
         query: exercise ? updateExercise : createExercise,
@@ -124,6 +116,81 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
                 fullWidth
               />
             </Grid>
+
+            <h2>Primary Muscles</h2>
+            <Grid container item xs={12} md={12} spacing={1}>
+              {[
+                "abs",
+                "back",
+                "biceps",
+                "calves",
+                "chest",
+                "glutes",
+                "hamstrings",
+                "quads",
+                "shoulders",
+                "triceps",
+              ].map((x) => (
+                <Grid item>
+                  <ChipSelection
+                    value={x}
+                    field={formData?.muscles}
+                    onclick={() => setFormData({ ...formData, muscles: x })}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+            <h2>Level</h2>
+            <Grid container item xs={12} md={12} spacing={1}>
+              {["beginner", "intermediate", "advanced"].map((x) => (
+                <Grid item>
+                  <ChipSelection
+                    value={x}
+                    field={formData?.level}
+                    onclick={() => setFormData({ ...formData, level: x })}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+            <h2>Body Part</h2>
+            <Grid container item xs={12} md={12} spacing={1}>
+              {["upper", "lower", "core"].map((x) => (
+                <Grid item>
+                  <ChipSelection
+                    value={x}
+                    field={formData?.bodypart}
+                    onclick={() => setFormData({ ...formData, bodypart: x })}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="standard-multiline-static"
+                variant="outlined"
+                multiline
+                rows={6}
+                required
+                label="Instructions"
+                name="instructions"
+                onChange={handleChange}
+                value={formData?.instructions ?? ""}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <TextField
+                autoFocus
+                variant="outlined"
+                margin="dense"
+                name="video"
+                label="Video Link/Id (Vimeo)"
+                onChange={handleChange}
+                placeholder="Video"
+                value={formData?.video}
+                fullWidth
+              />
+            </Grid>
             {formData?.name && (
               <Grid item md={12} xs={12}>
                 <input
@@ -151,93 +218,6 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
                 )}
               </Grid>
             )}
-            <h2>Level</h2>
-            <Grid container item xs={12} md={12} spacing={1}>
-              {["beginner", "intermediate", "advanced"].map((x) => (
-                <Grid item>
-                  <ChipSelection
-                    value={x}
-                    field={formData?.level}
-                    onclick={() => setFormData({ ...formData, level: x })}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-            <h2>Body Part</h2>
-            <Grid container item xs={12} md={12} spacing={1}>
-              {["upper", "lower", "core"].map((x) => (
-                <Grid item>
-                  <ChipSelection
-                    value={x}
-                    field={formData?.bodypart}
-                    onclick={() => setFormData({ ...formData, bodypart: x })}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-            <h2>Equipment</h2>
-            <Grid container item xs={12} md={12} spacing={1}>
-              {["bodyweight", "machine", "free weights"].map((x) => (
-                <Grid item>
-                  <ChipSelection
-                    value={x}
-                    field={formData?.equipment}
-                    onclick={() => {
-                      setFormData({ ...formData, equipment: x });
-                    }}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-            <h2>Primary Muscles</h2>
-            <Grid container item xs={12} md={12} spacing={1}>
-              {[
-                "abs",
-                "back",
-                "biceps",
-                "calves",
-                "chest",
-                "glutes",
-                "hamstrings",
-                "quads",
-                "shoulders",
-                "triceps",
-              ].map((x) => (
-                <Grid item>
-                  <ChipSelection
-                    value={x}
-                    field={formData?.muscles}
-                    onclick={() => setFormData({ ...formData, muscles: x })}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-            <h2>Joints</h2>
-            <Grid container item xs={12} md={12} spacing={1}>
-              {["single-joint", "multi-joint"].map((x) => (
-                <Grid item>
-                  <ChipSelection
-                    value={x}
-                    field={formData.joint}
-                    onclick={() => setFormData({ ...formData, joint: x })}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="standard-multiline-static"
-                variant="outlined"
-                multiline
-                rows={6}
-                required
-                label="Instructions"
-                name="instructions"
-                onChange={handleChange}
-                value={formData?.instructions ?? ""}
-                fullWidth
-              />
-            </Grid>
             {loading ? (
               <Grid item>
                 <Button variant="contained" color="primary" disabled>
