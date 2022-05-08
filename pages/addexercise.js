@@ -12,19 +12,16 @@ import { createExercise, updateExercise } from "../src/graphql/mutations";
 import Section from "../components/Section";
 import { useRouter } from "next/router";
 import Context from "../src/context";
+import { ChipSelection } from "./onboarding";
 
 const initialState = {
-  image: "",
-  video: "",
   name: "",
   muscles: "", //Abs - Lower
   bodypart: "", // Core, Lower, upper
   level: "",
-  push: false, //if false its a pull
-  joint: "", //SM, M
-  equipment: "",
   instructions: "",
-  vimeoId: "",
+  image: "",
+  video: "",
 };
 
 export default function AddExercise({ exercise, setEdit, setEdited }) {
@@ -46,16 +43,13 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
     try {
       const filename = formData?.image;
       if (image) await Storage.put(filename, image);
-      const videoFilename = formData?.video;
-      if (video) await Storage.put(videoFilename, video);
 
       let newdata = {
         name: formData?.name,
         instructions: formData?.instructions,
         image: formData?.image,
-        video: formData?.video,
+        videoLink: formData?.videoLink,
         level: formData?.level,
-        push: formData?.push,
         joint: formData?.joint,
         muscles: formData?.muscles,
         equipment: formData?.equipment,
@@ -74,7 +68,6 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
         }
         setEdited(updatedExercise);
         setImageUpload();
-        setVideoUpload();
         setError();
       }
       setFormData({});
@@ -111,26 +104,9 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
     } else alert("enter a name");
   }
 
-  async function onChangeVideo(e) {
-    if (formData?.name) {
-      setLoading(true);
-      if (!e.target.files[0]) return;
-      const file = e.target.files[0];
-      const fileparts = file.name.split(".");
-      const timestamp = new Date().getTime();
-      const filename = `${formData.name}-${timestamp}.${fileparts[1]}`;
-      setFormData({ ...formData, video: filename });
-      setVideo(file);
-      setVideoUpload(URL.createObjectURL(e.target.files[0]));
-      setLoading(false);
-    } else alert("enter name");
-  }
-
   return (
     <Section>
-      <Typography variant="h1" sx={{ paddingLeft: 1, paddingBottom: 3 }}>
-        Add Exercise
-      </Typography>
+      <h1>Add Exercise</h1>
       <Grid container spacing={2}>
         {state?.user && (
           <Grid item md={formData ? 6 : 12} xs={12} container spacing={2}>
@@ -173,82 +149,47 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
                     style={{ height: 100, width: 100, objectFit: "contain" }}
                   />
                 )}
-                <input
-                  type="file"
-                  id="raised-video-file"
-                  accept="video/*"
-                  onChange={onChangeVideo}
-                  style={{ display: "none" }}
-                />
               </Grid>
             )}
-            {formData?.name && (
-              <Grid item md={12} xs={12}>
-                <label htmlFor="raised-video-file">
-                  <Button color="primary" component="span">
-                    {formData?.video ? "Change Video" : "Add a video"}
-                  </Button>
-                </label>
-              </Grid>
-            )}
-            <Typography variant="h2" sx={{ paddingLeft: 2, paddingTop: 3 }}>
-              Level
-            </Typography>
+            <h2>Level</h2>
             <Grid container item xs={12} md={12} spacing={1}>
               {["beginner", "intermediate", "advanced"].map((x) => (
                 <Grid item>
-                  <Chip
-                    sx={{ textTransform: "capitalize" }}
-                    key={x}
-                    label={x}
-                    name="level"
+                  <ChipSelection
                     value={x}
-                    variant={formData?.level === x ? "filled" : "outlined"}
-                    color="primary"
-                    onClick={() => setFormData({ ...formData, level: x })}
+                    field={formData?.level}
+                    onclick={() => setFormData({ ...formData, level: x })}
                   />
                 </Grid>
               ))}
             </Grid>
-            <Typography variant="h2" sx={{ paddingLeft: 2, paddingTop: 3 }}>
-              Body Part
-            </Typography>
+            <h2>Body Part</h2>
             <Grid container item xs={12} md={12} spacing={1}>
               {["upper", "lower", "core"].map((x) => (
                 <Grid item>
-                  <Chip
-                    sx={{ textTransform: "capitalize" }}
-                    key={x}
-                    label={x}
-                    variant={formData?.bodypart === x ? "filled" : "outlined"}
-                    color="primary"
-                    onClick={() => setFormData({ ...formData, bodypart: x })}
+                  <ChipSelection
+                    value={x}
+                    field={formData?.bodypart}
+                    onclick={() => setFormData({ ...formData, bodypart: x })}
                   />
                 </Grid>
               ))}
             </Grid>
-            <Typography variant="h2" sx={{ paddingLeft: 2, paddingTop: 3 }}>
-              Equipment
-            </Typography>
+            <h2>Equipment</h2>
             <Grid container item xs={12} md={12} spacing={1}>
               {["bodyweight", "machine", "free weights"].map((x) => (
                 <Grid item>
-                  <Chip
-                    sx={{ textTransform: "capitalize" }}
-                    key={x}
-                    label={x}
-                    variant={formData?.equipment === x ? "filled" : "outlined"}
-                    color="primary"
-                    onClick={() => {
+                  <ChipSelection
+                    value={x}
+                    field={formData?.equipment}
+                    onclick={() => {
                       setFormData({ ...formData, equipment: x });
                     }}
                   />
                 </Grid>
               ))}
             </Grid>
-            <Typography variant="h2" sx={{ paddingLeft: 2, paddingTop: 3 }}>
-              Primary Muscles
-            </Typography>
+            <h2>Primary Muscles</h2>
             <Grid container item xs={12} md={12} spacing={1}>
               {[
                 "abs",
@@ -263,62 +204,25 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
                 "triceps",
               ].map((x) => (
                 <Grid item>
-                  <Chip
-                    sx={{ textTransform: "capitalize" }}
-                    key={x}
-                    label={x}
-                    variant={formData?.muscles === x ? "filled" : "outlined"}
-                    color="primary"
-                    onClick={() => setFormData({ ...formData, muscles: x })}
+                  <ChipSelection
+                    value={x}
+                    field={formData?.muscles}
+                    onclick={() => setFormData({ ...formData, muscles: x })}
                   />
                 </Grid>
               ))}
             </Grid>
-            <Typography variant="h2" sx={{ paddingLeft: 2, paddingTop: 3 }}>
-              Joints
-            </Typography>
+            <h2>Joints</h2>
             <Grid container item xs={12} md={12} spacing={1}>
-              <Grid item>
-                <Chip
-                  sx={{ textTransform: "capitalize" }}
-                  label={"Single-Joint"}
-                  variant={formData?.joint === "SJ" ? "filled" : "outlined"}
-                  color="primary"
-                  onClick={() => setFormData({ ...formData, joint: "SJ" })}
-                />
-              </Grid>
-              <Grid item>
-                <Chip
-                  sx={{ textTransform: "capitalize" }}
-                  label={"Multi-Joint"}
-                  variant={formData?.joint === "MJ" ? "filled" : "outlined"}
-                  color="primary"
-                  onClick={() => setFormData({ ...formData, joint: "MJ" })}
-                />
-              </Grid>
-            </Grid>
-            <Typography variant="h2" sx={{ paddingLeft: 2, paddingTop: 3 }}>
-              Push or Pull
-            </Typography>
-            <Grid container item xs={12} md={12} spacing={1}>
-              <Grid item>
-                <Chip
-                  sx={{ textTransform: "capitalize" }}
-                  label={"Push"}
-                  variant={formData?.push === true ? "filled" : "outlined"}
-                  color="primary"
-                  onClick={() => setFormData({ ...formData, push: true })}
-                />
-              </Grid>
-              <Grid item>
-                <Chip
-                  sx={{ textTransform: "capitalize" }}
-                  label={"Pull"}
-                  variant={formData?.push === false ? "filled" : "outlined"}
-                  color="primary"
-                  onClick={() => setFormData({ ...formData, push: false })}
-                />
-              </Grid>
+              {["single-joint", "multi-joint"].map((x) => (
+                <Grid item>
+                  <ChipSelection
+                    value={x}
+                    field={formData.joint}
+                    onclick={() => setFormData({ ...formData, joint: x })}
+                  />
+                </Grid>
+              ))}
             </Grid>
             <Grid item xs={12}>
               <TextField

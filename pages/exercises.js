@@ -1,13 +1,14 @@
 import Section from "../components/Section";
 import React, { useEffect, useState } from "react";
-import { API, Storage } from "aws-amplify";
+import { API } from "aws-amplify";
 import { ExerciseList } from "../src/exerciselist";
 import { createExercise } from "../src/graphql/mutations";
 import { listExercises } from "../src/graphql/queries";
-
 export default function Exercises() {
   const [exercises, setExercises] = useState();
   const [groupedExercises, setGroupedExercises] = useState();
+
+  console.log("ex...................");
 
   useEffect(() => {
     getExerciseList();
@@ -17,20 +18,6 @@ export default function Exercises() {
   useEffect(() => {
     groupBy();
   }, [exercises]);
-
-  useEffect(() => {
-    getVideos();
-  }, [exercises]);
-
-  async function getVideos() {
-    const newExs = (exercises ?? []).map(async (x) => {
-      if (x?.exercise?.video) {
-        const videoUri = await Storage.get(x.exercise.video);
-        return { id: x.id, exercise: { ...x?.exercise, videoUri } };
-      } else return x;
-    });
-    setExercises(newExs);
-  }
 
   async function getExerciseList() {
     try {
@@ -66,9 +53,6 @@ export default function Exercises() {
                   name: dataArray[1].toLowerCase(),
                   level: dataArray[2].toLowerCase(),
                   bodypart: dataArray[3].toLowerCase(),
-                  push: dataArray[4] === "Push" ? true : false,
-                  modality: dataArray[5].toLowerCase(),
-                  joint: dataArray[6].toLowerCase(),
                 },
               },
             },
@@ -94,10 +78,11 @@ export default function Exercises() {
   }
   if (exercises) console.log(exercises.length);
   const exerciseGroups = groupedExercises ? Object.keys(groupedExercises) : [];
+  console.log("exercises ....", exercises);
   return (
     <Section>
       <h1>Exercise List</h1>
-      <button onClick={() => importExercises()}>Import</button>
+      {/* //<button onClick={() => importExercises()}>Import</button> */}
       {(exerciseGroups ?? []).map((x) => {
         return (
           <div key={x}>

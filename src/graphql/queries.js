@@ -73,13 +73,10 @@ export const getExercise = /* GraphQL */ `
         muscles
         bodypart
         level
-        push
-        joint
         equipment
         instructions
         image
         video
-        vimeoId
       }
       createdAt
       updatedAt
@@ -100,13 +97,10 @@ export const listExercises = /* GraphQL */ `
           muscles
           bodypart
           level
-          push
-          joint
           equipment
           instructions
           image
           video
-          vimeoId
         }
         createdAt
         updatedAt

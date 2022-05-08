@@ -28,17 +28,14 @@ type Exercise
 }
 
 type ExerciseType {
-  name: String
-  muscles: String # Abs - Lower
-  bodypart: String # Core, Lower, upper
+  name: String!
+  muscles: String
+  bodypart: String
   level: String
-  push: Boolean #if false its a pull
-  joint: String
   equipment: String
   instructions: String
   image: String
   video: String
-  vimeoId: String
 }
 
 type Onboarding {

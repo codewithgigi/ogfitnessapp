@@ -106,13 +106,10 @@ export const createExercise = /* GraphQL */ `
         muscles
         bodypart
         level
-        push
-        joint
         equipment
         instructions
         image
         video
-        vimeoId
       }
       createdAt
       updatedAt
@@ -131,13 +128,10 @@ export const updateExercise = /* GraphQL */ `
         muscles
         bodypart
         level
-        push
-        joint
         equipment
         instructions
         image
         video
-        vimeoId
       }
       createdAt
       updatedAt
@@ -156,13 +150,10 @@ export const deleteExercise = /* GraphQL */ `
         muscles
         bodypart
         level
-        push
-        joint
         equipment
         instructions
         image
         video
-        vimeoId
       }
       createdAt
       updatedAt
