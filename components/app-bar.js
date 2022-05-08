@@ -72,7 +72,7 @@ const ResponsiveAppBar = () => {
             <Box sx={{ flexGrow: 1 }}>
               <img
                 onClick={() => router.push("/")}
-                src="/ogLogoblack.png"
+                src="/oglogoblack.png"
                 width={75}
               />
             </Box>
@@ -144,7 +144,7 @@ const ResponsiveAppBar = () => {
             >
               <img
                 onClick={() => router.push("/")}
-                src="/ogLogoBlack.png"
+                src="/oglogoblack.png"
                 width={75}
               />
             </Box>
