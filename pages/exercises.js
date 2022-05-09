@@ -78,11 +78,10 @@ export default function Exercises() {
   }
   if (exercises) console.log(exercises.length);
   const exerciseGroups = groupedExercises ? Object.keys(groupedExercises) : [];
-  console.log("exercises ....", exercises);
   return (
     <Section>
       <h1>Exercise List</h1>
-      <button onClick={() => importExercises()}>Import</button>
+      {/* <button onClick={() => importExercises()}>Import</button> */}
       {(exerciseGroups ?? []).map((x) => {
         return (
           <div key={x}>
@@ -91,15 +90,27 @@ export default function Exercises() {
               return (
                 <div key={index} style={{ textTransform: "capitalize" }}>
                   {e?.exercise?.name}
-                  {e?.exercise?.video}
-                  {
-                    e?.exercise.videoUri && <div>video</div>
-                    // <video width="320" height="240" controls>
-                    //   <source src={videoUri} type="video/mov" />
-                    //   <source src={videoUri} type="video/ogg" />
-                    //   Your browser does not support the video tag.
-                    // </video>
-                  }
+                  {e?.exercise?.video && (
+                    <div>
+                      <div style="padding:56.25% 0 0 0;position:relative;">
+                        <iframe
+                          src={`https://player.vimeo.com/video/${e?.excercise?.video}?h=453494dbbe&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`}
+                          frameborder="0"
+                          allow="autoplay; fullscreen; picture-in-picture"
+                          allowfullscreen
+                          style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                          title="test-track.MOV"
+                        ></iframe>
+                      </div>
+                      <script src="https://player.vimeo.com/api/player.js"></script>
+                    </div>
+                  )}
+                  {e?.exercise.image && (
+                    <div>
+                      has image {e?.exercise?.image}
+                      <img src={e?.exercise?.image} width={200} height={200} />
+                    </div>
+                  )}
                 </div>
               );
             })}

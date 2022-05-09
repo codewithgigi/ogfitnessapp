@@ -21,10 +21,9 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
   const [formData, setFormData] = useState(initialState);
   const [imageUpload, setImageUpload] = useState();
   const [image, setImage] = useState();
-  const [video, setVideo] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const { state, dispatch } = useContext(Context);
+  const { state } = useContext(Context);
   const router = useRouter();
 
   const addExercise = async () => {
@@ -41,7 +40,6 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
         muscles: formData?.muscles,
         level: formData?.level,
         bodypart: formData?.bodypart,
-        //equipment: formData?.equipment,
         instructions: formData?.instructions,
         image: formData?.image,
         video: formData?.video,
@@ -93,7 +91,7 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
       setImage(file);
       setImageUpload(URL.createObjectURL(e.target.files[0]));
       setLoading(false);
-    } else alert("enter a name");
+    } else alert("enter an exercise name");
   }
 
   return (
@@ -231,9 +229,7 @@ export default function AddExercise({ exercise, setEdit, setEdited }) {
                   color="primary"
                   onClick={() => {
                     setImage();
-                    setVideo();
                     setImageUpload();
-                    setVideoUpload();
                     setFormData(initialState);
                   }}
                 >
