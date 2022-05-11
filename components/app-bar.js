@@ -13,6 +13,7 @@ import Grid from "@mui/material/Grid";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { palette } from "../src/theme";
+import Image from "next/image";
 
 import Person from "@mui/icons-material/AccountCircle";
 import { Auth } from "aws-amplify";
@@ -71,10 +72,12 @@ const ResponsiveAppBar = () => {
           {!state?.user ? (
             <Box sx={{ flexGrow: 1 }}>
               <img
+                alt="og fitness"
                 onClick={() => router.push("/")}
-                src="/oglogoblack.png"
+                src="/assets/oglogoblack.png"
                 width={75}
               />
+              <Image src="/oglogoblack.png" alt="me" width="64" height="64" />
             </Box>
           ) : (
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -143,8 +146,9 @@ const ResponsiveAppBar = () => {
               }}
             >
               <img
+                alt={"og fitness"}
                 onClick={() => router.push("/")}
-                src="/oglogoblack.png"
+                src="/assets/oglogoblack.png"
                 width={75}
               />
             </Box>
