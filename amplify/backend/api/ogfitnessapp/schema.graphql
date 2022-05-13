@@ -40,10 +40,22 @@ type Workout
   name: String
   instructions: String
   exercises: [Exercise]
-  workoutWorkoutPlan: [WorkoutWorkoutPlan] @hasMany
+  plans: [Plan] @manyToMany(relationName: "PlanWorkouts")
 }
 
-type WorkoutPlan
+enum Level {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum Goal {
+  FATLOSS
+  MUSCLEGAIN
+  COMPETE
+}
+
+type Plan
   @model
   @auth(
     rules: [
@@ -54,39 +66,26 @@ type WorkoutPlan
   id: ID!
   name: String
   image: String
+  video: String
   description: String
   instructions: String
-  display: Boolean
-  weeks: Int
-  workoutWorkoutPlan: [WorkoutWorkoutPlan] @hasMany
-}
-
-type WorkoutWorkoutPlan
-  @model
-  @auth(
-    rules: [
-      { allow: groups, groups: ["Admin"], operations: [create, delete, update] }
-      { allow: private, operations: [read] }
-    ]
-  ) {
-  id: ID!
-  workout: Workout @belongsTo
-  week: Int # 1, 2, 3
-  day: String # sunday, monday, tuesday, wednesday, thursday, Friday
-  workoutPlan: WorkoutPlan @belongsTo
+  active: Boolean
+  goal: Goal
+  level: Level
+  workouts: [Workout] @manyToMany(relationName: "PlanWorkouts") # Ordered so the length is the number of days
 }
 
 type ExerciseType {
   name: String!
   muscles: String
   bodypart: String
-  level: String
+  level: Level
   equipment: String
   instructions: String
   image: String
   video: String
-  sets: Number
-  reps: Number
+  sets: Int
+  reps: Int
 }
 
 type Onboarding {

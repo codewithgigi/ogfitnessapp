@@ -77,6 +77,8 @@ export const getExercise = /* GraphQL */ `
         instructions
         image
         video
+        sets
+        reps
       }
       createdAt
       updatedAt
@@ -101,6 +103,206 @@ export const listExercises = /* GraphQL */ `
           instructions
           image
           video
+          sets
+          reps
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getWorkout = /* GraphQL */ `
+  query GetWorkout($id: ID!) {
+    getWorkout(id: $id) {
+      id
+      name
+      instructions
+      exercises {
+        id
+        exercise {
+          name
+          muscles
+          bodypart
+          level
+          equipment
+          instructions
+          image
+          video
+          sets
+          reps
+        }
+        createdAt
+        updatedAt
+      }
+      plans {
+        items {
+          id
+          workoutID
+          planID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listWorkouts = /* GraphQL */ `
+  query ListWorkouts(
+    $filter: ModelWorkoutFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listWorkouts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        instructions
+        exercises {
+          id
+          createdAt
+          updatedAt
+        }
+        plans {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getPlan = /* GraphQL */ `
+  query GetPlan($id: ID!) {
+    getPlan(id: $id) {
+      id
+      name
+      image
+      video
+      description
+      instructions
+      active
+      goal
+      level
+      workouts {
+        items {
+          id
+          workoutID
+          planID
+          createdAt
+          updatedAt
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPlans = /* GraphQL */ `
+  query ListPlans(
+    $filter: ModelPlanFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPlans(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        image
+        video
+        description
+        instructions
+        active
+        goal
+        level
+        workouts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getPlanWorkouts = /* GraphQL */ `
+  query GetPlanWorkouts($id: ID!) {
+    getPlanWorkouts(id: $id) {
+      id
+      workoutID
+      planID
+      workout {
+        id
+        name
+        instructions
+        exercises {
+          id
+          createdAt
+          updatedAt
+        }
+        plans {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      plan {
+        id
+        name
+        image
+        video
+        description
+        instructions
+        active
+        goal
+        level
+        workouts {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPlanWorkouts = /* GraphQL */ `
+  query ListPlanWorkouts(
+    $filter: ModelPlanWorkoutsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPlanWorkouts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        workoutID
+        planID
+        workout {
+          id
+          name
+          instructions
+          createdAt
+          updatedAt
+        }
+        plan {
+          id
+          name
+          image
+          video
+          description
+          instructions
+          active
+          goal
+          level
+          createdAt
+          updatedAt
         }
         createdAt
         updatedAt
