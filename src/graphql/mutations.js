@@ -176,21 +176,16 @@ export const createWorkout = /* GraphQL */ `
       name
       instructions
       exercises {
-        id
-        exercise {
-          name
-          muscles
-          bodypart
-          level
-          equipment
-          instructions
-          image
-          video
-          sets
-          reps
-        }
-        createdAt
-        updatedAt
+        name
+        muscles
+        bodypart
+        level
+        equipment
+        instructions
+        image
+        video
+        sets
+        reps
       }
       plans {
         items {
@@ -217,21 +212,16 @@ export const updateWorkout = /* GraphQL */ `
       name
       instructions
       exercises {
-        id
-        exercise {
-          name
-          muscles
-          bodypart
-          level
-          equipment
-          instructions
-          image
-          video
-          sets
-          reps
-        }
-        createdAt
-        updatedAt
+        name
+        muscles
+        bodypart
+        level
+        equipment
+        instructions
+        image
+        video
+        sets
+        reps
       }
       plans {
         items {
@@ -258,21 +248,16 @@ export const deleteWorkout = /* GraphQL */ `
       name
       instructions
       exercises {
-        id
-        exercise {
-          name
-          muscles
-          bodypart
-          level
-          equipment
-          instructions
-          image
-          video
-          sets
-          reps
-        }
-        createdAt
-        updatedAt
+        name
+        muscles
+        bodypart
+        level
+        equipment
+        instructions
+        image
+        video
+        sets
+        reps
       }
       plans {
         items {
@@ -393,9 +378,16 @@ export const createPlanWorkouts = /* GraphQL */ `
         name
         instructions
         exercises {
-          id
-          createdAt
-          updatedAt
+          name
+          muscles
+          bodypart
+          level
+          equipment
+          instructions
+          image
+          video
+          sets
+          reps
         }
         plans {
           nextToken
@@ -438,9 +430,16 @@ export const updatePlanWorkouts = /* GraphQL */ `
         name
         instructions
         exercises {
-          id
-          createdAt
-          updatedAt
+          name
+          muscles
+          bodypart
+          level
+          equipment
+          instructions
+          image
+          video
+          sets
+          reps
         }
         plans {
           nextToken
@@ -483,9 +482,16 @@ export const deletePlanWorkouts = /* GraphQL */ `
         name
         instructions
         exercises {
-          id
-          createdAt
-          updatedAt
+          name
+          muscles
+          bodypart
+          level
+          equipment
+          instructions
+          image
+          video
+          sets
+          reps
         }
         plans {
           nextToken

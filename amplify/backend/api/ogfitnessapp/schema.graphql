@@ -39,7 +39,7 @@ type Workout
   id: ID!
   name: String
   instructions: String
-  exercises: [Exercise]
+  exercises: [ExerciseType]
   plans: [Plan] @manyToMany(relationName: "PlanWorkouts")
 }
 

@@ -120,21 +120,16 @@ export const getWorkout = /* GraphQL */ `
       name
       instructions
       exercises {
-        id
-        exercise {
-          name
-          muscles
-          bodypart
-          level
-          equipment
-          instructions
-          image
-          video
-          sets
-          reps
-        }
-        createdAt
-        updatedAt
+        name
+        muscles
+        bodypart
+        level
+        equipment
+        instructions
+        image
+        video
+        sets
+        reps
       }
       plans {
         items {
@@ -163,9 +158,16 @@ export const listWorkouts = /* GraphQL */ `
         name
         instructions
         exercises {
-          id
-          createdAt
-          updatedAt
+          name
+          muscles
+          bodypart
+          level
+          equipment
+          instructions
+          image
+          video
+          sets
+          reps
         }
         plans {
           nextToken
@@ -242,9 +244,16 @@ export const getPlanWorkouts = /* GraphQL */ `
         name
         instructions
         exercises {
-          id
-          createdAt
-          updatedAt
+          name
+          muscles
+          bodypart
+          level
+          equipment
+          instructions
+          image
+          video
+          sets
+          reps
         }
         plans {
           nextToken

@@ -1,11 +1,11 @@
 import React, { useState, useContext } from "react";
 import { Button, TextField, CircularProgress, Grid } from "@mui/material";
 import { API, Storage } from "aws-amplify";
-import { createExercise, updateExercise } from "../src/graphql/mutations";
-import Section from "../components/Section";
+import { createExercise, updateExercise } from "../../src/graphql/mutations";
+import Section from "../../components/Section";
 import { useRouter } from "next/router";
-import Context from "../src/context";
-import { ChipSelection } from "./onboarding";
+import Context from "../../src/context";
+import { ChipSelection } from "../onboarding";
 
 const initialState = {
   name: "",
