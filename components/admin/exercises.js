@@ -16,6 +16,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import VideoDialog from "../videoDialog";
 
 export default function Exercises() {
   const [exercises, setExercises] = useState();
@@ -115,11 +116,7 @@ export default function Exercises() {
                 <ListItem
                   secondaryAction={
                     <>
-                      {x?.video && (
-                        <IconButton edge="end" aria-label="delete">
-                          <PlayCircleIcon color="primary" size="small" />
-                        </IconButton>
-                      )}
+                      {x?.video && <VideoDialog videoSource={""} />}
                       <IconButton edge="end" aria-label="delete">
                         <DeleteIcon />
                       </IconButton>
