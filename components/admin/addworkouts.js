@@ -21,20 +21,27 @@
 // 	instructions: String
 // }
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Button,
   TextField,
   CircularProgress,
   Grid,
-  Autocomplete,
-  Stack,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
+import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { API } from "aws-amplify";
+
 import { createWorkout, updateWorkout } from "../../src/graphql/mutations";
+import { listExercises } from "../../src/graphql/queries";
 import Section from "../../components/Section";
 import { useRouter } from "next/router";
 import Context from "../../src/context";
+import MulitSelect from "../../components/autocomplete";
 
 const initialState = {
   name: "",
@@ -42,14 +49,39 @@ const initialState = {
   exercises: [],
 };
 
-const AutoCompleteInput = ({ data }) => {
+const filter = createFilterOptions();
+
+const AutoCompleteInput = ({ data, handleChange }) => {
   return (
     <Grid container spacing={1} direction={"row"} mt={2}>
       <Grid item xs={8}>
         <Autocomplete
-          id="free-solo-demo"
+          multiple
+          id="tags-filled"
+          options={data.map((option) => option?.name)}
           freeSolo
-          options={data.map((option) => option.label)}
+          renderTags={(value, getTagProps) =>
+            value.map((option, index) => (
+              <Chip
+                variant="outlined"
+                label={option}
+                {...getTagProps({ index })}
+              />
+            ))
+          }
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="filled"
+              label="freeSolo"
+              placeholder="Favorites"
+            />
+          )}
+        />
+        <Autocomplete
+          onChange={(option) => handleChange(option)}
+          id="free-solo-demo"
+          options={data.map((option) => option?.name)}
           renderInput={(params) => (
             <TextField {...params} label="Add exercise" />
           )}
@@ -75,6 +107,26 @@ export default function AddWorkout({ workout, setEdit, setEdited }) {
   const [error, setError] = useState();
   const { state } = useContext(Context);
   const router = useRouter();
+  const [exercises, setExercises] = useState();
+
+  const getExerciseList = async () => {
+    try {
+      const { data } = await API.graphql({
+        query: listExercises,
+        variables: { limit: 300 },
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+      });
+      const items = data?.listExercises?.items;
+      setExercises(items);
+      console.log("items ..", items);
+    } catch (error) {
+      console.warn("Error with api getProfile", error);
+    }
+  };
+
+  useEffect(() => {
+    getExerciseList();
+  }, []);
 
   const addWorkout = async () => {
     setLoading(true);
@@ -111,16 +163,16 @@ export default function AddWorkout({ workout, setEdit, setEdited }) {
     setFormData({ ...formData });
   };
 
-  const exerciseList = [
-    { label: "Squat", year: 1994 },
-    { label: "Deadlift", year: 1972 },
-    { label: "Hanging leg raise", year: 1974 },
-    { label: "Situps", year: 2008 },
-  ];
+  const handleSelected = (selected) => {
+    console.log("selected Exercises", selected);
+  };
+
+  console.log("formdata", formData);
 
   return (
     <Section>
       <h1>Add Workout</h1>
+      <div>{JSON.stringify(formData)}</div>
       <Grid container spacing={2}>
         {state?.user && (
           <Grid item md={formData ? 6 : 12} xs={12} container spacing={2}>
@@ -152,7 +204,13 @@ export default function AddWorkout({ workout, setEdit, setEdited }) {
                 value={formData?.instructions ?? ""}
                 fullWidth
               />
-              <AutoCompleteInput data={exerciseList} />
+              {exercises && (
+                <MulitSelect data={exercises} handleSelected={handleSelected} />
+                // <AutoCompleteInput
+                //   data={exercises}
+                //   handleChange={handleSelectExercise}
+                // />
+              )}
             </Grid>
             {loading ? (
               <Grid item>

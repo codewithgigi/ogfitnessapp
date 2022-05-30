@@ -89,18 +89,16 @@ export const onCreateExercise = /* GraphQL */ `
   subscription OnCreateExercise {
     onCreateExercise {
       id
-      exercise {
-        name
-        muscles
-        bodypart
-        level
-        equipment
-        instructions
-        image
-        video
-        sets
-        reps
-      }
+      name
+      muscles
+      bodypart
+      level
+      equipment
+      instructions
+      image
+      video
+      sets
+      reps
       createdAt
       updatedAt
     }
@@ -110,18 +108,16 @@ export const onUpdateExercise = /* GraphQL */ `
   subscription OnUpdateExercise {
     onUpdateExercise {
       id
-      exercise {
-        name
-        muscles
-        bodypart
-        level
-        equipment
-        instructions
-        image
-        video
-        sets
-        reps
-      }
+      name
+      muscles
+      bodypart
+      level
+      equipment
+      instructions
+      image
+      video
+      sets
+      reps
       createdAt
       updatedAt
     }
@@ -131,18 +127,16 @@ export const onDeleteExercise = /* GraphQL */ `
   subscription OnDeleteExercise {
     onDeleteExercise {
       id
-      exercise {
-        name
-        muscles
-        bodypart
-        level
-        equipment
-        instructions
-        image
-        video
-        sets
-        reps
-      }
+      name
+      muscles
+      bodypart
+      level
+      equipment
+      instructions
+      image
+      video
+      sets
+      reps
       createdAt
       updatedAt
     }
@@ -155,6 +149,7 @@ export const onCreateWorkout = /* GraphQL */ `
       name
       instructions
       exercises {
+        id
         name
         muscles
         bodypart
@@ -165,6 +160,8 @@ export const onCreateWorkout = /* GraphQL */ `
         video
         sets
         reps
+        createdAt
+        updatedAt
       }
       plans {
         items {
@@ -188,6 +185,7 @@ export const onUpdateWorkout = /* GraphQL */ `
       name
       instructions
       exercises {
+        id
         name
         muscles
         bodypart
@@ -198,6 +196,8 @@ export const onUpdateWorkout = /* GraphQL */ `
         video
         sets
         reps
+        createdAt
+        updatedAt
       }
       plans {
         items {
@@ -221,6 +221,7 @@ export const onDeleteWorkout = /* GraphQL */ `
       name
       instructions
       exercises {
+        id
         name
         muscles
         bodypart
@@ -231,6 +232,8 @@ export const onDeleteWorkout = /* GraphQL */ `
         video
         sets
         reps
+        createdAt
+        updatedAt
       }
       plans {
         items {
@@ -339,6 +342,7 @@ export const onCreatePlanWorkouts = /* GraphQL */ `
         name
         instructions
         exercises {
+          id
           name
           muscles
           bodypart
@@ -349,6 +353,8 @@ export const onCreatePlanWorkouts = /* GraphQL */ `
           video
           sets
           reps
+          createdAt
+          updatedAt
         }
         plans {
           nextToken
@@ -388,6 +394,7 @@ export const onUpdatePlanWorkouts = /* GraphQL */ `
         name
         instructions
         exercises {
+          id
           name
           muscles
           bodypart
@@ -398,6 +405,8 @@ export const onUpdatePlanWorkouts = /* GraphQL */ `
           video
           sets
           reps
+          createdAt
+          updatedAt
         }
         plans {
           nextToken
@@ -437,6 +446,7 @@ export const onDeletePlanWorkouts = /* GraphQL */ `
         name
         instructions
         exercises {
+          id
           name
           muscles
           bodypart
@@ -447,6 +457,8 @@ export const onDeletePlanWorkouts = /* GraphQL */ `
           video
           sets
           reps
+          createdAt
+          updatedAt
         }
         plans {
           nextToken

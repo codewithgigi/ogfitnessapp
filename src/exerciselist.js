@@ -32,7 +32,6 @@ export const ExerciseList = [
   "Abs,Bent Knee Sit-Up,Beginner,Core",
   "Abs,Bent-Knee Crunch,Beginner,Core",
   "Abs,Crunch,Beginner,Core",
-  "Abs,Crunch,Beginner,Core",
   "Abs,Decline Crunch,Advanced,Core",
   "Abs,Decline Sit-Up,Advanced,Core",
   "Abs,Heel Touch,Beginner,Core",
@@ -280,7 +279,6 @@ export const ExerciseList = [
   "Triceps,Single-Arm Triceps Pushdown,Intermediate,Upper",
   "Triceps,Towel Triceps Pushdown,Beginner,Upper",
   "Triceps,Tricep Extensions,Beginner,Upper",
-  "Triceps,Tricep Pushdown,Beginner,Upper",
   "Triceps,Tricep Pushdown,Beginner,Upper",
   "Triceps,V-Bar Tricep Pushdown,Beginner,Upper",
 ];

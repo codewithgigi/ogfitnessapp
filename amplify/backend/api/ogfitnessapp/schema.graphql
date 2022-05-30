@@ -24,7 +24,16 @@ type Exercise
     ]
   ) {
   id: ID!
-  exercise: ExerciseType
+  name: String!
+  muscles: String
+  bodypart: String
+  level: Level
+  equipment: String
+  instructions: String
+  image: String
+  video: String
+  sets: Int
+  reps: Int
 }
 
 type Workout
@@ -39,14 +48,14 @@ type Workout
   id: ID!
   name: String
   instructions: String
-  exercises: [ExerciseType]
+  exercises: [Exercise]
   plans: [Plan] @manyToMany(relationName: "PlanWorkouts")
 }
 
 enum Level {
-  BEGINNER
-  INTERMEDIATE
-  ADVANCED
+  beginner
+  intermediate
+  advanced
 }
 
 enum Goal {
@@ -73,19 +82,6 @@ type Plan
   goal: Goal
   level: Level
   workouts: [Workout] @manyToMany(relationName: "PlanWorkouts") # Ordered so the length is the number of days
-}
-
-type ExerciseType {
-  name: String!
-  muscles: String
-  bodypart: String
-  level: Level
-  equipment: String
-  instructions: String
-  image: String
-  video: String
-  sets: Int
-  reps: Int
 }
 
 type Onboarding {
