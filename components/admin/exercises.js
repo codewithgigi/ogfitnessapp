@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { API } from "aws-amplify";
+import { API, Storage } from "aws-amplify";
 import { listExercises } from "../../src/graphql/queries";
 import {
   Grid,
@@ -40,6 +40,7 @@ export default function Exercises() {
   }, [filter, exercises]);
 
   const updateExeriseList = (data) => {
+    console.log("update list", data);
     if (data) {
       const exercise = exercises.find((x) => x.id === data?.id);
       if (exercise) {
@@ -116,7 +117,12 @@ export default function Exercises() {
                 <ListItem
                   secondaryAction={
                     <>
-                      {x?.video && <VideoDialog videoSource={""} />}
+                      {x?.video && (
+                        <VideoDialog
+                          exercise={x}
+                          updateExeriseList={updateExeriseList}
+                        />
+                      )}
                       <IconButton edge="end" aria-label="delete">
                         <DeleteIcon />
                       </IconButton>

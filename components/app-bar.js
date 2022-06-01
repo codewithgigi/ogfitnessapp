@@ -77,7 +77,6 @@ const ResponsiveAppBar = () => {
                 src="/assets/oglogoblack.png"
                 width={75}
               />
-              <Image src="/oglogoblack.png" alt="me" width="64" height="64" />
             </Box>
           ) : (
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

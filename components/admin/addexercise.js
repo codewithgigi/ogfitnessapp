@@ -18,9 +18,9 @@ import Context from "../../src/context";
 
 export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
   const [formData, setFormData] = useState({});
-  const [imageUpload, setImageUpload] = useState();
+  const [imageUpload, setImageDisplay] = useState();
   const [image, setImage] = useState();
-  const [videoUpload, setVideoUpload] = useState();
+  const [videoUpload, setVideoDisplay] = useState();
   const [video, setVideo] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -31,20 +31,23 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
       setError("enter exercise name");
     }
     try {
+      let newdata = { ...formData };
       const filename = formData?.image;
-      if (image) await Storage.put(filename.replaceAll(" ", "-"), image);
+      if (image) {
+        await Storage.put(filename, image);
+      }
       const vidoeFilename = formData?.video;
 
-      if (video) await Storage.put(vidoeFilename.replaceAll(" ", "-"), video);
+      if (video) {
+        await Storage.put(vidoeFilename, video);
+      }
 
-      let newdata = { ...formData };
-      if (image) newdata.image = formData.image;
       const query = exercise ? updateExercise : createExercise;
       if (exercise) newdata.id = exercise?.id;
       const { data } = await API.graphql({
         query: query,
         authMode: "AMAZON_COGNITO_USER_POOLS",
-        variables: { input: { ...formData } },
+        variables: { input: { ...newdata } },
       });
 
       let newExercise = data?.createExercise ?? data?.updateExercise;
@@ -83,20 +86,33 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
       } else {
         const fileparts = file.name.split(".");
         const timestamp = new Date().getTime();
-        const filename = `${formData?.name}-${timestamp}.${fileparts[1]}`;
+        const filename =
+          `${formData?.name}-${timestamp}.${fileparts[1]}`.replaceAll(" ", "-");
+
         setFormData({ ...formData, [name]: filename });
         if (name === "image") {
           setImage(file);
-          setImageUpload(URL.createObjectURL(e.target.files[0]));
+          setImageDisplay(URL.createObjectURL(e.target.files[0]));
           setLoading(false);
         } else if (name === "video") {
           setVideo(file);
-          setVideoUpload(URL.createObjectURL(e.target.files[0]));
+          setVideoDisplay(URL.createObjectURL(e.target.files[0]));
           setLoading(false);
         }
       }
     } else alert("enter an exercise name");
   }
+
+  // async function onChange(e) {
+  //   if (!e.target.files[0]) return;
+  //   const file = e.target.files[0];
+  //   const fileparts = file.name.split(".");
+  //   const timestamp = new Date().getTime();
+  //   const filename = `${fileparts[0]}-${timestamp}.${fileparts[1]}`;
+  //   setFormData({ ...formData, image: filename });
+  //   setFile(file);
+  //   setImageDisplay(URL.createObjectURL(e.target.files[0]));
+  // }
 
   return (
     <Box>
@@ -274,7 +290,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
                 color="primary"
                 onClick={() => {
                   setImage();
-                  setImageUpload();
+                  setImageDisplay();
                   setFormData({});
                 }}
               >
