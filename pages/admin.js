@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import styles from "../styles/Home.module.css";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Section from "../components/Section";
 import Context from "../src/context";
 import { useRouter } from "next/router";
 import Exercises from "../components/admin/exercises";
-import AddExercise from "../components/admin/addexercise";
 import Workouts from "../components/admin/workouts";
 import WorkoutPlans from "../components/admin/workoutplans";
-import ReactPlayer from "react-player";
 
 function AdminTabs({ view = "" }) {
   const [tab, setTabView] = React.useState(view);

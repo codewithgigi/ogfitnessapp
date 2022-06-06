@@ -37,7 +37,6 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
         const { key } = await Storage.put(filename, image, {
           metadata: { name: formData?.name },
         });
-        console.log("image key ", key);
         newdata.image = key;
       }
       const vidoeFilename = formData?.video;

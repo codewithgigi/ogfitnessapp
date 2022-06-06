@@ -87,10 +87,15 @@ export default function Exercises() {
         if (item.image) {
           try {
             if (item.image) {
-              const result = await Storage.get(item?.image);
+              const result = await Storage.get(item?.image, {
+                download: false,
+              });
               item.imageSource = result;
             }
-            if (item.video) item.videoSource = await Storage.get(item?.video);
+            if (item.video)
+              item.videoSource = await Storage.get(item?.video, {
+                download: false,
+              });
           } catch (error) {
             console.log("getImage error", error);
           }
@@ -144,9 +149,6 @@ export default function Exercises() {
                 <div key={index}>
                   {x?.imageSource && (
                     <div>
-                      <a href={x.imageSource} target="_blank">
-                        {x?.name}
-                      </a>
                       <img
                         src={x?.imageSource}
                         style={{
@@ -155,14 +157,6 @@ export default function Exercises() {
                           objectFit: "contain",
                         }}
                       />
-                    </div>
-                  )}
-                  {x?.videoSource && (
-                    <div>
-                      <video controls width="250">
-                        <source src={x?.videoSource} type="video/mp4" />
-                        Sorry, your browser doesn't support embedded videos.
-                      </video>
                     </div>
                   )}
                   <ListItem

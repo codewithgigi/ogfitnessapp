@@ -29,7 +29,12 @@ export default function VideoDialog({ exercise }) {
           )}
           {exercise?.videoSource && (
             <video controls width="100%">
-              <source src={exercise?.videoSource} type="video/mp4" />
+              <source
+                src={exercise?.videoSource}
+                type="video/mp4"
+                controls
+                controlsList="nodownload"
+              />
               Sorry, your browser doesn't support embedded videos.
             </video>
           )}
