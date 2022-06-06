@@ -17,6 +17,7 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VideoDialog from "../videoDialog";
+import { Image, AmplifyS3Image } from "@aws-amplify/ui-react";
 
 export default function Exercises() {
   const [exercises, setExercises] = useState();
@@ -58,6 +59,9 @@ export default function Exercises() {
   };
 
   async function getExerciseList() {
+    // Storage.list("public/") // for listing ALL files without prefix, pass '' instead
+    //   .then((result) => console.log("get list of images", result))
+    //   .catch((err) => console.log("error in list", err));
     try {
       const { data } = await API.graphql({
         query: listExercises,
@@ -65,9 +69,10 @@ export default function Exercises() {
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
       const items = data?.listExercises?.items;
-      setExercises(items);
+      const newItems = await getStorageFiles(items);
+      setExercises(newItems);
       let filterlist = new Set();
-      items.map((x) => {
+      newItems.map((x) => {
         filterlist.add(x.muscles);
       });
       setFilterList([...filterlist]);
@@ -76,7 +81,28 @@ export default function Exercises() {
     }
   }
 
-  const list = filtered ? filtered : exercises;
+  const getStorageFiles = async (items) => {
+    let newItems = await Promise.all(
+      (newItems = items.map(async (item) => {
+        if (item.image) {
+          try {
+            if (item.image) {
+              const result = await Storage.get(item?.image);
+              item.imageSource = result;
+            }
+            if (item.video) item.videoSource = await Storage.get(item?.video);
+          } catch (error) {
+            console.log("getImage error", error);
+          }
+        }
+        return item;
+      })),
+    );
+    return newItems;
+  };
+
+  const list = filter ? filtered : exercises;
+  console.log("exercise", exercises, list);
   return (
     <>
       {!showAdd ? <h1>Exercise List</h1> : <h1>Add Exercise</h1>}
@@ -101,6 +127,7 @@ export default function Exercises() {
             <Grid item>
               {(filterList || []).map((x) => (
                 <Chip
+                  key={x}
                   sx={{ textTransform: "uppercase", margin: 0.6 }}
                   label={x}
                   onClick={() => setFilter(x)}
@@ -114,34 +141,61 @@ export default function Exercises() {
           <List>
             {(list ?? []).map((x, index) => {
               return (
-                <ListItem
-                  secondaryAction={
-                    <>
-                      {x?.video && (
-                        <VideoDialog
-                          exercise={x}
-                          updateExeriseList={updateExeriseList}
-                        />
-                      )}
-                      <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton edge="end" aria-label="delete">
-                        <EditIcon
+                <div key={index}>
+                  {x?.imageSource && (
+                    <div>
+                      <a href={x.imageSource} target="_blank">
+                        {x?.name}
+                      </a>
+                      <img
+                        src={x?.imageSource}
+                        style={{
+                          height: 200,
+                          width: 200,
+                          objectFit: "contain",
+                        }}
+                      />
+                    </div>
+                  )}
+                  {x?.videoSource && (
+                    <div>
+                      <video controls width="250">
+                        <source src={x?.videoSource} type="video/mp4" />
+                        Sorry, your browser doesn't support embedded videos.
+                      </video>
+                    </div>
+                  )}
+                  <ListItem
+                    secondaryAction={
+                      <>
+                        {x?.video && (
+                          <VideoDialog
+                            exercise={x}
+                            updateExeriseList={updateExeriseList}
+                          />
+                        )}
+                        <IconButton edge="end" aria-label="delete">
+                          <DeleteIcon />
+                        </IconButton>
+                        <IconButton
+                          edge="end"
+                          aria-label="delete"
                           onClick={() => {
                             setShowAdd(!showAdd);
                             setEditExercise(x);
                           }}
-                        />
-                      </IconButton>
-                    </>
-                  }
-                >
-                  <ListItemText
-                    primary={x?.name}
-                    secondary={x?.instructions && x?.instructions}
-                  />
-                </ListItem>
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      </>
+                    }
+                  >
+                    <ListItemText
+                      primary={x?.name}
+                      secondary={x?.instructions && x?.instructions}
+                    />
+                  </ListItem>
+                </div>
               );
             })}
           </List>

@@ -34,12 +34,18 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
       let newdata = { ...formData };
       const filename = formData?.image;
       if (image) {
-        await Storage.put(filename, image);
+        const { key } = await Storage.put(filename, image, {
+          metadata: { name: formData?.name },
+        });
+        console.log("image key ", key);
+        newdata.image = key;
       }
       const vidoeFilename = formData?.video;
 
+      let videoKey;
       if (video) {
-        await Storage.put(vidoeFilename, video);
+        const { key } = await Storage.put(vidoeFilename, video);
+        newdata.video = key;
       }
 
       const query = exercise ? updateExercise : createExercise;
@@ -61,6 +67,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
       setError("something went wrong", error);
       setLoading(false);
       setError("Oops there was an error creating/updating exercise");
+      console.log("error", error);
     }
   };
 

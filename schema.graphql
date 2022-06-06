@@ -1,0 +1,107 @@
+type Profile
+  @model
+  @aws_cognito_user_pools
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "user" }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID!
+  user: String
+  onboarding: Onboarding
+  weight: [Weight]
+  progressPhotos: [ProgressPhotos]
+  workoutNotes: [String]
+}
+
+type Exercise
+  @model
+  @aws_cognito_user_pools
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String!
+  muscles: String
+  bodypart: String
+  level: Level
+  equipment: String
+  instructions: String
+  image: String
+  video: String
+  sets: Int
+  reps: Int
+}
+
+type Workout
+  @model
+  @aws_cognito_user_pools
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String
+  instructions: String
+  exercises: [Exercise]
+  plans: [Plan] @manyToMany(relationName: "PlanWorkouts")
+}
+
+enum Level {
+  beginner
+  intermediate
+  advanced
+}
+
+enum Goal {
+  FATLOSS
+  MUSCLEGAIN
+  COMPETE
+}
+
+type Plan
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"], operations: [create, delete, update] }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String
+  image: String
+  video: String
+  description: String
+  instructions: String
+  active: Boolean
+  goal: Goal
+  level: Level
+  workouts: [Workout] @manyToMany(relationName: "PlanWorkouts") # Ordered so the length is the number of days
+}
+
+type Onboarding {
+  goal: String
+  gender: String
+  age: String
+  experience: String
+  compete: String
+  competeLevel: String
+}
+
+type Weight {
+  weight: Float
+  date: AWSDate
+}
+
+type ProgressPhotos {
+  frontImage: String
+  sideImage: String
+  backImage: String
+  date: AWSDate
+}

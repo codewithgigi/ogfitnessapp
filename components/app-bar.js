@@ -107,9 +107,9 @@ const ResponsiveAppBar = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                {pages.map((page) => (
+                {pages.map((page, index) => (
                   <MenuItem
-                    key={page?.name}
+                    key={index}
                     sx={{ color: palette.black }}
                     onClick={() => handleCloseNavMenu(page?.path)}
                   >
@@ -154,8 +154,9 @@ const ResponsiveAppBar = () => {
           )}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {state?.user &&
-              pages.map((page) => (
+              pages.map((page, index) => (
                 <Link
+                  key={index}
                   href={page.path}
                   onClick={() => handleCloseNavMenu(page?.name)}
                 >
