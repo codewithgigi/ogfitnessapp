@@ -15,6 +15,12 @@
       "auth": {
         "ogfitnessapp": {},
         "true": {}
+      },
+      "function": {
+        "imageresize": {
+          "deploymentBucketName": "amplify-ogfitnessapp-dev-192906-deployment",
+          "s3Key": "amplify-builds/imageresize-4151726a6441394c696f-build.zip"
+        }
       }
     }
   }

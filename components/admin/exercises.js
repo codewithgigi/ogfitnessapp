@@ -8,23 +8,24 @@ import {
   List,
   ListItem,
   ListItemText,
+  Divider,
+  Box,
   IconButton,
+  Typography,
 } from "@mui/material";
 import AddExercise from "./addexercise";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
-import DeleteIcon from "@mui/icons-material/Delete";
+import PlayIcon from "@mui/icons-material/PlayCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import VideoDialog from "../videoDialog";
-import { Image, AmplifyS3Image } from "@aws-amplify/ui-react";
 
 export default function Exercises() {
   const [exercises, setExercises] = useState();
   const [editExercise, setEditExercise] = useState();
   const [showAdd, setShowAdd] = useState(false);
   const [filtered, setFiltered] = useState();
-  const [filter, setFilter] = useState();
+  const [filter, setFilter] = useState(filter);
   const [filterList, setFilterList] = useState();
 
   useEffect(() => {
@@ -40,28 +41,38 @@ export default function Exercises() {
     }
   }, [filter, exercises]);
 
-  const updateExeriseList = (data) => {
-    console.log("update list", data);
+  const updateExeriseList = async (data) => {
     if (data) {
       const exercise = exercises.find((x) => x.id === data?.id);
       if (exercise) {
-        //replace in list
-        const newset = exercises.map((x) => {
-          if (x.id === data?.id) return data;
-          else return x;
-        });
-        setExercises(newset);
+        try {
+          if (data.image) {
+            const result = await Storage.get(data?.image, {
+              download: false,
+            });
+            data.imageSource = result;
+          }
+          if (data.video)
+            data.videoSource = await Storage.get(data?.video, {
+              download: false,
+            });
+
+          const newset = exercises.map((x) => {
+            if (x.id === data?.id) return data;
+            else return x;
+          });
+          setExercises(newset);
+          const muscles = data?.muscles;
+          if (muscles) setFilter(muscles);
+          setShowAdd(false);
+        } catch (error) {
+          console.log("getImage error", error);
+        }
       } else setExercises([...exercises, data]);
-      const muscles = data?.muscles;
-      if (muscles) setFilter(muscles);
-      setShowAdd(false);
     }
   };
 
   async function getExerciseList() {
-    // Storage.list("public/") // for listing ALL files without prefix, pass '' instead
-    //   .then((result) => console.log("get list of images", result))
-    //   .catch((err) => console.log("error in list", err));
     try {
       const { data } = await API.graphql({
         query: listExercises,
@@ -107,18 +118,18 @@ export default function Exercises() {
   };
 
   const list = filter ? filtered : exercises;
-  console.log("exercise", exercises, list);
   return (
     <>
-      {!showAdd ? <h1>Exercise List</h1> : <h1>Add Exercise</h1>}
-      <Fab
-        color="primary"
-        aria-label="add"
-        onClick={() => setShowAdd(!showAdd)}
-        sx={{ mb: 3 }}
-      >
-        {!showAdd ? <AddIcon /> : <CloseIcon />}
-      </Fab>
+      <Box mt={2} sx={{ textAlign: "right" }}>
+        <Fab
+          color="primary"
+          aria-label="add"
+          onClick={() => setShowAdd(!showAdd)}
+          sx={{ mb: 3 }}
+        >
+          {!showAdd ? <AddIcon /> : <CloseIcon />}
+        </Fab>
+      </Box>
       {showAdd ? (
         <AddExercise
           setShowAdd={setShowAdd}
@@ -130,6 +141,14 @@ export default function Exercises() {
         <>
           <Grid container direction="column" justifyContent="center">
             <Grid item>
+              <Chip
+                sx={{ textTransform: "uppercase", margin: 0.6 }}
+                label={"All"}
+                onClick={() => setFilter()}
+                color="default"
+                size="small"
+                variant={!filter ? "filled" : "outlined"}
+              />
               {(filterList || []).map((x) => (
                 <Chip
                   key={x}
@@ -143,56 +162,38 @@ export default function Exercises() {
               ))}
             </Grid>
           </Grid>
-          <List>
-            {(list ?? []).map((x, index) => {
-              return (
-                <div key={index}>
-                  {x?.imageSource && (
-                    <div>
-                      <img
-                        src={x?.imageSource}
-                        style={{
-                          height: 200,
-                          width: 200,
-                          objectFit: "contain",
-                        }}
-                      />
-                    </div>
-                  )}
-                  <ListItem
-                    secondaryAction={
-                      <>
-                        {x?.video && (
-                          <VideoDialog
-                            exercise={x}
-                            updateExeriseList={updateExeriseList}
-                          />
-                        )}
-                        <IconButton edge="end" aria-label="delete">
-                          <DeleteIcon />
-                        </IconButton>
-                        <IconButton
-                          edge="end"
-                          aria-label="delete"
-                          onClick={() => {
-                            setShowAdd(!showAdd);
-                            setEditExercise(x);
-                          }}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                      </>
-                    }
-                  >
-                    <ListItemText
-                      primary={x?.name}
-                      secondary={x?.instructions && x?.instructions}
+          {(list ?? []).map((x, index) => (
+            <Grid container direction="column">
+              <Grid item key={index} mt={2} mb={1}>
+                <Typography variant="h4" sx={{ textTransform: "capitalize" }}>
+                  {x?.name}
+                </Typography>
+              </Grid>
+              <Grid item key={index}>
+                {x?.imageSource && (
+                  <div class="container">
+                    <img
+                      src={x?.imageSource}
+                      style={{
+                        height: 80,
+                        width: 120,
+                        objectFit: "cover",
+                      }}
                     />
-                  </ListItem>
-                </div>
-              );
-            })}
-          </List>
+                    <div className="play-button">
+                      {x?.video && (
+                        <VideoDialog
+                          exercise={x}
+                          updateExeriseList={updateExeriseList}
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
+              </Grid>
+              <Divider />
+            </Grid>
+          ))}
         </>
       )}
     </>

@@ -34,8 +34,8 @@ const theme = createTheme({
       contrastText: "#FFF",
     },
     error: {
-      main: "#EEE",
-      contrastText: "#2A2A2B",
+      main: "#d32f2f",
+      contrastText: "#FFF",
     },
     default: {
       main: "#EEE",
@@ -56,24 +56,21 @@ const theme = createTheme({
       fontSize: "1.2rem",
       fontWeight: "600",
       textTransform: "capitalize",
-      textAlign: "center",
       color: "#1e2022",
       marginBottom: 10,
     },
     h2: {
       fontSize: "1rem",
       color: "#1e2022",
-      textAlign: "center",
     },
     h3: {
       fontSize: "1.125rem",
       fontWeight: "600",
       color: "#1e2022",
-      textAlign: "center",
     },
     h4: {
       fontSize: "1.125rem",
-      fontWeight: "700",
+      fontWeight: "600",
       color: "#1e2022",
     },
     h6: {
@@ -82,7 +79,7 @@ const theme = createTheme({
     },
     subtitle1: {
       fontSize: "1.2rem",
-      fontWeight: "700",
+      fontWeight: "600",
       color: "#677788",
     },
   },

@@ -17,14 +17,26 @@ function AdminTabs({ view = "" }) {
   }, [view]);
 
   return (
-    <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-      <Button onClick={() => router.push("/admin?view=exercises")}>
+    <Box mt={2}>
+      <Button
+        onClick={() => router.push("/admin?view=exercises")}
+        color={tab === "exercises" ? "primary" : "secondary"}
+        sx={{ fontWeight: "bold", fontSize: 18 }}
+      >
         Exercises
       </Button>
-      <Button onClick={() => router.push("/admin?view=workouts")}>
+      <Button
+        onClick={() => router.push("/admin?view=workouts")}
+        color={tab === "workouts" ? "primary" : "secondary"}
+        sx={{ fontWeight: "bold", fontSize: 18 }}
+      >
         Workouts
       </Button>
-      <Button onClick={() => router.push("/admin?view=plans")}>
+      <Button
+        onClick={() => router.push("/admin?view=plans")}
+        color={tab === "plans" ? "primary" : "secondary"}
+        sx={{ fontWeight: "bold", fontSize: 18 }}
+      >
         Wokrout Plans
       </Button>
       {tab === "exercises" ? (
@@ -39,7 +51,6 @@ function AdminTabs({ view = "" }) {
 }
 
 export default function Admin() {
-  const [videoid, setVideoId] = React.useState("347318822");
   const { state } = React.useContext(Context);
   const router = useRouter();
 

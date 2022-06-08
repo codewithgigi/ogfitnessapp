@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
   Button,
   TextField,
@@ -11,10 +11,11 @@ import {
   Select,
   MenuItem,
   Box,
+  Alert,
+  Typography,
 } from "@mui/material";
 import { API, Storage } from "aws-amplify";
 import { createExercise, updateExercise } from "../../src/graphql/mutations";
-import Context from "../../src/context";
 
 export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
   const [formData, setFormData] = useState({});
@@ -24,7 +25,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
   const [video, setVideo] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const { state } = useContext(Context);
+
   const addExercise = async () => {
     setLoading(true);
     if (!formData?.name) {
@@ -35,15 +36,16 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
       const filename = formData?.image;
       if (image) {
         const { key } = await Storage.put(filename, image, {
-          metadata: { name: formData?.name },
+          metadata: { name: formData?.name, type: "image" },
         });
         newdata.image = key;
       }
       const vidoeFilename = formData?.video;
 
-      let videoKey;
       if (video) {
-        const { key } = await Storage.put(vidoeFilename, video);
+        const { key } = await Storage.put(vidoeFilename, video, {
+          metadata: { name: formData?.name, type: "video" },
+        });
         newdata.video = key;
       }
 
@@ -63,10 +65,8 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
       setLoading(false);
       updateExeriseList(newExercise);
     } catch (error) {
-      setError("something went wrong", error);
       setLoading(false);
       setError("Oops there was an error creating/updating exercise");
-      console.log("error", error);
     }
   };
 
@@ -81,14 +81,17 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
     if (formData?.name) {
       setLoading(true);
       const name = e?.target?.name;
-      if (!e.target.files[0]) return;
-      const file = e.target.files[0];
-      if (name === "image" && file.size / 1024 > 400) {
+      const [file] = e.target.files;
+      if (!file) return;
+      if (name === "video" && file?.type !== "video/mp4") {
         setLoading(false);
-        alert("image file size is too large. max image is 400KB.");
-      } else if (name === "video" && file.size / 1024 / 1024 > 100) {
+        setError("Please upload video/mp4 video format");
+        return;
+      }
+      if (name === "video" && file.size / 1024 / 1024 > 100) {
         setLoading(false);
-        alert("video file size is too large. max video is 100MB.");
+        setError("video file size is too large. max video is 100MB.");
+        return;
       } else {
         const fileparts = file.name.split(".");
         const timestamp = new Date().getTime();
@@ -106,25 +109,18 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
           setLoading(false);
         }
       }
-    } else alert("enter an exercise name");
+    } else setError("enter an exercise name");
   }
-
-  // async function onChange(e) {
-  //   if (!e.target.files[0]) return;
-  //   const file = e.target.files[0];
-  //   const fileparts = file.name.split(".");
-  //   const timestamp = new Date().getTime();
-  //   const filename = `${fileparts[0]}-${timestamp}.${fileparts[1]}`;
-  //   setFormData({ ...formData, image: filename });
-  //   setFile(file);
-  //   setImageDisplay(URL.createObjectURL(e.target.files[0]));
-  // }
 
   return (
     <Box>
-      {state?.user && (
+      {loading ? (
         <Box>
-          {error && <div style={{ color: "red" }}>{error}</div>}
+          <Typography>Uploading exercise. This may take a while ...</Typography>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Box>
           <TextField
             autoFocus
             required
@@ -241,12 +237,20 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
                   {formData?.image ? "Change Image" : "Add an image"}
                 </Button>
               </label>
+              {formData?.name && imageUpload && (
+                <div>
+                  <img
+                    src={imageUpload}
+                    style={{ height: 200, width: 200, objectFit: "contain" }}
+                  />
+                </div>
+              )}
             </Box>
           )}
           {formData?.name && (
             <Box sx={{ mt: 3 }}>
               <input
-                accept="video/mp4"
+                //accept="video/mp4"
                 name="video"
                 style={{ display: "none" }}
                 id="video-upload"
@@ -259,64 +263,69 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
                   {formData?.video ? "Change Video" : "Add a video"}
                 </Button>
               </label>
+              {formData?.name && videoUpload && (
+                <div>
+                  <video controls width="250">
+                    <source src={videoUpload} type="video/mp4" />
+                    Sorry, your browser doesn't support embedded videos.
+                  </video>
+                </div>
+              )}
             </Box>
-          )}
-          {JSON.stringify(formData)}
-          {videoUpload}
-          {formData?.name && imageUpload && (
-            <div>
-              <img
-                src={imageUpload}
-                style={{ height: 200, width: 200, objectFit: "contain" }}
-              />
-            </div>
-          )}
-          {formData?.name && videoUpload && (
-            <div>
-              <video controls width="250">
-                <source src={videoUpload} type="video/mp4" />
-                Sorry, your browser doesn't support embedded videos.
-              </video>
-            </div>
           )}
           {loading ? (
             <Button variant="contained" color="primary" disabled>
               <CircularProgress /> Finish and Save
             </Button>
           ) : (
-            <Grid
-              item
-              container
-              justifyContent="space-between"
-              xs={12}
-              sx={{ mt: 3, mb: 3 }}
-            >
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  setImage();
-                  setImageDisplay();
-                  setFormData({});
-                }}
+            [
+              <Grid item>
+                {error && (
+                  <Alert
+                    variant="filled"
+                    severity="error"
+                    onClose={() => {
+                      setError();
+                    }}
+                  >
+                    {error}
+                  </Alert>
+                )}
+              </Grid>,
+              <Grid
+                item
+                container
+                justifyContent="space-between"
+                xs={12}
+                sx={{ mt: 3, mb: 3 }}
               >
-                Clear Form
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={addExercise}
-                disabled={
-                  !formData?.name ||
-                  !formData?.muscles ||
-                  !formData?.level ||
-                  !formData?.equipment ||
-                  !formData?.instructions
-                }
-              >
-                Finish and Save
-              </Button>
-            </Grid>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => {
+                    setImage();
+                    setImageDisplay();
+                    setFormData({});
+                  }}
+                >
+                  Clear Form
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={addExercise}
+                  disabled={
+                    !formData?.name ||
+                    !formData?.muscles ||
+                    !formData?.level ||
+                    !formData?.equipment ||
+                    !formData?.instructions
+                  }
+                >
+                  Finish and Save
+                </Button>
+              </Grid>,
+            ]
           )}
         </Box>
       )}
