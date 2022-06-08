@@ -44,31 +44,31 @@ export default function Exercises() {
   const updateExeriseList = async (data) => {
     if (data) {
       const exercise = exercises.find((x) => x.id === data?.id);
-      if (exercise) {
-        try {
-          if (data.image) {
-            const result = await Storage.get(data?.image, {
-              download: false,
-            });
-            data.imageSource = result;
-          }
-          if (data.video)
-            data.videoSource = await Storage.get(data?.video, {
-              download: false,
-            });
-
+      try {
+        if (data?.image) {
+          const result = await Storage.get(data?.image, {
+            download: false,
+          });
+          data.imageSource = result;
+        }
+        if (data?.video)
+          data.videoSource = await Storage.get(data?.video, {
+            download: false,
+          });
+        if (!exercise) setExercises([...exercises, data]);
+        else {
           const newset = exercises.map((x) => {
             if (x.id === data?.id) return data;
             else return x;
           });
           setExercises(newset);
-          const muscles = data?.muscles;
-          if (muscles) setFilter(muscles);
-          setShowAdd(false);
-        } catch (error) {
-          console.log("getImage error", error);
         }
-      } else setExercises([...exercises, data]);
+        const muscles = data?.muscles;
+        if (muscles) setFilter(muscles);
+        setShowAdd(false);
+      } catch (error) {
+        console.log("getImage error", error);
+      }
     }
   };
 
