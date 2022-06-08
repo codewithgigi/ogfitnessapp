@@ -1,24 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { API, Storage } from "aws-amplify";
 import { listExercises } from "../../src/graphql/queries";
-import {
-  Grid,
-  Chip,
-  Fab,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
-  Box,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { deleteExercise } from "../../src/graphql/mutations";
+import { Grid, Chip, Fab, Divider, Box, Typography } from "@mui/material";
 import AddExercise from "./addexercise";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
-import PlayIcon from "@mui/icons-material/PlayCircle";
-import EditIcon from "@mui/icons-material/Edit";
 import VideoDialog from "../videoDialog";
+import DeleteDialog from "../deleteDialog";
 
 export default function Exercises() {
   const [exercises, setExercises] = useState();
@@ -40,6 +29,24 @@ export default function Exercises() {
       setFiltered(filtered);
     }
   }, [filter, exercises]);
+
+  const removeExercise = async (x) => {
+    if (x) {
+      try {
+        await API.graphql({
+          query: deleteExercise,
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+          variables: { input: { id: x?.id } },
+        });
+        const newset = exercises.filter((e) => e.id !== x?.id);
+        setExercises(newset);
+        setFilter();
+        setFiltered();
+      } catch (error) {
+        console.log("error in delete exercise", error);
+      }
+    }
+  };
 
   const updateExeriseList = async (data) => {
     if (data) {
@@ -191,6 +198,7 @@ export default function Exercises() {
                   </div>
                 )}
               </Grid>
+              <DeleteDialog removeItem={removeExercise} item={x} />
               <Divider />
             </Grid>
           ))}
