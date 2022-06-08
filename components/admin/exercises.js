@@ -38,6 +38,9 @@ export default function Exercises() {
           authMode: "AMAZON_COGNITO_USER_POOLS",
           variables: { input: { id: x?.id } },
         });
+        //remove videos and images as well
+        if (x?.image) await Storage.remove(x?.image);
+        if (x?.video) await Storage.remove(x?.video);
         const newset = exercises.filter((e) => e.id !== x?.id);
         setExercises(newset);
         setFilter();
