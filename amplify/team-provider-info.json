@@ -19,7 +19,7 @@
       "function": {
         "imageresize": {
           "deploymentBucketName": "amplify-ogfitnessapp-dev-192906-deployment",
-          "s3Key": "amplify-builds/imageresize-4151726a6441394c696f-build.zip"
+          "s3Key": "amplify-builds/imageresize-43546d415876614c596a-build.zip"
         }
       }
     }

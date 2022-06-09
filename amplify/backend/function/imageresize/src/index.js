@@ -8,6 +8,7 @@ exports.handler = async function (event, context) {
     return;
   }
   //Resize image
+  //Resize image
 
   const BUCKET = event.Records[0].s3.bucket.name;
   const KEY = event.Records[0].s3.object.key;
