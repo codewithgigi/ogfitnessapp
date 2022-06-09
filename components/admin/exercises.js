@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import VideoDialog from "../videoDialog";
 import DeleteDialog from "../deleteDialog";
-
+//test
 export default function Exercises() {
   const [exercises, setExercises] = useState();
   const [editExercise, setEditExercise] = useState();

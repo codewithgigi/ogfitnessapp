@@ -109,3 +109,62 @@ export const listExercises = /* GraphQL */ `
     }
   }
 `;
+export const getWorkout = /* GraphQL */ `
+  query GetWorkout($id: ID!) {
+    getWorkout(id: $id) {
+      id
+      name
+      instructions
+      exercises {
+        id
+        name
+        muscles
+        bodypart
+        level
+        equipment
+        instructions
+        image
+        video
+        sets
+        reps
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listWorkouts = /* GraphQL */ `
+  query ListWorkouts(
+    $filter: ModelWorkoutFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listWorkouts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        instructions
+        exercises {
+          id
+          name
+          muscles
+          bodypart
+          level
+          equipment
+          instructions
+          image
+          video
+          sets
+          reps
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

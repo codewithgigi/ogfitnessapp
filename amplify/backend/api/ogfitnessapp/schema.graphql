@@ -63,21 +63,20 @@ enum Level {
   advanced
 }
 
-# type Workout
-#   @model
-#   @aws_cognito_user_pools
-#   @auth(
-#     rules: [
-#       { allow: groups, groups: ["Admin"] }
-#       { allow: private, operations: [read] }
-#     ]
-#   ) {
-#   id: ID!
-#   name: String
-#   instructions: String
-#   exercises: [Exercise]
-#   plans: [Plan] @manyToMany(relationName: "PlanWorkouts")
-# }
+type Workout
+  @model
+  @aws_cognito_user_pools
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String
+  instructions: String
+  exercises: [Exercise]
+}
 
 # type Plan
 #   @model
@@ -92,15 +91,22 @@ enum Level {
 #   image: String
 #   video: String
 #   description: String
-#   instructions: String
 #   active: Boolean
 #   goal: Goal
 #   level: Level
-#   workouts: [Workout] @manyToMany(relationName: "PlanWorkouts") # Ordered so the length is the number of days
+#   weeks: Int
+#   workoutList: [WorkoutList]
+# }
+
+# type WorkoutList {
+#   workoutId: String
+#   name: String
+#   description: String
+#   day: Int
 # }
 
 # enum Goal {
-#   FATLOSS
-#   MUSCLEGAIN
-#   COMPETE
+#   fatloss
+#   musclegain
+#   compete
 # }

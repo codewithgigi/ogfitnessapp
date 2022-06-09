@@ -142,3 +142,81 @@ export const onDeleteExercise = /* GraphQL */ `
     }
   }
 `;
+export const onCreateWorkout = /* GraphQL */ `
+  subscription OnCreateWorkout {
+    onCreateWorkout {
+      id
+      name
+      instructions
+      exercises {
+        id
+        name
+        muscles
+        bodypart
+        level
+        equipment
+        instructions
+        image
+        video
+        sets
+        reps
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateWorkout = /* GraphQL */ `
+  subscription OnUpdateWorkout {
+    onUpdateWorkout {
+      id
+      name
+      instructions
+      exercises {
+        id
+        name
+        muscles
+        bodypart
+        level
+        equipment
+        instructions
+        image
+        video
+        sets
+        reps
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteWorkout = /* GraphQL */ `
+  subscription OnDeleteWorkout {
+    onDeleteWorkout {
+      id
+      name
+      instructions
+      exercises {
+        id
+        name
+        muscles
+        bodypart
+        level
+        equipment
+        instructions
+        image
+        video
+        sets
+        reps
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
