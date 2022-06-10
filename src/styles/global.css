@@ -50,5 +50,5 @@ h2 {
 }
 .container { position: relative; }
 .container img { display: block; }
-.container .play-button { position: absolute; top:10px; left:30px; }
+.container .play-button { position: absolute; top:8px; left:30px; }
 

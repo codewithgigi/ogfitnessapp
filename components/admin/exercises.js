@@ -34,15 +34,20 @@ export const getStorageFiles = async (items) => {
 
 export const ExerciseList = ({ list, removeExercise = null }) => {
   return (list ?? []).map((x, index) => (
-    <Grid container alignItems={"center"} key={index} direction="row" mt={2}>
+    <Grid
+      container
+      alignItems={"center"}
+      key={index}
+      direction="row"
+      mt={2}
+      spacing={2}
+    >
+      <Grid item>
+        <Typography variant="h3">{x?.order}</Typography>
+      </Grid>
       <Grid item key={index}>
         {x?.imageSource && (
           <div class="container">
-            <Typography variant="h3" sx={{ textTransform: "uppercase" }}>
-              {x?.name}
-              <br />
-              {x?.order} {x?.sets} {x?.reps}
-            </Typography>
             <img
               src={x?.imageSource}
               style={{
@@ -58,8 +63,14 @@ export const ExerciseList = ({ list, removeExercise = null }) => {
         )}
       </Grid>
       <Grid item>
-        <Typography variant="h3" sx={{ textTransform: "uppercase" }}>
-          {x?.order} {x?.sets} {x?.reps}
+        <Typography variant="h3">{x?.name}</Typography>
+        {x?.reps && x?.sets && (
+          <Typography variant="h3" mt={0.5}>
+            {x?.reps}x{x?.sets}
+          </Typography>
+        )}
+        <Typography variant="caption" mt={0.5}>
+          {x?.instructions}
         </Typography>
       </Grid>
       {removeExercise && (
