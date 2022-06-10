@@ -76,8 +76,6 @@ export const getExercise = /* GraphQL */ `
       instructions
       image
       video
-      sets
-      reps
       createdAt
       updatedAt
     }
@@ -100,8 +98,6 @@ export const listExercises = /* GraphQL */ `
         instructions
         image
         video
-        sets
-        reps
         createdAt
         updatedAt
       }
@@ -114,6 +110,8 @@ export const getWorkout = /* GraphQL */ `
     getWorkout(id: $id) {
       id
       name
+      image
+      video
       instructions
       exercises {
         id
@@ -127,8 +125,7 @@ export const getWorkout = /* GraphQL */ `
         video
         sets
         reps
-        createdAt
-        updatedAt
+        order
       }
       createdAt
       updatedAt
@@ -145,6 +142,8 @@ export const listWorkouts = /* GraphQL */ `
       items {
         id
         name
+        image
+        video
         instructions
         exercises {
           id
@@ -158,8 +157,7 @@ export const listWorkouts = /* GraphQL */ `
           video
           sets
           reps
-          createdAt
-          updatedAt
+          order
         }
         createdAt
         updatedAt

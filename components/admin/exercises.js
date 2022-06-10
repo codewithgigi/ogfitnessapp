@@ -8,7 +8,70 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import VideoDialog from "../videoDialog";
 import DeleteDialog from "../deleteDialog";
-//test
+
+export const getStorageFiles = async (items) => {
+  let newItems = await Promise.all(
+    (newItems = items.map(async (item) => {
+      try {
+        if (item.image && !item?.imageSource) {
+          const result = await Storage.get(item?.image, {
+            download: false,
+          });
+          item.imageSource = result;
+        }
+        if (item.video && !item?.videoSource)
+          item.videoSource = await Storage.get(item?.video, {
+            download: false,
+          });
+      } catch (error) {
+        console.log("getImage error", error);
+      }
+      return item;
+    })),
+  );
+  return newItems;
+};
+
+export const ExerciseList = ({ list, removeExercise = null }) => {
+  return (list ?? []).map((x, index) => (
+    <Grid container alignItems={"center"} key={index} direction="row" mt={2}>
+      <Grid item key={index}>
+        {x?.imageSource && (
+          <div class="container">
+            <Typography variant="h3" sx={{ textTransform: "uppercase" }}>
+              {x?.name}
+              <br />
+              {x?.order} {x?.sets} {x?.reps}
+            </Typography>
+            <img
+              src={x?.imageSource}
+              style={{
+                height: 80,
+                width: 120,
+                objectFit: "cover",
+              }}
+            />
+            <div className="play-button">
+              {x?.video && x?.videoSource && <VideoDialog item={x} />}
+            </div>
+          </div>
+        )}
+      </Grid>
+      <Grid item>
+        <Typography variant="h3" sx={{ textTransform: "uppercase" }}>
+          {x?.order} {x?.sets} {x?.reps}
+        </Typography>
+      </Grid>
+      {removeExercise && (
+        <Grid item>
+          <DeleteDialog removeItem={removeExercise} item={x} />
+        </Grid>
+      )}
+
+      <Divider />
+    </Grid>
+  ));
+};
 export default function Exercises() {
   const [exercises, setExercises] = useState();
   const [editExercise, setEditExercise] = useState();
@@ -102,31 +165,6 @@ export default function Exercises() {
     }
   }
 
-  const getStorageFiles = async (items) => {
-    let newItems = await Promise.all(
-      (newItems = items.map(async (item) => {
-        if (item.image) {
-          try {
-            if (item.image) {
-              const result = await Storage.get(item?.image, {
-                download: false,
-              });
-              item.imageSource = result;
-            }
-            if (item.video)
-              item.videoSource = await Storage.get(item?.video, {
-                download: false,
-              });
-          } catch (error) {
-            console.log("getImage error", error);
-          }
-        }
-        return item;
-      })),
-    );
-    return newItems;
-  };
-
   const list = filter ? filtered : exercises;
   return (
     <>
@@ -171,40 +209,10 @@ export default function Exercises() {
                 />
               ))}
             </Grid>
-          </Grid>
-          {(list ?? []).map((x, index) => (
-            <Grid container direction="column">
-              <Grid item key={index} mt={2} mb={1}>
-                <Typography variant="h4" sx={{ textTransform: "capitalize" }}>
-                  {x?.name}
-                </Typography>
-              </Grid>
-              <Grid item key={index}>
-                {x?.imageSource && (
-                  <div class="container">
-                    <img
-                      src={x?.imageSource}
-                      style={{
-                        height: 80,
-                        width: 120,
-                        objectFit: "cover",
-                      }}
-                    />
-                    <div className="play-button">
-                      {x?.video && (
-                        <VideoDialog
-                          exercise={x}
-                          updateExeriseList={updateExeriseList}
-                        />
-                      )}
-                    </div>
-                  </div>
-                )}
-              </Grid>
-              <DeleteDialog removeItem={removeExercise} item={x} />
-              <Divider />
+            <Grid item mt={4}>
+              <ExerciseList list={list} removeExercise={removeExercise} />
             </Grid>
-          ))}
+          </Grid>
         </>
       )}
     </>

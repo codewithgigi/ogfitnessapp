@@ -16,7 +16,7 @@ export default function DeleteDialog({ removeItem, item }) {
   return (
     <React.Fragment>
       <Button onClick={handleClickOpen}>
-        <DeleteForever fontSize="large" />
+        <DeleteForever fontSize="small" />
       </Button>
       <Dialog fullWidth maxWidth="md" open={open} onClose={handleClose}>
         <DialogContent>

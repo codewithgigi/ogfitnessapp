@@ -53,8 +53,6 @@ type Exercise
   instructions: String
   image: String
   video: String
-  sets: Int
-  reps: Int
 }
 
 enum Level {
@@ -74,8 +72,25 @@ type Workout
   ) {
   id: ID!
   name: String
+  image: String
+  video: String
   instructions: String
-  exercises: [Exercise]
+  exercises: [WorkoutExercise]
+}
+
+type WorkoutExercise {
+  id: ID!
+  name: String!
+  muscles: String
+  bodypart: String
+  level: Level
+  equipment: String
+  instructions: String
+  image: String
+  video: String
+  sets: Int
+  reps: Int
+  order: String
 }
 
 # type Plan

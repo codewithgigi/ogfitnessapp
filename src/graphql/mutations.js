@@ -109,8 +109,6 @@ export const createExercise = /* GraphQL */ `
       instructions
       image
       video
-      sets
-      reps
       createdAt
       updatedAt
     }
@@ -131,8 +129,6 @@ export const updateExercise = /* GraphQL */ `
       instructions
       image
       video
-      sets
-      reps
       createdAt
       updatedAt
     }
@@ -153,8 +149,6 @@ export const deleteExercise = /* GraphQL */ `
       instructions
       image
       video
-      sets
-      reps
       createdAt
       updatedAt
     }
@@ -168,6 +162,8 @@ export const createWorkout = /* GraphQL */ `
     createWorkout(input: $input, condition: $condition) {
       id
       name
+      image
+      video
       instructions
       exercises {
         id
@@ -181,8 +177,7 @@ export const createWorkout = /* GraphQL */ `
         video
         sets
         reps
-        createdAt
-        updatedAt
+        order
       }
       createdAt
       updatedAt
@@ -197,6 +192,8 @@ export const updateWorkout = /* GraphQL */ `
     updateWorkout(input: $input, condition: $condition) {
       id
       name
+      image
+      video
       instructions
       exercises {
         id
@@ -210,8 +207,7 @@ export const updateWorkout = /* GraphQL */ `
         video
         sets
         reps
-        createdAt
-        updatedAt
+        order
       }
       createdAt
       updatedAt
@@ -226,6 +222,8 @@ export const deleteWorkout = /* GraphQL */ `
     deleteWorkout(input: $input, condition: $condition) {
       id
       name
+      image
+      video
       instructions
       exercises {
         id
@@ -239,8 +237,7 @@ export const deleteWorkout = /* GraphQL */ `
         video
         sets
         reps
-        createdAt
-        updatedAt
+        order
       }
       createdAt
       updatedAt

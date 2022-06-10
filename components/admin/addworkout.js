@@ -4,21 +4,23 @@ import {
   TextField,
   CircularProgress,
   Grid,
-  ToggleButton,
-  ToggleButtonGroup,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Box,
   Alert,
   Typography,
 } from "@mui/material";
 import { API, Storage } from "aws-amplify";
-import { createExercise, updateExercise } from "../../src/graphql/mutations";
+import MultiSelectExercises from "../../components/autocomplete";
+import { createWorkout } from "../../src/graphql/mutations";
+import { useRouter } from "next/router";
 
-export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
+export default function AddWorkout({
+  workout,
+  setEdit,
+  updateWorkoutList,
+  exercises,
+}) {
   const [formData, setFormData] = useState({});
+  const [exerciseList, setExerciseList] = useState([]);
   const [imageUpload, setImageDisplay] = useState();
   const [image, setImage] = useState();
   const [videoUpload, setVideoDisplay] = useState();
@@ -26,7 +28,9 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
-  const addExercise = async () => {
+  const router = useRouter();
+
+  const addWorkout = async () => {
     setLoading(true);
     if (!formData?.name) {
       setError("enter exercise name");
@@ -34,6 +38,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
     try {
       let newdata = { ...formData };
       const filename = formData?.image;
+
       if (image) {
         const { key } = await Storage.put(filename, image, {
           metadata: { name: formData?.name, type: "image" },
@@ -48,25 +53,22 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
         });
         newdata.video = key;
       }
-
-      const query = exercise ? updateExercise : createExercise;
-      if (exercise) newdata.id = exercise?.id;
-      const { data } = await API.graphql({
-        query: query,
+      if (exerciseList.length > 0) newdata.exercises = exerciseList;
+      await API.graphql({
+        query: createWorkout,
         authMode: "AMAZON_COGNITO_USER_POOLS",
         variables: { input: { ...newdata } },
       });
 
-      let newExercise = data?.createExercise ?? data?.updateExercise;
-      setFormData();
+      setFormData({});
       setLoading(false);
       if (setEdit) setEdit(false);
       setError();
-      setLoading(false);
-      updateExeriseList(newExercise);
+      router.push("/admin?view=workouts");
     } catch (error) {
       setLoading(false);
       setError("Oops there was an error creating/updating exercise");
+      console.log("error creating/updating exercise", error);
     }
   };
 
@@ -112,11 +114,25 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
     } else setError("enter an exercise name");
   }
 
+  const addExercise = (list) => {
+    setExerciseList(list);
+  };
+
+  const updateExercise = ({ field, value, id }) => {
+    let newlist = exerciseList.map((x) => {
+      if (x.id === id) {
+        x[field] = value;
+      }
+      return x;
+    });
+    setExerciseList(newlist);
+  };
+
   return (
     <Box>
       {loading ? (
         <Box>
-          <Typography>Uploading exercise. This may take a while ...</Typography>
+          <Typography>Uploading workout. This may take a while ...</Typography>
           <CircularProgress />
         </Box>
       ) : (
@@ -127,87 +143,13 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
             variant="outlined"
             margin="dense"
             name="name"
-            label="Exercise name"
+            label="Workout name"
             onChange={handleChange}
             placeholder="Name"
             value={formData?.name}
             inputProps={{ maxLength: 50 }}
             fullWidth
           />
-          <FormControl fullWidth sx={{ mt: 3 }}>
-            <InputLabel id="select-muscles">Primary Muscles</InputLabel>
-            <Select
-              labelId="select-muscles"
-              value={formData?.muscle}
-              name="muscles"
-              label="Primary Muscle"
-              onChange={handleChange}
-            >
-              {[
-                "chest",
-                "forearms",
-                "lats",
-                "middle back",
-                "lower back",
-                "neck",
-                "quadriceps",
-                "hamstrings",
-                "calves",
-                "triceps",
-                "traps",
-                "shoulders",
-                "abdominals",
-                "glutes",
-                "biceps",
-                "adductors",
-                "abductors",
-              ].map((x) => (
-                <MenuItem value={x}>{x}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl fullWidth sx={{ mt: 3 }}>
-            <InputLabel id="select-equipment">Equipment</InputLabel>
-            <Select
-              labelId="select-equipment"
-              value={formData?.muscle}
-              name="equipment"
-              label="Equipment"
-              onChange={handleChange}
-            >
-              {[
-                "Bands",
-                "Foam Roll",
-                "Barbell",
-                "Kettlebells",
-                "Body Only",
-                "Machine",
-                "Cable",
-                "Medicine Ball",
-                "Dumbbell",
-                "None",
-                "E-Z Curl Bar",
-                "Exercise Ball",
-                "Other",
-              ].map((x) => (
-                <MenuItem value={x}>{x}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <ToggleButtonGroup
-            color="primary"
-            value={formData?.level}
-            exclusive
-            onChange={handleChange}
-            sx={{ mt: 3 }}
-          >
-            {["beginner", "intermediate", "advanced"].map((x) => (
-              <ToggleButton name="level" value={x}>
-                {x}
-              </ToggleButton>
-            ))}
-          </ToggleButtonGroup>
           <TextField
             id="standard-multiline-static"
             variant="outlined"
@@ -222,6 +164,77 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
             fullWidth
             sx={{ mt: 3 }}
           />
+          <Box mt={2} mb={2}>
+            <MultiSelectExercises
+              data={exercises}
+              handleSelected={(e) => {
+                addExercise(e);
+              }}
+            />
+          </Box>
+          <Box mt={2} mb={2}>
+            {(exerciseList ?? []).map((x) => (
+              <Grid container direction="row" spacing={1} alignItems="center">
+                <Grid item xs={2}>
+                  <TextField
+                    id="standard-multiline-static"
+                    variant="standard"
+                    label="Order"
+                    name="order"
+                    onChange={(e) =>
+                      updateExercise({
+                        value: e.target.value,
+                        id: x?.id,
+                        field: "order",
+                      })
+                    }
+                    value={exerciseList?.reps}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    id="standard-multiline-static"
+                    variant="standard"
+                    label="Sets"
+                    name="sets"
+                    type="number"
+                    inputProps={{ max: 10, min: 1 }}
+                    onChange={(e) =>
+                      updateExercise({
+                        value: e.target.value,
+                        id: x?.id,
+                        field: "sets",
+                      })
+                    }
+                    value={exerciseList?.reps}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <TextField
+                    id="standard-multiline-static"
+                    variant="standard"
+                    label="Reps"
+                    name="reps"
+                    type="number"
+                    inputProps={{ max: 10, min: 1 }}
+                    onChange={(e) =>
+                      updateExercise({
+                        value: e.target.value,
+                        id: x?.id,
+                        field: "reps",
+                      })
+                    }
+                    value={exerciseList?.reps}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography variant="h3" mt={2}>
+                    {x?.name}
+                  </Typography>
+                </Grid>
+              </Grid>
+            ))}
+          </Box>
           {formData?.name && (
             <Box sx={{ mt: 3 }}>
               <input
@@ -249,7 +262,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
             </Box>
           )}
           {formData?.name && (
-            <Box sx={{ mt: 3 }}>
+            <Box mt={3} mb={3}>
               <input
                 //accept="video/mp4"
                 name="video"
@@ -274,60 +287,33 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
               )}
             </Box>
           )}
-          {loading ? (
+          {loading && (
             <Button variant="contained" color="primary" disabled>
               <CircularProgress /> Finish and Save
             </Button>
-          ) : (
-            [
-              <Grid item>
-                {error && (
-                  <Alert
-                    variant="filled"
-                    severity="error"
-                    onClose={() => {
-                      setError();
-                    }}
-                  >
-                    {error}
-                  </Alert>
-                )}
-              </Grid>,
-              <Grid
-                item
-                container
-                justifyContent="space-between"
-                xs={12}
-                sx={{ mt: 3, mb: 3 }}
-              >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    setImage();
-                    setImageDisplay();
-                    setFormData({});
-                  }}
-                >
-                  Clear Form
-                </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={addExercise}
-                  disabled={
-                    !formData?.name ||
-                    !formData?.muscles ||
-                    !formData?.level ||
-                    !formData?.equipment ||
-                    !formData?.instructions
-                  }
-                >
-                  Finish and Save
-                </Button>
-              </Grid>,
-            ]
           )}
+          {error && (
+            <Alert
+              variant="filled"
+              severity="error"
+              onClose={() => {
+                setError();
+              }}
+            >
+              {error}
+            </Alert>
+          )}
+          <Box mt={6}>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={addWorkout}
+              disabled={!formData?.name ? true : false}
+            >
+              Finish and Save
+            </Button>
+          </Box>
         </Box>
       )}
     </Box>

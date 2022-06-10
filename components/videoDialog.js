@@ -11,7 +11,8 @@ import {
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function VideoDialog({ exercise }) {
+export default function VideoDialog({ item }) {
+  console.log("exercise", item);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -25,11 +26,11 @@ export default function VideoDialog({ exercise }) {
   return (
     <React.Fragment>
       <Button onClick={handleClickOpen}>
-        <PlayCircleIcon fontSize="large" sx={{ color: "white" }} />
+        <PlayCircleIcon fontSize="large" sx={{ color: "black" }} />
       </Button>
       <Dialog fullWidth maxWidth="md" open={open} onClose={handleClose}>
         <DialogTitle>
-          <Typography variant="h3">{exercise?.name}</Typography>
+          <Typography variant="h3">{item?.name}</Typography>
           <IconButton
             aria-label="close"
             onClick={handleClose}
@@ -44,14 +45,14 @@ export default function VideoDialog({ exercise }) {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          {exercise?.videoSource && (
+          {item?.videoSource && (
             <video
               controls
               width="100%"
-              poster={exercise?.imageSource}
+              poster={item?.imageSource}
               controlsList="nodownload"
             >
-              <source src={exercise?.videoSource} type="video/mp4" />
+              <source src={item?.videoSource} type="video/mp4" />
               Sorry, your browser doesn't support embedded videos.
             </video>
           )}
