@@ -7,15 +7,14 @@ import {
   Box,
   Alert,
   Typography,
-  FormControl,
-  InputLabel,
-  Select,
+  FormGroup,
+  FormControlLabel,
 } from "@mui/material";
 import { API, Storage } from "aws-amplify";
-import MultiSelect from "../autocomplete";
 import { createProgram } from "../../src/graphql/mutations";
 import { useRouter } from "next/router";
 import AddWorkoutDialog from "../addWorkoutDialog";
+import Checkbox from "@mui/material/Checkbox";
 
 export default function AddProgram({
   program,
@@ -99,8 +98,8 @@ export default function AddProgram({
       router.push("/admin?view=programs");
     } catch (error) {
       setLoading(false);
-      setError("Oops there was an error creating/updating exercise");
-      console.log("error creating/updating exercise", error);
+      setError("Oops there was an error creating/updating program");
+      console.log("error creating/updating program", error);
     }
   };
 
@@ -146,6 +145,10 @@ export default function AddProgram({
     } else setError("enter an exercise name");
   }
 
+  const setProgramWorkouts = (workouts) => {
+    setFormData({ ...formData, workoutList: workouts });
+  };
+
   const renderAddWorkout = () => {
     const weeks = new Array();
     for (let i = 1; i <= Number(formData?.weeks) ?? 0; i++) {
@@ -155,12 +158,26 @@ export default function AddProgram({
             week={i}
             workouts={workouts}
             programname={formData?.name ?? ""}
+            setProgramWorkouts={setProgramWorkouts}
           />
         </div>,
       );
     }
     return <div>{[...weeks]}</div>;
   };
+
+  const changeSelection = ({ selection, value }) => {
+    const selections = formData[selection] ?? [];
+    const newSelections = new Set(selections);
+    if (newSelections.has(value)) {
+      newSelections.delete(value);
+    } else {
+      newSelections.add(value);
+    }
+    setFormData({ ...formData, [selection]: [...newSelections] });
+  };
+
+  console.log("data", formData);
   return (
     <Box>
       {loading ? (
@@ -176,7 +193,7 @@ export default function AddProgram({
             variant="outlined"
             margin="dense"
             name="name"
-            label="Program Name"
+            label="Program Name ....."
             onChange={handleChange}
             placeholder="Name"
             value={formData?.name}
@@ -197,6 +214,50 @@ export default function AddProgram({
             fullWidth
             sx={{ mt: 3 }}
           />
+
+          <Typography variant="h3" mt={2}>
+            Select Program Levels
+          </Typography>
+          <FormGroup row={true}>
+            {["beginner", "experienced"].map((x) => (
+              <FormControlLabel
+                key={x}
+                sx={{ textTransform: "capitalize" }}
+                onClick={() =>
+                  changeSelection({ selection: "level", value: x })
+                }
+                control={<Checkbox />}
+                label={x}
+              />
+            ))}
+          </FormGroup>
+          <Typography variant="h3" mt={2}>
+            Select Program Ages
+          </Typography>
+          <FormGroup row={true}>
+            {["18-35", "35-45", "45+"].map((x) => (
+              <FormControlLabel
+                key={x}
+                onClick={() => changeSelection({ selection: "age", value: x })}
+                control={<Checkbox />}
+                label={x}
+              />
+            ))}
+          </FormGroup>
+          <Typography variant="h3" mt={2}>
+            Select Program Goals
+          </Typography>
+          <FormGroup row={true}>
+            {["fat-loss", "muscle-gain"].map((x) => (
+              <FormControlLabel
+                sx={{ textTransform: "capitalize" }}
+                key={x}
+                onClick={() => changeSelection({ selection: "goal", value: x })}
+                control={<Checkbox />}
+                label={x}
+              />
+            ))}
+          </FormGroup>
           <TextField
             id="standard-multiline-static"
             variant="outlined"

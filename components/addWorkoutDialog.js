@@ -7,7 +7,6 @@ import {
   DialogTitle,
   Typography,
   IconButton,
-  TextField,
   FormControl,
   InputLabel,
   Select,
@@ -19,7 +18,12 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 
-export default function AddWorkoutDialog({ week = 1, programname, workouts }) {
+export default function AddWorkoutDialog({
+  week = 1,
+  programname,
+  workouts,
+  setProgramWorkouts,
+}) {
   const [open, setOpen] = useState(false);
   const [days, setDays] = useState([]);
 
@@ -111,26 +115,48 @@ export default function AddWorkoutDialog({ week = 1, programname, workouts }) {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          {[1, 2, 3, 4, 5, 6, 7].map((x) => (
-            <Box key={x}>
-              <Typography>Day {x}</Typography>
-              <ToggleButtonGroup
-                color="primary"
-                value={x}
-                exclusive
-                onChange={(event) => handleChange({ event, dayNum: x })}
-                sx={{ mt: 3 }}
-              >
-                {["cardio", "rest", "weight training"].map((x) => (
-                  <ToggleButton name="type" value={x}>
-                    {x}
-                  </ToggleButton>
-                ))}
-              </ToggleButtonGroup>
-              {renderInputByType(x)}
-            </Box>
-          ))}
+          {[1, 2, 3, 4, 5, 6, 7].map((x) => {
+            const dayType = days.find((item) => item.day === x)?.type;
+            return (
+              <Box key={x}>
+                <Typography>Day {x}</Typography>
+                <ToggleButtonGroup
+                  color="primary"
+                  value={dayType}
+                  exclusive
+                  onChange={(event) => handleChange({ event, dayNum: x })}
+                  sx={{ mt: 3 }}
+                >
+                  {["cardio", "rest", "weight training"].map((x) => (
+                    <ToggleButton name="type" value={x}>
+                      {x}
+                    </ToggleButton>
+                  ))}
+                </ToggleButtonGroup>
+                {renderInputByType(x)}
+              </Box>
+            );
+          })}
         </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setProgramWorkouts(days);
+              setOpen(false);
+            }}
+          >
+            Continue
+          </Button>
+        </DialogActions>
       </Dialog>
     </React.Fragment>
   );

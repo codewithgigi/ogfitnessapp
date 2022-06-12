@@ -6,6 +6,7 @@ export const onCreateProfile = /* GraphQL */ `
     onCreateProfile(user: $user) {
       id
       user
+      email
       onboarding {
         goal
         gender
@@ -34,6 +35,7 @@ export const onUpdateProfile = /* GraphQL */ `
     onUpdateProfile(user: $user) {
       id
       user
+      email
       onboarding {
         goal
         gender
@@ -62,6 +64,7 @@ export const onDeleteProfile = /* GraphQL */ `
     onDeleteProfile(user: $user) {
       id
       user
+      email
       onboarding {
         goal
         gender
@@ -228,10 +231,12 @@ export const onCreateProgram = /* GraphQL */ `
       active
       goal
       gender
+      age
       level
       weeks
       workoutList {
         day
+        type
         workout {
           id
           name
@@ -258,10 +263,12 @@ export const onUpdateProgram = /* GraphQL */ `
       active
       goal
       gender
+      age
       level
       weeks
       workoutList {
         day
+        type
         workout {
           id
           name
@@ -288,10 +295,12 @@ export const onDeleteProgram = /* GraphQL */ `
       active
       goal
       gender
+      age
       level
       weeks
       workoutList {
         day
+        type
         workout {
           id
           name

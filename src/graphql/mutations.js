@@ -9,6 +9,7 @@ export const createProfile = /* GraphQL */ `
     createProfile(input: $input, condition: $condition) {
       id
       user
+      email
       onboarding {
         goal
         gender
@@ -40,6 +41,7 @@ export const updateProfile = /* GraphQL */ `
     updateProfile(input: $input, condition: $condition) {
       id
       user
+      email
       onboarding {
         goal
         gender
@@ -71,6 +73,7 @@ export const deleteProfile = /* GraphQL */ `
     deleteProfile(input: $input, condition: $condition) {
       id
       user
+      email
       onboarding {
         goal
         gender
@@ -258,10 +261,12 @@ export const createProgram = /* GraphQL */ `
       active
       goal
       gender
+      age
       level
       weeks
       workoutList {
         day
+        type
         workout {
           id
           name
@@ -291,10 +296,12 @@ export const updateProgram = /* GraphQL */ `
       active
       goal
       gender
+      age
       level
       weeks
       workoutList {
         day
+        type
         workout {
           id
           name
@@ -324,10 +331,12 @@ export const deleteProgram = /* GraphQL */ `
       active
       goal
       gender
+      age
       level
       weeks
       workoutList {
         day
+        type
         workout {
           id
           name

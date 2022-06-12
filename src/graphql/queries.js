@@ -6,6 +6,7 @@ export const getProfile = /* GraphQL */ `
     getProfile(id: $id) {
       id
       user
+      email
       onboarding {
         goal
         gender
@@ -24,8 +25,6 @@ export const getProfile = /* GraphQL */ `
         backImage
         date
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -39,6 +38,7 @@ export const listProfiles = /* GraphQL */ `
       items {
         id
         user
+        email
         onboarding {
           goal
           gender
@@ -57,8 +57,6 @@ export const listProfiles = /* GraphQL */ `
           backImage
           date
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -76,8 +74,6 @@ export const getExercise = /* GraphQL */ `
       instructions
       image
       video
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -98,8 +94,6 @@ export const listExercises = /* GraphQL */ `
         instructions
         image
         video
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -127,8 +121,6 @@ export const getWorkout = /* GraphQL */ `
         reps
         order
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -159,8 +151,6 @@ export const listWorkouts = /* GraphQL */ `
           reps
           order
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
@@ -177,10 +167,12 @@ export const getProgram = /* GraphQL */ `
       active
       goal
       gender
+      age
       level
       weeks
       workoutList {
         day
+        type
         workout {
           id
           name
@@ -191,8 +183,6 @@ export const getProgram = /* GraphQL */ `
         workoutName
         workoutDescription
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -212,15 +202,15 @@ export const listPrograms = /* GraphQL */ `
         active
         goal
         gender
+        age
         level
         weeks
         workoutList {
           day
+          type
           workoutName
           workoutDescription
         }
-        createdAt
-        updatedAt
       }
       nextToken
     }
