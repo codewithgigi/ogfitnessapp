@@ -210,6 +210,27 @@ export const listPrograms = /* GraphQL */ `
           type
           workoutName
           workoutDescription
+          workout {
+            id
+            name
+            image
+            video
+            instructions
+            exercises {
+              id
+              name
+              muscles
+              bodypart
+              level
+              equipment
+              instructions
+              image
+              video
+              sets
+              reps
+              order
+            }
+          }
         }
       }
       nextToken
