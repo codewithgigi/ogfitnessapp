@@ -56,6 +56,9 @@ export default function VideoDialog({ item }) {
               Sorry, your browser doesn't support embedded videos.
             </video>
           )}
+          <Typography variant="body1" style={{ whiteSpace: "pre-line" }}>
+            {item?.instructions}
+          </Typography>
         </DialogContent>
       </Dialog>
     </React.Fragment>

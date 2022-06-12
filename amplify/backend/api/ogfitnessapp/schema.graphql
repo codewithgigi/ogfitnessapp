@@ -93,35 +93,39 @@ type WorkoutExercise {
   order: String
 }
 
-# type Plan
-#   @model
-#   @auth(
-#     rules: [
-#       { allow: groups, groups: ["Admin"], operations: [create, delete, update] }
-#       { allow: private, operations: [read] }
-#     ]
-#   ) {
-#   id: ID!
-#   name: String
-#   image: String
-#   video: String
-#   description: String
-#   active: Boolean
-#   goal: Goal
-#   level: Level
-#   weeks: Int
-#   workoutList: [WorkoutList]
-# }
+type Program
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"], operations: [create, delete, update] }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String
+  image: String
+  video: String
+  description: String
+  active: Boolean
+  goal: String
+  gender: String
+  level: Level
+  weeks: Int
+  workoutList: [WorkoutList]
+}
 
-# type WorkoutList {
-#   workoutId: String
-#   name: String
-#   description: String
-#   day: Int
-# }
+type WorkoutList {
+  day: Int
+  workout: ProgramWorkout
+  workoutName: String
+  workoutDescription: String
+}
 
-# enum Goal {
-#   fatloss
-#   musclegain
-#   compete
-# }
+type ProgramWorkout {
+  id: ID!
+  name: String
+  image: String
+  video: String
+  instructions: String
+  exercises: [WorkoutExercise]
+}

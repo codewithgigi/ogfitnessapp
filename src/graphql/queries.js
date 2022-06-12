@@ -166,3 +166,63 @@ export const listWorkouts = /* GraphQL */ `
     }
   }
 `;
+export const getProgram = /* GraphQL */ `
+  query GetProgram($id: ID!) {
+    getProgram(id: $id) {
+      id
+      name
+      image
+      video
+      description
+      active
+      goal
+      gender
+      level
+      weeks
+      workoutList {
+        day
+        workout {
+          id
+          name
+          image
+          video
+          instructions
+        }
+        workoutName
+        workoutDescription
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listPrograms = /* GraphQL */ `
+  query ListPrograms(
+    $filter: ModelProgramFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPrograms(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        image
+        video
+        description
+        active
+        goal
+        gender
+        level
+        weeks
+        workoutList {
+          day
+          workoutName
+          workoutDescription
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

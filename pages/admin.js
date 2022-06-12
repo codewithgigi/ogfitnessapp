@@ -6,7 +6,7 @@ import Context from "../src/context";
 import { useRouter } from "next/router";
 import Exercises from "../components/admin/exercises";
 import Workouts from "../components/admin/workouts";
-import WorkoutPlans from "../components/admin/workoutplans";
+import Programs from "../components/admin/programs";
 
 function AdminTabs({ view = "" }) {
   const [tab, setTabView] = React.useState(view);
@@ -33,18 +33,18 @@ function AdminTabs({ view = "" }) {
         Workouts
       </Button>
       <Button
-        onClick={() => router.push("/admin?view=plans")}
-        color={tab === "plans" ? "primary" : "secondary"}
+        onClick={() => router.push("/admin?view=programs")}
+        color={tab === "programs" ? "primary" : "secondary"}
         sx={{ fontWeight: "bold", fontSize: 18 }}
       >
-        Wokrout Plans
+        Programs
       </Button>
       {tab === "exercises" ? (
         <Exercises />
       ) : tab === "workouts" ? (
         <Workouts />
       ) : (
-        tab === "plans" && <WorkoutPlans />
+        tab === "programs" && <Programs />
       )}
     </Box>
   );

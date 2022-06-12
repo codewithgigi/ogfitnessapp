@@ -176,7 +176,7 @@ export default function Onboarding() {
       {step >= 1 && (
         <>
           <h2>Age range</h2>
-          {["18-30", "31-45", "46-65", "65+"].map((a) => (
+          {["18-30", "31-45", "45+"].map((a) => (
             <ChipSelection
               field={onboarding.age}
               value={a}
@@ -193,13 +193,7 @@ export default function Onboarding() {
       {step >= 2 && (
         <>
           <h2>Weight training experience</h2>
-          {[
-            "0 - 3 months",
-            "3 - 6 months",
-            "6 months - 1 year",
-            "1 - 2 years",
-            "2+ years",
-          ].map((e) => (
+          {["Beginner", "Experienced"].map((e) => (
             <ChipSelection
               field={onboarding.experience}
               value={e}

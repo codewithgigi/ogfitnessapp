@@ -244,3 +244,102 @@ export const deleteWorkout = /* GraphQL */ `
     }
   }
 `;
+export const createProgram = /* GraphQL */ `
+  mutation CreateProgram(
+    $input: CreateProgramInput!
+    $condition: ModelProgramConditionInput
+  ) {
+    createProgram(input: $input, condition: $condition) {
+      id
+      name
+      image
+      video
+      description
+      active
+      goal
+      gender
+      level
+      weeks
+      workoutList {
+        day
+        workout {
+          id
+          name
+          image
+          video
+          instructions
+        }
+        workoutName
+        workoutDescription
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateProgram = /* GraphQL */ `
+  mutation UpdateProgram(
+    $input: UpdateProgramInput!
+    $condition: ModelProgramConditionInput
+  ) {
+    updateProgram(input: $input, condition: $condition) {
+      id
+      name
+      image
+      video
+      description
+      active
+      goal
+      gender
+      level
+      weeks
+      workoutList {
+        day
+        workout {
+          id
+          name
+          image
+          video
+          instructions
+        }
+        workoutName
+        workoutDescription
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteProgram = /* GraphQL */ `
+  mutation DeleteProgram(
+    $input: DeleteProgramInput!
+    $condition: ModelProgramConditionInput
+  ) {
+    deleteProgram(input: $input, condition: $condition) {
+      id
+      name
+      image
+      video
+      description
+      active
+      goal
+      gender
+      level
+      weeks
+      workoutList {
+        day
+        workout {
+          id
+          name
+          image
+          video
+          instructions
+        }
+        workoutName
+        workoutDescription
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;

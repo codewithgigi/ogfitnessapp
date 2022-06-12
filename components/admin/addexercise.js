@@ -216,7 +216,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
             required
             label="Instructions"
             name="instructions"
-            inputProps={{ maxLength: 250 }}
+            inputProps={{ maxLength: 1550 }}
             onChange={handleChange}
             value={formData?.instructions ?? ""}
             fullWidth
@@ -302,17 +302,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
               >
                 <Button
                   variant="contained"
-                  color="primary"
-                  onClick={() => {
-                    setImage();
-                    setImageDisplay();
-                    setFormData({});
-                  }}
-                >
-                  Clear Form
-                </Button>
-                <Button
-                  variant="contained"
+                  fullWidth
                   color="primary"
                   onClick={addExercise}
                   disabled={

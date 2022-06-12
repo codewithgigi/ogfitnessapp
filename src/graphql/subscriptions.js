@@ -217,3 +217,93 @@ export const onDeleteWorkout = /* GraphQL */ `
     }
   }
 `;
+export const onCreateProgram = /* GraphQL */ `
+  subscription OnCreateProgram {
+    onCreateProgram {
+      id
+      name
+      image
+      video
+      description
+      active
+      goal
+      gender
+      level
+      weeks
+      workoutList {
+        day
+        workout {
+          id
+          name
+          image
+          video
+          instructions
+        }
+        workoutName
+        workoutDescription
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateProgram = /* GraphQL */ `
+  subscription OnUpdateProgram {
+    onUpdateProgram {
+      id
+      name
+      image
+      video
+      description
+      active
+      goal
+      gender
+      level
+      weeks
+      workoutList {
+        day
+        workout {
+          id
+          name
+          image
+          video
+          instructions
+        }
+        workoutName
+        workoutDescription
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteProgram = /* GraphQL */ `
+  subscription OnDeleteProgram {
+    onDeleteProgram {
+      id
+      name
+      image
+      video
+      description
+      active
+      goal
+      gender
+      level
+      weeks
+      workoutList {
+        day
+        workout {
+          id
+          name
+          image
+          video
+          instructions
+        }
+        workoutName
+        workoutDescription
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;

@@ -33,6 +33,7 @@ export const getStorageFiles = async (items) => {
 };
 
 export const ExerciseList = ({ list, removeExercise = null }) => {
+  console.log("list", list);
   return (list ?? []).map((x, index) => (
     <Grid
       container
@@ -69,9 +70,14 @@ export const ExerciseList = ({ list, removeExercise = null }) => {
             {x?.reps}x{x?.sets}
           </Typography>
         )}
-        <Typography variant="caption" mt={0.5}>
+        {/* <Typography
+          variant="caption"
+          mt={0.5}
+          style={{ height: 200, width: 30 }}
+          noWrap={true}
+        >
           {x?.instructions}
-        </Typography>
+        </Typography> */}
       </Grid>
       {removeExercise && (
         <Grid item>
@@ -113,8 +119,9 @@ export default function Exercises() {
           variables: { input: { id: x?.id } },
         });
         //remove videos and images as well
-        if (x?.image) await Storage.remove(x?.image);
-        if (x?.video) await Storage.remove(x?.video);
+        //TODO: check if this exercise id is in any workouts before you delete this.
+        // if (x?.image) await Storage.remove(x?.image);
+        // if (x?.video) await Storage.remove(x?.video);
         const newset = exercises.filter((e) => e.id !== x?.id);
         setExercises(newset);
         setFilter();
