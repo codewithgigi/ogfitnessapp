@@ -18,6 +18,7 @@ export const ChipSelection = ({ onclick, field, value }) => {
         borderWidth: field === value ? 2.5 : 0.5,
         borderColor: field === value ? palette.blue : "black",
         fontWeight: field === value ? 500 : 400,
+        textTransform: "capitalize",
       }}
       variant={"outlined"}
       label={value}
@@ -155,7 +156,7 @@ export default function Onboarding() {
       <h1>training goals</h1>
       {step >= 0 && (
         <>
-          {["Female", "Male"].map((g) => (
+          {["female", "male"].map((g) => (
             <ChipSelection
               field={onboarding.gender}
               value={g}
@@ -193,7 +194,7 @@ export default function Onboarding() {
       {step >= 2 && (
         <>
           <h2>Weight training experience</h2>
-          {["Beginner", "Experienced"].map((e) => (
+          {["beginner", "experienced"].map((e) => (
             <ChipSelection
               field={onboarding.experience}
               value={e}
@@ -210,7 +211,7 @@ export default function Onboarding() {
       {step >= 3 && (
         <>
           <h2>Primary Training goal?</h2>
-          {["Lose Fat", "Gain Muscle", "Compete"].map((g) => (
+          {["fat-loss", "muscle-gain", "compete"].map((g) => (
             <ChipSelection
               value={g}
               field={onboarding.goal}
@@ -224,7 +225,7 @@ export default function Onboarding() {
         </>
       )}
 
-      {step >= 4 && onboarding.goal === "Compete" && onboarding?.gender && (
+      {step >= 4 && onboarding.goal === "compete" && onboarding?.gender && (
         <Box>
           <h2>Compete</h2>
           {step >= 4 &&

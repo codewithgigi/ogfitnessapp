@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { API } from "aws-amplify";
 import {
   Card,
@@ -14,6 +14,8 @@ import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
 import Section from "../components/Section";
 import Context from "../src/context";
+import { listPrograms } from "../src/graphql/queries";
+import { getStorageFiles } from "../components/admin/exercises";
 
 const workoutPlans = [
   {
@@ -68,12 +70,60 @@ const workoutPlans = [
 ];
 
 export default function Workouts() {
-  const { state } = React.useContext(Context);
+  const { state } = useContext(Context);
+  const [programs, setPrograms] = useState([]);
   const router = useRouter();
 
   const workoutByGoal = workoutPlans.filter(
     (x) => x.goal === state?.user?.profile?.onboarding?.goal,
   );
+
+  useEffect(() => {
+    console.log("changes profile");
+    getProgramList();
+  }, [state?.user?.profile?.onboarding]);
+
+  async function getProgramList() {
+    let {
+      goal = "",
+      level = "",
+      gender = "",
+      age = "",
+    } = state?.user?.profile?.onboarding ?? {};
+    const variables = { limit: 300 };
+    let filter = {};
+    if (goal) filter.goal = { contains: goal };
+    if (level) filter.level = { contains: level };
+    if (age) filter.age = { contains: age };
+    if (gender) filter.gender = { contains: gender };
+    variables.filter = filter;
+    console.log("variables", variables);
+    try {
+      const { data } = await API.graphql({
+        query: listPrograms,
+        variables: variables,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+      });
+      const items = data?.listPrograms?.items;
+      //let newItems = await getStorageFiles(items);
+      console.log("programs ", items);
+      //get image
+      // let itemsImages = await Promise.all(
+      //   newItems.map(async (item) => {
+      //     try {
+      //       let items = await getStorageFiles(item?.workoutList);
+      //       item.workoutList = items;
+      //       return item;
+      //     } catch (error) {
+      //       console.log("error getting workout images");
+      //     }
+      //   }),
+      // );
+      setPrograms(items);
+    } catch (error) {
+      console.warn("Error with api listWorkouts", error);
+    }
+  }
 
   const card = (x) => (
     <Card>

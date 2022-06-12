@@ -37,6 +37,28 @@ export default function AddProgram({
     setLoading(true);
     if (!formData?.name) {
       setError("enter exercise name");
+      setLoading(false);
+      return;
+    }
+    if (!formData?.level) {
+      setError("select at least one level");
+      setLoading(false);
+      return;
+    }
+    if (!formData?.age) {
+      setError("select at least one age range");
+      setLoading(false);
+      return;
+    }
+    if (!formData?.goal) {
+      setError("select at least one goal");
+      setLoading(false);
+      return;
+    }
+    if (!formData?.gender) {
+      setError("select at least one gender");
+      setLoading(false);
+      return;
     }
     try {
       let newdata = { ...formData };
@@ -235,7 +257,7 @@ export default function AddProgram({
             Select Program Ages
           </Typography>
           <FormGroup row={true}>
-            {["18-35", "35-45", "45+"].map((x) => (
+            {["18-30", "31-45", "45+"].map((x) => (
               <FormControlLabel
                 key={x}
                 onClick={() => changeSelection({ selection: "age", value: x })}
@@ -253,6 +275,23 @@ export default function AddProgram({
                 sx={{ textTransform: "capitalize" }}
                 key={x}
                 onClick={() => changeSelection({ selection: "goal", value: x })}
+                control={<Checkbox />}
+                label={x}
+              />
+            ))}
+          </FormGroup>
+
+          <Typography variant="h3" mt={2}>
+            Select Program Gender
+          </Typography>
+          <FormGroup row={true}>
+            {["female", "male"].map((x) => (
+              <FormControlLabel
+                sx={{ textTransform: "capitalize" }}
+                key={x}
+                onClick={() =>
+                  changeSelection({ selection: "gender", value: x })
+                }
                 control={<Checkbox />}
                 label={x}
               />
