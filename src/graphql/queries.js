@@ -142,7 +142,6 @@ export const listWorkouts = /* GraphQL */ `
           name
           muscles
           bodypart
-          level
           equipment
           instructions
           image
@@ -172,6 +171,7 @@ export const getProgram = /* GraphQL */ `
       weeks
       workoutList {
         day
+        week
         type
         workout {
           id
@@ -207,30 +207,10 @@ export const listPrograms = /* GraphQL */ `
         weeks
         workoutList {
           day
+          week
           type
           workoutName
           workoutDescription
-          workout {
-            id
-            name
-            image
-            video
-            instructions
-            exercises {
-              id
-              name
-              muscles
-              bodypart
-              level
-              equipment
-              instructions
-              image
-              video
-              sets
-              reps
-              order
-            }
-          }
         }
       }
       nextToken

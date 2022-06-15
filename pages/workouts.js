@@ -14,8 +14,39 @@ import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
 import Section from "../components/Section";
 import Context from "../src/context";
-import { listPrograms } from "../src/graphql/queries";
 import { getStorageFiles } from "../components/admin/exercises";
+
+const listPrograms = /* GraphQL */ `
+  query ListPrograms(
+    $filter: ModelProgramFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPrograms(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        image
+        video
+        description
+        active
+        goal
+        gender
+        age
+        level
+        weeks
+        workoutList {
+          day
+          week
+          type
+          workoutName
+          workoutDescription
+        }
+      }
+      nextToken
+    }
+  }
+`;
 
 export default function Workouts() {
   const { state } = useContext(Context);
@@ -23,7 +54,6 @@ export default function Workouts() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("changes profile");
     getProgramList();
   }, [state?.user?.profile?.onboarding]);
 
@@ -82,10 +112,9 @@ export default function Workouts() {
       <h1 className={styles.title}>Workouts</h1>
 
       <p>
-        Goal: {profile?.onboarding?.goal}
         {profile?.onboarding?.compete
           ? `Compete in ${profile?.onboarding?.compete}`
-          : profile?.onboarding?.goal}
+          : `Goal: ${profile?.onboarding?.goal}`}
         <Button size="small" onClick={() => router.push("/onboarding")}>
           Change Goal
         </Button>

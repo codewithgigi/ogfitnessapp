@@ -195,7 +195,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
             </Select>
           </FormControl>
 
-          <ToggleButtonGroup
+          {/* <ToggleButtonGroup
             color="primary"
             value={formData?.level}
             exclusive
@@ -207,7 +207,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
                 {x}
               </ToggleButton>
             ))}
-          </ToggleButtonGroup>
+          </ToggleButtonGroup> */}
           <TextField
             id="standard-multiline-static"
             variant="outlined"
@@ -308,7 +308,6 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
                   disabled={
                     !formData?.name ||
                     !formData?.muscles ||
-                    !formData?.level ||
                     !formData?.equipment ||
                     !formData?.instructions
                   }

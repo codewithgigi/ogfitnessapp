@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { API } from "aws-amplify";
-import { listPrograms, listWorkouts } from "../../src/graphql/queries";
 import {
   Box,
   Fab,
@@ -12,8 +11,71 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import AddProgram from "./addProgram";
-import { getStorageFiles, ExerciseList } from "./exercises";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+const listWorkouts = /* GraphQL */ `
+  query ListWorkouts(
+    $filter: ModelWorkoutFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listWorkouts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        image
+        video
+        instructions
+        exercises {
+          id
+          name
+          muscles
+          bodypart
+          equipment
+          instructions
+          image
+          video
+          sets
+          reps
+          order
+        }
+      }
+      nextToken
+    }
+  }
+`;
+
+const listPrograms = /* GraphQL */ `
+  query ListPrograms(
+    $filter: ModelProgramFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPrograms(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        image
+        video
+        description
+        active
+        goal
+        gender
+        age
+        level
+        weeks
+        workoutList {
+          day
+          week
+          type
+          workoutName
+          workoutDescription
+        }
+      }
+      nextToken
+    }
+  }
+`;
 
 export default function Programs() {
   const [programs, setPrograms] = useState();

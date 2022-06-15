@@ -236,6 +236,7 @@ export const onCreateProgram = /* GraphQL */ `
       weeks
       workoutList {
         day
+        week
         type
         workout {
           id
@@ -268,6 +269,7 @@ export const onUpdateProgram = /* GraphQL */ `
       weeks
       workoutList {
         day
+        week
         type
         workout {
           id
@@ -300,6 +302,7 @@ export const onDeleteProgram = /* GraphQL */ `
       weeks
       workoutList {
         day
+        week
         type
         workout {
           id

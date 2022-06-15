@@ -49,7 +49,6 @@ type Exercise
   name: String!
   muscles: String
   bodypart: String
-  level: Level
   equipment: String
   instructions: String
   image: String
@@ -58,8 +57,7 @@ type Exercise
 
 enum Level {
   beginner
-  intermediate
-  advanced
+  experienced
 }
 
 type Workout
@@ -84,13 +82,12 @@ type WorkoutExercise {
   name: String!
   muscles: String
   bodypart: String
-  level: Level
   equipment: String
   instructions: String
   image: String
   video: String
-  sets: Int
-  reps: Int
+  sets: String
+  reps: String
   order: String
 }
 
@@ -118,6 +115,7 @@ type Program
 
 type WorkoutList {
   day: Int
+  week: Int
   type: String
   workout: ProgramWorkout
   workoutName: String

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { API, Storage } from "aws-amplify";
-import { listExercises } from "../../src/graphql/queries";
 import { deleteExercise } from "../../src/graphql/mutations";
 import { Grid, Chip, Fab, Divider, Box, Typography } from "@mui/material";
 import AddExercise from "./addexercise";
@@ -8,6 +7,29 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import VideoDialog from "../videoDialog";
 import DeleteDialog from "../deleteDialog";
+
+const listExercises = /* GraphQL */ `
+  query ListExercises(
+    $filter: ModelExerciseFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listExercises(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        muscles
+        bodypart
+        level
+        equipment
+        instructions
+        image
+        video
+      }
+      nextToken
+    }
+  }
+`;
 
 export const getStorageFiles = async (items) => {
   let newItems = await Promise.all(

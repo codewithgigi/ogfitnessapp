@@ -197,7 +197,6 @@ export default function AddWorkout({
                     variant="standard"
                     label="Sets"
                     name="sets"
-                    type="number"
                     inputProps={{ max: 10, min: 1 }}
                     onChange={(e) =>
                       updateExercise({
@@ -215,7 +214,6 @@ export default function AddWorkout({
                     variant="standard"
                     label="Reps"
                     name="reps"
-                    type="number"
                     inputProps={{ max: 10, min: 1 }}
                     onChange={(e) =>
                       updateExercise({
