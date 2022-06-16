@@ -14,6 +14,7 @@ import {
   ToggleButtonGroup,
   Box,
   MenuItem,
+  TextField,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
@@ -34,23 +35,36 @@ export default function AddWorkoutDialog({
   const handleClose = () => {
     setOpen(false);
   };
-  const addWorkout = (e) => {
-    console.log("add workut", e?.target?.value);
-  };
 
   const handleChange = ({ event, dayNum }) => {
-    let newday = days.find((x) => x.day == dayNum);
+    let newday = days.find((x) => x.day === dayNum && x.week === week);
     let value = event.target.value;
     let name = event.target.name;
+    console.log("anme", name);
+    console.log("value", value);
+    let workoutName;
+    let workoutDescription;
+    if (name === "type") workoutName = event?.target?.value;
+    if (name === "workoutId") {
+      value = event?.target?.value?.id;
+      workoutName = event?.target?.value?.name;
+      workoutDescription = event?.target?.value?.instructions;
+    }
 
     if (!newday) {
       newday = {};
       newday.day = dayNum;
+      newday.week = week;
       newday[name] = value;
+      if (workoutName) newday.workoutName = workoutName;
+      if (workoutDescription) newday.workoutDescription = workoutDescription;
       setDays([...days, newday]);
     } else {
-      newday["day"] = dayNum;
+      newday.day = dayNum;
+      newday.week = week;
       newday[name] = value;
+      if (workoutName) newday.workoutName = workoutName;
+      if (workoutDescription) newday.workoutDescription = workoutDescription;
       if (days.length > 0) {
         let newdays = (days || []).filter((x) => {
           if (x.day === newday.day) return newday;
@@ -60,16 +74,32 @@ export default function AddWorkoutDialog({
       } else {
         setDays([newday]);
       }
+
+      console.log("newday", newday);
     }
   };
 
   const renderInputByType = (daynum) => {
     let daybynum = days.find((x) => x.day == daynum);
-    if (daybynum?.type === "cardio") {
-      return <div>Cardio day</div>;
+    if (daybynum?.type === "cardio" || daybynum?.type === "rest") {
+      return (
+        <TextField
+          autoFocus
+          required
+          variant="outlined"
+          margin="dense"
+          name="workoutDescription"
+          label="Workout description ....."
+          onChange={(event) => handleChange({ event, dayNum: daynum })}
+          placeholder="Description"
+          value={daybynum?.workoutDescription}
+          inputProps={{ maxLength: 50 }}
+          fullWidth
+        />
+      );
     } else if (daybynum?.type === "weight training") {
       const menus = (workouts || []).map((x) => (
-        <MenuItem value={x?.id}>{x?.name}</MenuItem>
+        <MenuItem value={x}>{x?.name}</MenuItem>
       ));
       return (
         <FormControl fullWidth sx={{ mt: 2 }}>

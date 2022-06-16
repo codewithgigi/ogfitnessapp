@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { API, Storage } from "aws-amplify";
+import { API } from "aws-amplify";
 import {
   Card,
   Box,
@@ -11,10 +11,9 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 
-import styles from "../styles/Home.module.css";
-import Section from "../components/Section";
-import Context from "../src/context";
-import { getStorageFiles } from "../components/admin/exercises";
+import Section from "../../components/Section";
+import Context from "../../src/context";
+import { getStorageFiles } from "../../components/admin/exercises";
 
 const listPrograms = /* GraphQL */ `
   query ListPrograms(
@@ -39,6 +38,7 @@ const listPrograms = /* GraphQL */ `
           day
           week
           type
+          workoutId
           workoutName
           workoutDescription
         }
@@ -48,14 +48,22 @@ const listPrograms = /* GraphQL */ `
   }
 `;
 
-export default function Workouts() {
+export default function MyPlan() {
   const { state } = useContext(Context);
-  const [programs, setPrograms] = useState([]);
+  const [programs, setPrograms] = useState();
+  const [viewPlan, setViewPlan] = useState();
   const router = useRouter();
 
   useEffect(() => {
     getProgramList();
   }, [state?.user?.profile?.onboarding]);
+
+  useEffect(() => {
+    if (router?.query?.planId) {
+      const plan = (programs || []).find((x) => x.id === router?.query?.planId);
+      setViewPlan(plan);
+    } else setViewPlan();
+  }, [router?.query?.planId, programs]);
 
   async function getProgramList() {
     let {
@@ -88,8 +96,8 @@ export default function Workouts() {
   const card = (x) => (
     <Card>
       <CardContent>
-        <h2>{x?.name}</h2>
-        <h4>{x?.weeks} Week Program</h4>
+        <Typography variant="h2">{x?.name}</Typography>
+        <Typography variant="h3">{x?.weeks} Week Program</Typography>
         <Typography variant="body2" sx={{ mb: 1 }}>
           {x?.description}
         </Typography>
@@ -98,20 +106,64 @@ export default function Workouts() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Goto Plan</Button>
+        <Button
+          size="small"
+          onClick={() =>
+            router.push({
+              pathname: "/trainingplans",
+              query: { planId: x?.id },
+            })
+          }
+        >
+          View Plan
+        </Button>
       </CardActions>
     </Card>
   );
   const profile = state?.user?.profile ?? null;
 
-  const getWorkoutWeekInList = (workout) => {
-    //data structure
-    console.log("workout .....", workout);
-  };
+  const renderWeeks = () => {
+    const weeks = [];
 
+    for (const week = 1; week <= viewPlan?.weeks; week++) {
+      weeks.push(
+        <Box>
+          <div>Week {week + 1}</div>
+          {[1, 2, 3, 4, 5, 6, 7].map((day) => {
+            const workout = (viewPlan.workoutList || []).find(
+              (list) => list?.day === day && list?.week === week,
+            );
+            return (
+              <div>
+                day: {day}
+                {workout?.workoutName}
+                {workout?.workoutDescription}
+              </div>
+            );
+          })}
+        </Box>,
+      );
+    }
+    return <div>{weeks}</div>;
+  };
+  if (viewPlan)
+    return (
+      <Section>
+        <Button onClick={() => router.push("/trainingplans")}>All Plans</Button>
+        <Typography variant="h2">{viewPlan?.name}</Typography>
+        <Typography variant="h3">{viewPlan?.weeks} Week Program</Typography>
+        <Typography variant="body2" sx={{ mb: 1 }}>
+          {viewPlan?.description}
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Goal: {viewPlan?.goal}
+        </Typography>
+        <div>{renderWeeks()}</div>
+      </Section>
+    );
   return (
     <Section>
-      <h1 className={styles.title}>Workouts</h1>
+      <Typography variant="h1">Training Plans</Typography>
 
       <p>
         {profile?.onboarding?.compete
@@ -141,12 +193,12 @@ export default function Workouts() {
             </Box>
 
             {x.workoutList.type}
-            {(x.workoutList || []).map((w) => (
+            {/* {(x.workoutList || []).map((w) => (
               <div>
                 {getWorkoutWeekInList(w)}
                 Week {index + 1} Day: {w?.day} {w?.type}
               </div>
-            ))}
+            ))} */}
           </div>
         ))}
       </Grid>

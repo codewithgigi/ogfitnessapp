@@ -168,7 +168,12 @@ export default function AddProgram({
   }
 
   const setProgramWorkouts = (workouts) => {
-    setFormData({ ...formData, workoutList: workouts });
+    if (formData?.workoutList)
+      setFormData({
+        ...formData,
+        workoutList: [...formData?.workoutList, ...workouts],
+      });
+    else setFormData({ ...formData, workoutList: [...workouts] });
   };
 
   const renderAddWorkout = () => {

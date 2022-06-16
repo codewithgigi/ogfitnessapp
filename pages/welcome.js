@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import styles from "../styles/Home.module.css";
+import styles from "../src/styles/Home.module.css";
 import { Box, Button } from "@mui/material";
 import Section from "../components/Section";
 import Context from "../src/context";
@@ -10,7 +10,7 @@ export default function Welcome() {
   const router = useRouter();
 
   useEffect(() => {
-    if (state?.user?.profile?.onboarding) router.push("/myplan");
+    if (state?.user?.profile?.onboarding) router.push("/trainingplans");
     else if (state?.user && !state?.user?.profile?.onboarding)
       router.push("/onboarding");
   }, [state?.user]);

@@ -53,33 +53,33 @@ const theme = createTheme({
     fontSize: 16,
     fontFamily: ['"Helvetica Neue"', "Arial", "sans-serif"].join(","),
     h1: {
-      fontSize: "1.2rem",
-      fontWeight: "600",
+      fontSize: "2rem",
+      fontWeight: "500",
       textTransform: "capitalize",
+      marginBottom: 16,
+    },
+    h2: {
+      fontWeight: "400",
+      fontSize: "1.625rem",
+      marginBottom: 16,
+    },
+    h3: {
+      fontWeight: "400",
+      fontSize: "1.375rem",
+      marginBottom: 10,
+    },
+    h4: {
+      fontSize: "1.25rem",
+      fontWeight: "600",
       color: "#1e2022",
       marginBottom: 10,
     },
-    h2: {
-      fontSize: "1rem",
-      color: "#1e2022",
-    },
-    h3: {
-      fontSize: "1.125rem",
-      fontWeight: "600",
-      color: "#1e2022",
-    },
-    h4: {
-      fontSize: "1.125rem",
-      fontWeight: "600",
-      color: "#1e2022",
-    },
     h6: {
       fontSize: "1.125rem",
-      color: "#677788",
+      fontWeight: "400",
     },
     subtitle1: {
-      fontSize: "1.2rem",
-      fontWeight: "600",
+      fontSize: "1.25rem",
       color: "#677788",
     },
   },

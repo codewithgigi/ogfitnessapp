@@ -1,7 +1,7 @@
 import React from "react";
 import Context from "../src/context";
 import Onboarding from "./onboarding";
-import MyPlan from "./myplan";
+import MyPlan from "./trainingplans";
 import Welcome from "./welcome";
 
 export default function Home() {

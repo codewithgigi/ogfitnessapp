@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import styles from "../styles/Home.module.css";
+import styles from "../src/styles/Home.module.css";
 import { Box, Button, Typography } from "@mui/material";
 import Section from "../components/Section";
 import Context from "../src/context";

@@ -4,19 +4,6 @@
 .mb2 {
   margin-bottom: 16px;
 }
-h1 {
-  font-size: 28px;
-  text-transform: capitalize;
-  text-align: center;
-  font-weight: 500;
-}
-h2 {
-  /* font-size: 24px;  10, 12, 14, 16, 18, 22, 24,26, 28, 34,  */
-  font-size: 16px;  
-  text-transform: capitalize;
-  font-weight: 500;
-}
-
 .button {
   background-color: #3e6ae1;
   border: none;

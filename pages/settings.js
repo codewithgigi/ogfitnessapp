@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/Home.module.css";
+import styles from "../src/styles/Home.module.css";
 import { useRouter } from "next/router";
 import Section from "../components/Section";
 export default function Settings() {

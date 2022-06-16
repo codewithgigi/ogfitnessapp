@@ -11,10 +11,10 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 
-import styles from "../styles/Home.module.css";
-import Section from "../components/Section";
-import Context from "../src/context";
-import { getStorageFiles } from "../components/admin/exercises";
+import styles from "../../src/styles/Home.module.css";
+import Section from "../../components/Section";
+import Context from "../../src/context";
+import { getStorageFiles } from "../../components/admin/exercises";
 
 const listPrograms = /* GraphQL */ `
   query ListPrograms(
@@ -49,9 +49,18 @@ const listPrograms = /* GraphQL */ `
   }
 `;
 
+const WorkoutDetail = () => {
+  return (
+    <Section>
+      <p>Workout Details</p>
+    </Section>
+  );
+};
+
 export default function MyPlan() {
   const { state } = useContext(Context);
   const [programs, setPrograms] = useState([]);
+  const [viewPlan, setViewPlan] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -89,8 +98,8 @@ export default function MyPlan() {
   const card = (x) => (
     <Card>
       <CardContent>
-        <h2>{x?.name}</h2>
-        <h4>{x?.weeks} Week Program</h4>
+        <Typography variant="h2">{x?.name}</Typography>
+        <Typography variant="h3">{x?.weeks} Week Program</Typography>
         <Typography variant="body2" sx={{ mb: 1 }}>
           {x?.description}
         </Typography>
@@ -99,7 +108,17 @@ export default function MyPlan() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Goto Plan</Button>
+        <Button
+          size="small"
+          onClick={() =>
+            router.push({
+              pathname: "/traininplans",
+              query: { planId: x?.id },
+            })
+          }
+        >
+          View Plan
+        </Button>
       </CardActions>
     </Card>
   );
@@ -109,10 +128,9 @@ export default function MyPlan() {
     //data structure
     console.log("workout .....", workout);
   };
-
   return (
     <Section>
-      <h1 className={styles.title}>My Plan</h1>
+      <Typography variant="h1">Training Plans</Typography>
 
       <p>
         {profile?.onboarding?.compete
@@ -142,12 +160,12 @@ export default function MyPlan() {
             </Box>
 
             {x.workoutList.type}
-            {(x.workoutList || []).map((w) => (
+            {/* {(x.workoutList || []).map((w) => (
               <div>
                 {getWorkoutWeekInList(w)}
                 Week {index + 1} Day: {w?.day} {w?.type}
               </div>
-            ))}
+            ))} */}
           </div>
         ))}
       </Grid>
