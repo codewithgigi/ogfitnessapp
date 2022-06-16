@@ -20,7 +20,6 @@ const listExercises = /* GraphQL */ `
         name
         muscles
         bodypart
-        level
         equipment
         instructions
         image

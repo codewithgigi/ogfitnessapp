@@ -69,7 +69,7 @@ export default function AddWorkoutDialog({
       return <div>Cardio day</div>;
     } else if (daybynum?.type === "weight training") {
       const menus = (workouts || []).map((x) => (
-        <MenuItem value={x}>{x?.name}</MenuItem>
+        <MenuItem value={x?.id}>{x?.name}</MenuItem>
       ));
       return (
         <FormControl fullWidth sx={{ mt: 2 }}>
@@ -79,7 +79,7 @@ export default function AddWorkoutDialog({
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            name="workout"
+            name="workoutId"
             //value={workout?.name}
             label="workout"
             onChange={(event) => handleChange({ event, dayNum: daynum })}

@@ -13,7 +13,7 @@ import {
 import { API, Storage } from "aws-amplify";
 import { createProgram } from "../../src/graphql/mutations";
 import { useRouter } from "next/router";
-import AddWorkoutDialog from "../addWorkoutDialog";
+import AddWorkoutDialog from "./addWorkoutDialog";
 import Checkbox from "@mui/material/Checkbox";
 
 export default function AddProgram({

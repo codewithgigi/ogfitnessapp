@@ -25,6 +25,8 @@ export const getProfile = /* GraphQL */ `
         backImage
         date
       }
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -57,6 +59,8 @@ export const listProfiles = /* GraphQL */ `
           backImage
           date
         }
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -69,11 +73,12 @@ export const getExercise = /* GraphQL */ `
       name
       muscles
       bodypart
-      level
       equipment
       instructions
       image
       video
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -89,11 +94,12 @@ export const listExercises = /* GraphQL */ `
         name
         muscles
         bodypart
-        level
         equipment
         instructions
         image
         video
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -112,7 +118,6 @@ export const getWorkout = /* GraphQL */ `
         name
         muscles
         bodypart
-        level
         equipment
         instructions
         image
@@ -121,6 +126,8 @@ export const getWorkout = /* GraphQL */ `
         reps
         order
       }
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -150,6 +157,8 @@ export const listWorkouts = /* GraphQL */ `
           reps
           order
         }
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -173,16 +182,12 @@ export const getProgram = /* GraphQL */ `
         day
         week
         type
-        workout {
-          id
-          name
-          image
-          video
-          instructions
-        }
+        workoutId
         workoutName
         workoutDescription
       }
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -209,9 +214,12 @@ export const listPrograms = /* GraphQL */ `
           day
           week
           type
+          workoutId
           workoutName
           workoutDescription
         }
+        createdAt
+        updatedAt
       }
       nextToken
     }

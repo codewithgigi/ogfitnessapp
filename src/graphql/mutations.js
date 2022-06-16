@@ -107,7 +107,6 @@ export const createExercise = /* GraphQL */ `
       name
       muscles
       bodypart
-      level
       equipment
       instructions
       image
@@ -127,7 +126,6 @@ export const updateExercise = /* GraphQL */ `
       name
       muscles
       bodypart
-      level
       equipment
       instructions
       image
@@ -147,7 +145,6 @@ export const deleteExercise = /* GraphQL */ `
       name
       muscles
       bodypart
-      level
       equipment
       instructions
       image
@@ -173,7 +170,6 @@ export const createWorkout = /* GraphQL */ `
         name
         muscles
         bodypart
-        level
         equipment
         instructions
         image
@@ -203,7 +199,6 @@ export const updateWorkout = /* GraphQL */ `
         name
         muscles
         bodypart
-        level
         equipment
         instructions
         image
@@ -233,7 +228,6 @@ export const deleteWorkout = /* GraphQL */ `
         name
         muscles
         bodypart
-        level
         equipment
         instructions
         image
@@ -268,13 +262,7 @@ export const createProgram = /* GraphQL */ `
         day
         week
         type
-        workout {
-          id
-          name
-          image
-          video
-          instructions
-        }
+        workoutId
         workoutName
         workoutDescription
       }
@@ -304,13 +292,7 @@ export const updateProgram = /* GraphQL */ `
         day
         week
         type
-        workout {
-          id
-          name
-          image
-          video
-          instructions
-        }
+        workoutId
         workoutName
         workoutDescription
       }
@@ -340,13 +322,7 @@ export const deleteProgram = /* GraphQL */ `
         day
         week
         type
-        workout {
-          id
-          name
-          image
-          video
-          instructions
-        }
+        workoutId
         workoutName
         workoutDescription
       }

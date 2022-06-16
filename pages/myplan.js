@@ -39,6 +39,7 @@ const listPrograms = /* GraphQL */ `
           day
           week
           type
+          workoutId
           workoutName
           workoutDescription
         }
@@ -48,7 +49,7 @@ const listPrograms = /* GraphQL */ `
   }
 `;
 
-export default function Workouts() {
+export default function MyPlan() {
   const { state } = useContext(Context);
   const [programs, setPrograms] = useState([]);
   const router = useRouter();
@@ -111,7 +112,7 @@ export default function Workouts() {
 
   return (
     <Section>
-      <h1 className={styles.title}>Workouts</h1>
+      <h1 className={styles.title}>My Plan</h1>
 
       <p>
         {profile?.onboarding?.compete

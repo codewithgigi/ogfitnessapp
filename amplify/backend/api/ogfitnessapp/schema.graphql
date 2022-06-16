@@ -117,16 +117,7 @@ type WorkoutList {
   day: Int
   week: Int
   type: String
-  workout: ProgramWorkout
+  workoutId: String
   workoutName: String
   workoutDescription: String
-}
-
-type ProgramWorkout {
-  id: ID!
-  name: String
-  image: String
-  video: String
-  instructions: String
-  exercises: [WorkoutExercise]
 }
