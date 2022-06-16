@@ -101,9 +101,9 @@ export default function MyPlan() {
         <Typography variant="body2" sx={{ mb: 1 }}>
           {x?.description}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           Goal: {x?.goal}
-        </Typography>
+        </Typography> */}
       </CardContent>
       <CardActions>
         <Button
@@ -127,21 +127,50 @@ export default function MyPlan() {
 
     for (const week = 1; week <= viewPlan?.weeks; week++) {
       weeks.push(
-        <Box>
-          <div>Week {week + 1}</div>
-          {[1, 2, 3, 4, 5, 6, 7].map((day) => {
-            const workout = (viewPlan.workoutList || []).find(
-              (list) => list?.day === day && list?.week === week,
-            );
-            return (
-              <div>
-                day: {day}
-                {workout?.workoutName}
-                {workout?.workoutDescription}
-              </div>
-            );
-          })}
-        </Box>,
+        <>
+          <Typography variant="h2">Week {week}</Typography>
+          <Box
+            border={1}
+            borderColor="lightgrey"
+            borderRadius={2}
+            boxShadow={1}
+            mb={4}
+          >
+            {[1, 2, 3, 4, 5, 6, 7].map((day) => {
+              const workout = (viewPlan.workoutList || []).find(
+                (list) => list?.day === day && list?.week === week,
+              );
+              return (
+                <Box
+                  p={1}
+                  mb={1}
+                  mt={1}
+                  borderBottom={day !== 7 ? 1 : 0}
+                  borderColor="lightgrey"
+                >
+                  <Box display="flex">
+                    <Typography variant="h5"> Day {day} </Typography>
+                    <Typography
+                      variant="body"
+                      sx={{ textTransform: "capitalize", ml: 2 }}
+                    >
+                      {workout?.workoutName}
+                    </Typography>
+                  </Box>
+                  {/* <Box>
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{ textTransform: "capitalize" }}
+                    >
+                      {workout?.workoutDescription}
+                    </Typography>
+                  </Box> */}
+                </Box>
+              );
+            })}
+          </Box>
+        </>,
       );
     }
     return <div>{weeks}</div>;
@@ -158,7 +187,7 @@ export default function MyPlan() {
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           Goal: {viewPlan?.goal}
         </Typography>
-        <div>{renderWeeks()}</div>
+        <Box>{renderWeeks()}</Box>
       </Section>
     );
   return (

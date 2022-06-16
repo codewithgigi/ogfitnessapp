@@ -40,8 +40,6 @@ export default function AddWorkoutDialog({
     let newday = days.find((x) => x.day === dayNum && x.week === week);
     let value = event.target.value;
     let name = event.target.name;
-    console.log("anme", name);
-    console.log("value", value);
     let workoutName;
     let workoutDescription;
     if (name === "type") workoutName = event?.target?.value;
@@ -74,8 +72,6 @@ export default function AddWorkoutDialog({
       } else {
         setDays([newday]);
       }
-
-      console.log("newday", newday);
     }
   };
 

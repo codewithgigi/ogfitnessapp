@@ -59,24 +59,25 @@ const theme = createTheme({
       marginBottom: 16,
     },
     h2: {
-      fontWeight: "400",
+      fontWeight: "500",
       fontSize: "1.625rem",
       marginBottom: 16,
     },
     h3: {
-      fontWeight: "400",
+      fontWeight: "500",
       fontSize: "1.375rem",
       marginBottom: 10,
     },
     h4: {
       fontSize: "1.25rem",
-      fontWeight: "600",
+      fontWeight: "500",
       color: "#1e2022",
       marginBottom: 10,
+      textTransform: "capitalize",
     },
-    h6: {
+    h5: {
       fontSize: "1.125rem",
-      fontWeight: "400",
+      fontWeight: "500",
     },
     subtitle1: {
       fontSize: "1.25rem",

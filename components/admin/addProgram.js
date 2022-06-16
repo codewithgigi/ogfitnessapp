@@ -204,7 +204,6 @@ export default function AddProgram({
     setFormData({ ...formData, [selection]: [...newSelections] });
   };
 
-  console.log("data", formData);
   return (
     <Box>
       {loading ? (
