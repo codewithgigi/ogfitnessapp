@@ -148,7 +148,7 @@ export default function MyPlan() {
                   borderBottom={day !== 7 ? 1 : 0}
                   borderColor="lightgrey"
                 >
-                  <Box display="flex">
+                  <Box display="flex" alignItems={"center"}>
                     <Typography variant="h5"> Day {day} </Typography>
                     <Typography
                       variant="body"
@@ -156,16 +156,30 @@ export default function MyPlan() {
                     >
                       {workout?.workoutName}
                     </Typography>
+                    {workout?.workoutName === "cardio" ||
+                    workout?.workoutName === "rest" ? (
+                      <Typography
+                        color="text.secondary"
+                        variant="caption"
+                        sx={{ textTransform: "capitalize", ml: 2 }}
+                      >
+                        {workout?.workoutDescription}
+                      </Typography>
+                    ) : (
+                      <Button
+                        onClick={() =>
+                          router.push({
+                            pathname: "/workout",
+                            query: {
+                              id: workout?.workoutId,
+                            },
+                          })
+                        }
+                      >
+                        View
+                      </Button>
+                    )}
                   </Box>
-                  {/* <Box>
-                    <Typography
-                      variant="caption"
-                      color="text.secondary"
-                      sx={{ textTransform: "capitalize" }}
-                    >
-                      {workout?.workoutDescription}
-                    </Typography>
-                  </Box> */}
                 </Box>
               );
             })}

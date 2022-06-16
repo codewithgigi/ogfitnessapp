@@ -43,7 +43,7 @@ export default function AddWorkoutDialog({
     let workoutName;
     let workoutDescription;
     if (name === "type") workoutName = event?.target?.value;
-    if (name === "workoutId") {
+    if (name === "") {
       value = event?.target?.value?.id;
       workoutName = event?.target?.value?.name;
       workoutDescription = event?.target?.value?.instructions;
