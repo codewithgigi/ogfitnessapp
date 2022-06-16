@@ -8,7 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import VideoDialog from "../videoDialog";
 import DeleteDialog from "../deleteDialog";
 
-const listExercises = /* GraphQL */ `
+export const listExercises = /* GraphQL */ `
   query ListExercises(
     $filter: ModelExerciseFilterInput
     $limit: Int

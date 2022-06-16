@@ -22,7 +22,7 @@ import Context from "../src/context";
 
 const pages = [
   { name: "Dashboard", path: "/dashboard" },
-  { name: "Workouts", path: "/workouts" },
+  { name: "Training Plan", path: "/myplan" },
   { name: "Profile", path: "/profile" },
   { name: "Settings", path: "/settings" },
 ];

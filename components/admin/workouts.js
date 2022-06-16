@@ -14,29 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddWorkout from "./addworkout";
 import { getStorageFiles, ExerciseList } from "./exercises";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-const listExercises = /* GraphQL */ `
-  query ListExercises(
-    $filter: ModelExerciseFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listExercises(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        muscles
-        bodypart
-        level
-        equipment
-        instructions
-        image
-        video
-      }
-      nextToken
-    }
-  }
-`;
+import { listExercises } from "./exercises";
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState();
