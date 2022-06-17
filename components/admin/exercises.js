@@ -107,7 +107,7 @@ export default function Exercises() {
   const [editExercise, setEditExercise] = useState();
   const [showAdd, setShowAdd] = useState(false);
   const [filtered, setFiltered] = useState();
-  const [filter, setFilter] = useState(filter);
+  const [filter, setFilter] = useState();
   const [filterList, setFilterList] = useState();
 
   useEffect(() => {

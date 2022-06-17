@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "../src/styles/Home.module.css";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Tabs, Tab, TabPanel } from "@mui/material";
 import Section from "../components/Section";
 import { useRouter } from "next/router";
 import Exercises from "../components/admin/exercises";
@@ -8,44 +8,41 @@ import Workouts from "../components/admin/workouts";
 import Programs from "../components/admin/programs";
 import { withSSRContext } from "aws-amplify";
 
-function AdminTabs({ view = "" }) {
-  const [tab, setTabView] = React.useState(view);
+function AdminTabs({ view = "exercises" }) {
+  const [tab, setTab] = React.useState(0);
   const router = useRouter();
 
+  console.log("router query", router?.query);
   useEffect(() => {
-    setTabView(view);
-  }, [view]);
+    const view = router?.query?.view;
+    if (view === "exercises") setTab(0);
+    else if (view === "workouts") setTab(1);
+    else if (view === "programs") setTab(2);
+  }, [router?.query]);
+
+  const handleChange = (event, newValue) => {
+    setTab(newValue);
+    if (newValue === 0) router.push("/admin?view=exercises");
+    else if (newValue === 1) router.push("/admin?view=workouts");
+    else if (newValue === 2) router.push("/admin?view=programs");
+  };
 
   return (
-    <Box mt={2}>
-      <Button
-        onClick={() => router.push("/admin?view=exercises")}
-        color={tab === "exercises" ? "primary" : "secondary"}
-        sx={{ fontWeight: "bold", fontSize: 18 }}
-      >
-        Exercises
-      </Button>
-      <Button
-        onClick={() => router.push("/admin?view=workouts")}
-        color={tab === "workouts" ? "primary" : "secondary"}
-        sx={{ fontWeight: "bold", fontSize: 18 }}
-      >
-        Workouts
-      </Button>
-      <Button
-        onClick={() => router.push("/admin?view=programs")}
-        color={tab === "programs" ? "primary" : "secondary"}
-        sx={{ fontWeight: "bold", fontSize: 18 }}
-      >
-        Programs
-      </Button>
-      {tab === "exercises" ? (
-        <Exercises />
-      ) : tab === "workouts" ? (
-        <Workouts />
-      ) : (
-        tab === "programs" && <Programs />
-      )}
+    <Box mt={3}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs value={tab} onChange={handleChange} aria-label="admin tabs">
+          <Tab label="Exercises" />
+          <Tab label="Workouts" />
+          <Tab label="Programs" />
+        </Tabs>
+        {tab === 0 ? (
+          <Exercises />
+        ) : tab === 1 ? (
+          <Workouts />
+        ) : (
+          tab === 2 && <Programs />
+        )}
+      </Box>
     </Box>
   );
 }

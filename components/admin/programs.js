@@ -167,6 +167,7 @@ export default function Programs() {
         <div>
           {(programs ?? []).map((x, index) => (
             <Accordion
+              key={index}
               expanded={expanded === index}
               onChange={handleChangeExpanded(index)}
             >
