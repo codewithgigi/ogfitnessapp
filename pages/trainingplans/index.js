@@ -220,7 +220,7 @@ export default function MyPlan() {
   };
   console.log("viewworkout", viewWorkout);
   if (viewWorkout) {
-    return <Workout workout={viewWorkout} />;
+    return <Workout workout={viewWorkout} planId={viewPlan?.id} />;
   } else if (viewPlan)
     return (
       <Section>
@@ -268,12 +268,6 @@ export default function MyPlan() {
                 {card(x)}
               </Box>
               {x.workoutList.type}
-              {/* {(x.workoutList || []).map((w) => (
-              <div>
-                {getWorkoutWeekInList(w)}
-                Week {index + 1} Day: {w?.day} {w?.type}
-              </div>
-            ))} */}
             </div>
           ))}
         </Grid>
