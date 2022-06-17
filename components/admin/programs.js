@@ -146,7 +146,6 @@ export default function Programs() {
   };
   return (
     <>
-      <div>programs</div>
       <Box mt={2} sx={{ textAlign: "right" }}>
         <Fab
           color="primary"

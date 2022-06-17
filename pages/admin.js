@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import styles from "../src/styles/Home.module.css";
-import { Box, Button, Tabs, Tab, TabPanel } from "@mui/material";
+import { Box, Tabs, Tab, Typography } from "@mui/material";
 import Section from "../components/Section";
 import { useRouter } from "next/router";
 import Exercises from "../components/admin/exercises";
@@ -57,7 +56,7 @@ export default function Admin(props) {
   return (
     <Section>
       <Box sx={{ maxWidth: 825, margin: "auto" }}>
-        <h1 className={styles.title}>Admin page</h1>
+        <Typography variant="h2">Admin page</Typography>
         <AdminTabs view={router?.query?.view} />
       </Box>
     </Section>
