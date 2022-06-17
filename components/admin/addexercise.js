@@ -134,7 +134,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
             inputProps={{ maxLength: 50 }}
             fullWidth
           />
-          <FormControl fullWidth sx={{ mt: 3 }}>
+          {/* <FormControl fullWidth sx={{ mt: 3 }}>
             <InputLabel id="select-muscles">Primary Muscles</InputLabel>
             <Select
               labelId="select-muscles"
@@ -165,8 +165,8 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
                 <MenuItem value={x}>{x}</MenuItem>
               ))}
             </Select>
-          </FormControl>
-          <FormControl fullWidth sx={{ mt: 3 }}>
+          </FormControl> */}
+          {/* <FormControl fullWidth sx={{ mt: 3 }}>
             <InputLabel id="select-equipment">Equipment</InputLabel>
             <Select
               labelId="select-equipment"
@@ -193,7 +193,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
                 <MenuItem value={x}>{x}</MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
 
           {/* <ToggleButtonGroup
             color="primary"
@@ -307,8 +307,8 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
                   onClick={addExercise}
                   disabled={
                     !formData?.name ||
-                    !formData?.muscles ||
-                    !formData?.equipment ||
+                    // !formData?.muscles ||
+                    // !formData?.equipment ||
                     !formData?.instructions
                   }
                 >

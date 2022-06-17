@@ -148,38 +148,46 @@ export default function MyPlan() {
                   borderBottom={day !== 7 ? 1 : 0}
                   borderColor="lightgrey"
                 >
-                  <Box display="flex" alignItems={"center"}>
-                    <Typography variant="h5"> Day {day} </Typography>
-                    <Typography
-                      variant="body"
-                      sx={{ textTransform: "capitalize", ml: 2 }}
-                    >
-                      {workout?.workoutName}
-                    </Typography>
+                  <Grid container direction={"row"}>
+                    <Grid item xs={2}>
+                      <Typography variant="h5"> Day {day} </Typography>
+                    </Grid>
+                    <Grid item xs={8}>
+                      <Typography
+                        variant="body"
+                        sx={{ textTransform: "capitalize", ml: 1 }}
+                      >
+                        {workout?.workoutName}
+                      </Typography>
+                    </Grid>
                     {workout?.workoutName === "cardio" ||
                     workout?.workoutName === "rest" ? (
-                      <Typography
-                        color="text.secondary"
-                        variant="caption"
-                        sx={{ textTransform: "capitalize", ml: 2 }}
-                      >
-                        {workout?.workoutDescription}
-                      </Typography>
+                      <Grid item xs={12}>
+                        <Typography
+                          color="text.secondary"
+                          variant="caption"
+                          sx={{ textTransform: "capitalize", ml: 2 }}
+                        >
+                          {workout?.workoutDescription}
+                        </Typography>
+                      </Grid>
                     ) : (
-                      <Button
-                        onClick={() =>
-                          router.push({
-                            pathname: "/workout",
-                            query: {
-                              id: workout?.workoutId,
-                            },
-                          })
-                        }
-                      >
-                        View
-                      </Button>
+                      <Grid item xs={2}>
+                        <Button
+                          onClick={() =>
+                            router.push({
+                              pathname: "/workout",
+                              query: {
+                                id: workout?.workoutId,
+                              },
+                            })
+                          }
+                        >
+                          View
+                        </Button>
+                      </Grid>
                     )}
-                  </Box>
+                  </Grid>
                 </Box>
               );
             })}

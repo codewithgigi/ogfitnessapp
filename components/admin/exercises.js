@@ -159,16 +159,20 @@ export default function Exercises() {
           data.videoSource = await Storage.get(data?.video, {
             download: false,
           });
-        if (!exercise) setExercises([...exercises, data]);
-        else {
+        console.log("data", data, exercises.length);
+        if (!exercise) {
+          console.log("not data has exerc", [...exercises, data]);
+          setExercises([...exercises, data]);
+        } else {
+          console.log("data has exerc", exercise);
           const newset = exercises.map((x) => {
             if (x.id === data?.id) return data;
             else return x;
           });
           setExercises(newset);
         }
-        const muscles = data?.muscles;
-        if (muscles) setFilter(muscles);
+        // const muscles = data?.muscles;
+        // if (muscles) setFilter(muscles);
         setShowAdd(false);
       } catch (error) {
         console.log("getImage error", error);
@@ -220,15 +224,15 @@ export default function Exercises() {
         <>
           <Grid container direction="column" justifyContent="center">
             <Grid item>
-              <Chip
+              {/* <Chip
                 sx={{ textTransform: "uppercase", margin: 0.6 }}
                 label={"All"}
                 onClick={() => setFilter()}
                 color="default"
                 size="small"
                 variant={!filter ? "filled" : "outlined"}
-              />
-              {(filterList || []).map((x) => (
+              /> */}
+              {/* {(filterList || []).map((x) => (
                 <Chip
                   key={x}
                   sx={{ textTransform: "uppercase", margin: 0.6 }}
@@ -238,7 +242,7 @@ export default function Exercises() {
                   size="small"
                   variant={filter === x ? "filled" : "outlined"}
                 />
-              ))}
+              ))} */}
             </Grid>
             <Grid item mt={4}>
               <ExerciseList list={list} removeExercise={removeExercise} />
