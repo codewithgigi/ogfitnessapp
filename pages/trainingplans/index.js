@@ -187,21 +187,10 @@ export default function MyPlan() {
                         variant="body"
                         sx={{ textTransform: "capitalize", ml: 1 }}
                       >
-                        {workout?.workoutName}
+                        {workout?.workout?.name ?? "Rest Day"}
                       </Typography>
                     </Grid>
-                    {workout?.workoutName === "cardio" ||
-                    workout?.workoutName === "rest" ? (
-                      <Grid item xs={12}>
-                        <Typography
-                          color="text.secondary"
-                          variant="caption"
-                          sx={{ textTransform: "capitalize", ml: 2 }}
-                        >
-                          {workout?.workoutDescription}
-                        </Typography>
-                      </Grid>
-                    ) : (
+                    {workout?.workout?.id && (
                       <Grid item xs={2}>
                         <Button
                           size="small"
@@ -278,7 +267,6 @@ export default function MyPlan() {
               <Box key={index} sx={{ mb: 2, maxWidth: 320 }}>
                 {card(x)}
               </Box>
-
               {x.workoutList.type}
               {/* {(x.workoutList || []).map((w) => (
               <div>
