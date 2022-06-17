@@ -3,31 +3,21 @@ import {
   Button,
   TextField,
   CircularProgress,
-  Grid,
   Box,
   Alert,
   Typography,
   FormGroup,
   FormControlLabel,
 } from "@mui/material";
-import { API, Storage } from "aws-amplify";
+import { API } from "aws-amplify";
 import { createProgram } from "../../src/graphql/mutations";
 import { useRouter } from "next/router";
 import AddWorkoutDialog from "./addWorkoutDialog";
 import Checkbox from "@mui/material/Checkbox";
 
-export default function AddProgram({
-  program,
-  setEdit,
-  updateProramList,
-  workouts,
-}) {
+export default function AddProgram({ setEdit, workouts, setShowAdd }) {
   const [formData, setFormData] = useState({});
   const [workoutList, setWorkoutList] = useState([]);
-  const [imageUpload, setImageDisplay] = useState();
-  const [image, setImage] = useState();
-  const [videoUpload, setVideoDisplay] = useState();
-  const [video, setVideo] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
@@ -62,22 +52,6 @@ export default function AddProgram({
     }
     try {
       let newdata = { ...formData };
-      const filename = formData?.image;
-
-      if (image) {
-        const { key } = await Storage.put(filename, image, {
-          metadata: { name: formData?.name, type: "image" },
-        });
-        newdata.image = key;
-      }
-      const vidoeFilename = formData?.video;
-
-      if (video) {
-        const { key } = await Storage.put(vidoeFilename, video, {
-          metadata: { name: formData?.name, type: "video" },
-        });
-        newdata.video = key;
-      }
       if (workoutList.length > 0)
         newdata.workoutList = { workout: { workoutList } };
       if (formData?.workoutDescription) {
@@ -115,9 +89,10 @@ export default function AddProgram({
 
       setFormData({});
       setLoading(false);
+      setShowAdd();
       if (setEdit) setEdit(false);
       setError();
-      router.push("/admin?view=programs");
+      router.replace("/admin?view=programs");
     } catch (error) {
       setLoading(false);
       setError("Oops there was an error creating/updating program");
@@ -131,41 +106,6 @@ export default function AddProgram({
     formData[name] = value;
     setFormData({ ...formData });
   };
-
-  async function onChange(e) {
-    if (formData?.name) {
-      setLoading(true);
-      const name = e?.target?.name;
-      const [file] = e.target.files;
-      if (!file) return;
-      if (name === "video" && file?.type !== "video/mp4") {
-        setLoading(false);
-        setError("Please upload video/mp4 video format");
-        return;
-      }
-      if (name === "video" && file.size / 1024 / 1024 > 100) {
-        setLoading(false);
-        setError("video file size is too large. max video is 100MB.");
-        return;
-      } else {
-        const fileparts = file.name.split(".");
-        const timestamp = new Date().getTime();
-        const filename =
-          `${formData?.name}-${timestamp}.${fileparts[1]}`.replaceAll(" ", "-");
-
-        setFormData({ ...formData, [name]: filename });
-        if (name === "image") {
-          setImage(file);
-          setImageDisplay(URL.createObjectURL(e.target.files[0]));
-          setLoading(false);
-        } else if (name === "video") {
-          setVideo(file);
-          setVideoDisplay(URL.createObjectURL(e.target.files[0]));
-          setLoading(false);
-        }
-      }
-    } else setError("enter an exercise name");
-  }
 
   const setProgramWorkouts = (workouts) => {
     if (formData?.workoutList)
@@ -317,58 +257,6 @@ export default function AddProgram({
           <Box mt={2} mb={2}>
             {renderAddWorkout()}
           </Box>
-          {formData?.name && (
-            <Grid container direction={"row"}>
-              <Grid item xs={6}>
-                <input
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  id="image-upload"
-                  multiple
-                  type="file"
-                  name="image"
-                  onChange={onChange}
-                />
-                <label htmlFor="image-upload">
-                  <Button color="primary" component="span" variant="outlined">
-                    {formData?.image ? "Change Image" : "Add an image"}
-                  </Button>
-                </label>
-                {formData?.name && imageUpload && (
-                  <Box>
-                    <img
-                      src={imageUpload}
-                      style={{ height: 200, width: 200, objectFit: "contain" }}
-                    />
-                  </Box>
-                )}
-              </Grid>
-              <Grid item xs={6}>
-                <input
-                  accept="video/mp4"
-                  name="video"
-                  style={{ display: "none" }}
-                  id="video-upload"
-                  multiple
-                  type="file"
-                  onChange={onChange}
-                />
-                <label htmlFor="video-upload">
-                  <Button color="primary" component="span" variant="outlined">
-                    {formData?.video ? "Change Video" : "Add a video"}
-                  </Button>
-                </label>
-                {formData?.name && videoUpload && (
-                  <Box mt={4}>
-                    <video controls width="250">
-                      <source src={videoUpload} type="video/mp4" />
-                      Sorry, your browser doesn't support embedded videos.
-                    </video>
-                  </Box>
-                )}
-              </Grid>
-            </Grid>
-          )}
           {formData?.name && <Box mt={3} mb={3}></Box>}
           {loading && (
             <Button variant="contained" color="primary" disabled>

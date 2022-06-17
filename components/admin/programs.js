@@ -92,6 +92,9 @@ export default function Programs() {
     getProgramList();
     getWorkouts();
   }, []);
+  useEffect(() => {
+    getProgramList();
+  }, [showAdd]);
 
   async function getProgramList() {
     try {

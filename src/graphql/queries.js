@@ -182,7 +182,13 @@ export const getProgram = /* GraphQL */ `
         day
         week
         type
-        workoutId
+        workout {
+          id
+          name
+          image
+          video
+          instructions
+        }
         workoutName
         workoutDescription
       }
@@ -214,7 +220,6 @@ export const listPrograms = /* GraphQL */ `
           day
           week
           type
-          workoutId
           workoutName
           workoutDescription
         }

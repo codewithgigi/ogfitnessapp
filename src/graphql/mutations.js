@@ -262,7 +262,13 @@ export const createProgram = /* GraphQL */ `
         day
         week
         type
-        workoutId
+        workout {
+          id
+          name
+          image
+          video
+          instructions
+        }
         workoutName
         workoutDescription
       }
@@ -292,7 +298,13 @@ export const updateProgram = /* GraphQL */ `
         day
         week
         type
-        workoutId
+        workout {
+          id
+          name
+          image
+          video
+          instructions
+        }
         workoutName
         workoutDescription
       }
@@ -322,7 +334,13 @@ export const deleteProgram = /* GraphQL */ `
         day
         week
         type
-        workoutId
+        workout {
+          id
+          name
+          image
+          video
+          instructions
+        }
         workoutName
         workoutDescription
       }

@@ -105,7 +105,7 @@ export default function AddWorkoutDialog({
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            name="workoutId"
+            name="workout"
             //value={workout?.name}
             label="workout"
             onChange={(event) => handleChange({ event, dayNum: daynum })}

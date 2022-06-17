@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { API } from "aws-amplify";
 import { listWorkouts } from "../../src/graphql/queries";
+import { deleteWorkout } from "../../src/graphql/mutations";
 import {
   Box,
   Fab,
@@ -8,6 +9,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Grid,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
@@ -15,6 +17,7 @@ import AddWorkout from "./addworkout";
 import { getStorageFiles, ExerciseList } from "./exercises";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { listExercises } from "./exercises";
+import DeleteDialog from "../deleteDialog";
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState();
@@ -31,6 +34,10 @@ export default function Workouts() {
     getWorkoutList();
     getExerciseList();
   }, []);
+
+  useEffect(() => {
+    getWorkoutList();
+  }, [showAdd]);
 
   async function getWorkoutList() {
     try {
@@ -81,10 +88,6 @@ export default function Workouts() {
           authMode: "AMAZON_COGNITO_USER_POOLS",
           variables: { input: { id: x?.id } },
         });
-        //remove videos and images as well
-        //ToDO:  make sure this workout is not in any programs first
-        //if (x?.image) await Storage.remove(x?.image);
-        //if (x?.video) await Storage.remove(x?.video);
         const newset = workouts.filter((e) => e.id !== x?.id);
         setWorkouts(newset);
         setFilter();
@@ -94,7 +97,6 @@ export default function Workouts() {
       }
     }
   };
-  console.log("workouts", workouts);
   return (
     <>
       <Box mt={2} sx={{ textAlign: "right" }}>
@@ -139,6 +141,9 @@ export default function Workouts() {
                 <Typography sx={{ color: "text.secondary" }}>
                   {x?.instructions}
                 </Typography>
+                <Grid item>
+                  <DeleteDialog removeItem={() => removeWorkout(x)} item={x} />
+                </Grid>
               </AccordionSummary>
               <AccordionDetails>
                 {x?.exercises && x?.exercises.length > 0 && (
