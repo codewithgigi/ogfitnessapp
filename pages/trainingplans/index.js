@@ -75,7 +75,7 @@ export default function MyPlan() {
 
   useEffect(() => {
     getProgramList();
-  }, []);
+  }, [state?.user?.profile?.onboarding]);
 
   useEffect(() => {
     if (router?.query?.planId) {
