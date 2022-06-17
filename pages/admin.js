@@ -2,11 +2,11 @@ import React, { useEffect } from "react";
 import styles from "../src/styles/Home.module.css";
 import { Box, Button } from "@mui/material";
 import Section from "../components/Section";
-import Context from "../src/context";
 import { useRouter } from "next/router";
 import Exercises from "../components/admin/exercises";
 import Workouts from "../components/admin/workouts";
 import Programs from "../components/admin/programs";
+import { withSSRContext } from "aws-amplify";
 
 function AdminTabs({ view = "" }) {
   const [tab, setTabView] = React.useState(view);
@@ -50,15 +50,12 @@ function AdminTabs({ view = "" }) {
   );
 }
 
-export default function Admin() {
-  const { state } = React.useContext(Context);
+export default function Admin(props) {
   const router = useRouter();
-
   useEffect(() => {
-    //if user is not admin redirect to home page
-    // router.push("/");
-    console.log("user", state?.user);
-  }, [state?.user]);
+    if (!props?.user || !(props?.user?.groups || []).includes("Admin"))
+      router.push("/");
+  }, [props?.user]);
 
   return (
     <Section>
@@ -68,4 +65,28 @@ export default function Admin() {
       </Box>
     </Section>
   );
+}
+
+export async function getServerSideProps(context) {
+  const slug = context?.query?.slug;
+  const { Auth } = withSSRContext(context);
+  let user;
+  try {
+    user = await Auth.currentAuthenticatedUser();
+    const groups =
+      user?.signInUserSession?.accessToken?.payload["cognito:groups"] ?? [];
+    return {
+      props: {
+        user: {
+          username: user?.username,
+          attributes: user?.attributes,
+          groups: groups,
+        },
+        authenticated: true,
+      },
+    };
+  } catch (error) {
+    console.log("error", error);
+  }
+  return { props: { user: null } };
 }

@@ -188,7 +188,7 @@ const ResponsiveAppBar = () => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {state?.user && (
+            {state?.user ? (
               <Box>
                 <Button
                   id="basic-button"
@@ -214,6 +214,8 @@ const ResponsiveAppBar = () => {
                   <MenuItem onClick={signOut}>Logout</MenuItem>
                 </Menu>
               </Box>
+            ) : (
+              <Button onClick={() => router.push("/auth/signin")}>Login</Button>
             )}
             {!state?.user && (
               <Grid item>
