@@ -7,11 +7,14 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Grid,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import AddProgram from "./addProgram";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { deleteProgram } from "../../src/graphql/mutations";
+import DeleteDialog from "../deleteDialog";
 
 const listWorkouts = /* GraphQL */ `
   query ListWorkouts(
@@ -103,22 +106,7 @@ export default function Programs() {
         variables: { limit: 300 },
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
-      console.log("data", data);
       const items = data?.listPrograms?.items;
-      //let newItems = await getStorageFiles(items);
-      console.log("new items", items);
-      //get image
-      // let itemsImages = await Promise.all(
-      //   newItems.map(async (item) => {
-      //     try {
-      //       let items = await getStorageFiles(item?.workoutList);
-      //       item.workoutList = items;
-      //       return item;
-      //     } catch (error) {
-      //       console.log("error getting workout images");
-      //     }
-      //   }),
-      // );
       setPrograms(items);
     } catch (error) {
       console.warn("Error with api listWorkouts", error);
@@ -147,10 +135,6 @@ export default function Programs() {
           authMode: "AMAZON_COGNITO_USER_POOLS",
           variables: { input: { id: x?.id } },
         });
-        //remove videos and images as well
-        //ToDO:  make sure this workout is not in any programs first
-        // if (x?.image) await Storage.remove(x?.image);
-        // if (x?.video) await Storage.remove(x?.video);
         const newset = programs.filter((e) => e.id !== x?.id);
         setPrograms(newset);
         setFilter();
@@ -204,6 +188,9 @@ export default function Programs() {
                 <Typography sx={{ color: "text.secondary" }}>
                   {x?.instructions}
                 </Typography>
+                <Grid item>
+                  <DeleteDialog removeItem={() => removeProgram(x)} item={x} />
+                </Grid>
               </AccordionSummary>
               <AccordionDetails>
                 {x?.workoutList && x?.workoutList.length > 0 && (
