@@ -48,15 +48,16 @@ export default function Workouts() {
       });
       const items = data?.listWorkouts?.items;
       let newItems = await getStorageFiles(items);
-      //get image
       let itemsImages = await Promise.all(
-        newItems.map(async (item) => {
+        items.map(async (item) => {
           try {
-            let items = await getStorageFiles(item?.exercises);
-            item.exercises = items;
+            if (item?.exercises && item?.exercises.length > 0) {
+              let newitems = await getStorageFiles(item?.exercises);
+              item.exercises = newitems;
+            }
             return item;
           } catch (error) {
-            console.log("error getting workout images");
+            console.log("error getting exercise images");
           }
         }),
       );
@@ -97,6 +98,7 @@ export default function Workouts() {
       }
     }
   };
+
   return (
     <>
       <Box mt={2} sx={{ textAlign: "right" }}>

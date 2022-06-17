@@ -159,12 +159,9 @@ export default function Exercises() {
           data.videoSource = await Storage.get(data?.video, {
             download: false,
           });
-        console.log("data", data, exercises.length);
         if (!exercise) {
-          console.log("not data has exerc", [...exercises, data]);
           setExercises([...exercises, data]);
         } else {
-          console.log("data has exerc", exercise);
           const newset = exercises.map((x) => {
             if (x.id === data?.id) return data;
             else return x;

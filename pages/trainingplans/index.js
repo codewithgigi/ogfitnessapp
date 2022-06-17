@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
+import Workout from "../../components/workout";
 
 import Section from "../../components/Section";
 import Context from "../../src/context";
@@ -38,7 +39,24 @@ const listPrograms = /* GraphQL */ `
           day
           week
           type
-          workoutId
+          workout {
+            id
+            name
+            instructions
+            exercises {
+              id
+              name
+              muscles
+              bodypart
+              equipment
+              instructions
+              image
+              video
+              sets
+              reps
+              order
+            }
+          }
           workoutName
           workoutDescription
         }
@@ -52,11 +70,12 @@ export default function MyPlan() {
   const { state } = useContext(Context);
   const [programs, setPrograms] = useState();
   const [viewPlan, setViewPlan] = useState();
+  const [viewWorkout, setViewWorkout] = useState();
   const router = useRouter();
 
   useEffect(() => {
     getProgramList();
-  }, [state?.user?.profile?.onboarding]);
+  }, []);
 
   useEffect(() => {
     if (router?.query?.planId) {
@@ -64,6 +83,16 @@ export default function MyPlan() {
       setViewPlan(plan);
     } else setViewPlan();
   }, [router?.query?.planId, programs]);
+
+  useEffect(() => {
+    if (router?.query?.workoutId) {
+      const plan = (programs || []).find((x) => x.id === router?.query?.planId);
+      const workout = (plan?.workoutList || []).find(
+        (w) => w.workout.id === router?.query?.workoutId,
+      );
+      setViewWorkout(workout);
+    } else setViewWorkout();
+  }, [router?.query?.workoutId, programs]);
 
   async function getProgramList() {
     let {
@@ -142,6 +171,7 @@ export default function MyPlan() {
               );
               return (
                 <Box
+                  key={day}
                   p={1}
                   mb={1}
                   mt={1}
@@ -174,11 +204,13 @@ export default function MyPlan() {
                     ) : (
                       <Grid item xs={2}>
                         <Button
+                          size="small"
                           onClick={() =>
                             router.push({
-                              pathname: "/workout",
+                              pathname: "/trainingplans",
                               query: {
-                                id: workout?.workoutId,
+                                planId: viewPlan?.id,
+                                workoutId: workout?.workout?.id,
                               },
                             })
                           }
@@ -197,7 +229,10 @@ export default function MyPlan() {
     }
     return <div>{weeks}</div>;
   };
-  if (viewPlan)
+  console.log("viewworkout", viewWorkout);
+  if (viewWorkout) {
+    return <Workout workout={viewWorkout} />;
+  } else if (viewPlan)
     return (
       <Section>
         <Button onClick={() => router.push("/trainingplans")}>All Plans</Button>
@@ -212,47 +247,48 @@ export default function MyPlan() {
         <Box>{renderWeeks()}</Box>
       </Section>
     );
-  return (
-    <Section>
-      <Typography variant="h1">Training Plans</Typography>
+  else
+    return (
+      <Section>
+        <Typography variant="h1">Training Plans</Typography>
 
-      <p>
-        {profile?.onboarding?.compete
-          ? `Compete in ${profile?.onboarding?.compete}`
-          : `Goal: ${profile?.onboarding?.goal}`}
-        <Button size="small" onClick={() => router.push("/onboarding")}>
-          Change Goal
-        </Button>
-      </p>
-      {profile?.onboarding?.compete && (
-        <Box>
-          <p>
-            {profile?.onboarding?.goal} {profile?.onboarding?.compete} Workouts
-            are not available yet. Click here to get a custom plan. Or click
-            here to{" "}
-            <Button size="small" onClick={() => router.push("/onboarding")}>
-              Change Goal
-            </Button>
-          </p>
-        </Box>
-      )}
-      <Grid container flexDirection={"column"}>
-        {(programs || []).map((x, index) => (
-          <div>
-            <Box key={index} sx={{ mb: 2, maxWidth: 320 }}>
-              {card(x)}
-            </Box>
+        <p>
+          {profile?.onboarding?.compete
+            ? `Compete in ${profile?.onboarding?.compete}`
+            : `Goal: ${profile?.onboarding?.goal}`}
+          <Button size="small" onClick={() => router.push("/onboarding")}>
+            Change Goal
+          </Button>
+        </p>
+        {profile?.onboarding?.compete && (
+          <Box>
+            <p>
+              {profile?.onboarding?.goal} {profile?.onboarding?.compete}{" "}
+              Workouts are not available yet. Click here to get a custom plan.
+              Or click here to{" "}
+              <Button size="small" onClick={() => router.push("/onboarding")}>
+                Change Goal
+              </Button>
+            </p>
+          </Box>
+        )}
+        <Grid container flexDirection={"column"}>
+          {(programs || []).map((x, index) => (
+            <div key={index}>
+              <Box key={index} sx={{ mb: 2, maxWidth: 320 }}>
+                {card(x)}
+              </Box>
 
-            {x.workoutList.type}
-            {/* {(x.workoutList || []).map((w) => (
+              {x.workoutList.type}
+              {/* {(x.workoutList || []).map((w) => (
               <div>
                 {getWorkoutWeekInList(w)}
                 Week {index + 1} Day: {w?.day} {w?.type}
               </div>
             ))} */}
-          </div>
-        ))}
-      </Grid>
-    </Section>
-  );
+            </div>
+          ))}
+        </Grid>
+      </Section>
+    );
 }

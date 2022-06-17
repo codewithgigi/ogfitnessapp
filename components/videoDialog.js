@@ -12,7 +12,6 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import CloseIcon from "@mui/icons-material/Close";
 
 export default function VideoDialog({ item }) {
-  console.log("exercise", item);
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

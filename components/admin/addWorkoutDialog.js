@@ -77,23 +77,7 @@ export default function AddWorkoutDialog({
 
   const renderInputByType = (daynum) => {
     let daybynum = days.find((x) => x.day == daynum);
-    if (daybynum?.type === "cardio" || daybynum?.type === "rest") {
-      return (
-        <TextField
-          autoFocus
-          required
-          variant="outlined"
-          margin="dense"
-          name="workoutDescription"
-          label="Workout description ....."
-          onChange={(event) => handleChange({ event, dayNum: daynum })}
-          placeholder="Description"
-          value={daybynum?.workoutDescription}
-          inputProps={{ maxLength: 50 }}
-          fullWidth
-        />
-      );
-    } else if (daybynum?.type === "weight training") {
+    if (daybynum?.type === "workout") {
       const menus = (workouts || []).map((x) => (
         <MenuItem value={x}>{x?.name}</MenuItem>
       ));
@@ -153,7 +137,7 @@ export default function AddWorkoutDialog({
                   onChange={(event) => handleChange({ event, dayNum: x })}
                   sx={{ mt: 3 }}
                 >
-                  {["cardio", "rest", "weight training"].map((x) => (
+                  {["rest", "workout"].map((x) => (
                     <ToggleButton name="type" value={x}>
                       {x}
                     </ToggleButton>
