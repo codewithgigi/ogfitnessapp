@@ -123,12 +123,12 @@ export default function MyPlan() {
     }
   }
 
-  const card = (x) => (
+  const card = (x, index) => (
     <Card>
       <CardMedia
         component="img"
         height="290"
-        image="/assets/fat-loss-female.png"
+        image={`/assets/fat-loss-female-${index + 1}.png`}
         alt="female fat loss oksana"
       />
       <CardContent>
@@ -256,7 +256,7 @@ export default function MyPlan() {
           {(programs || []).map((x, index) => (
             <div key={index}>
               <Box key={index} sx={{ mb: 2, maxWidth: 400 }}>
-                {card(x)}
+                {card(x, index)}
               </Box>
               {x.workoutList.type}
             </div>

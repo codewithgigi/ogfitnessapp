@@ -187,19 +187,16 @@ export default function Programs() {
                 <Typography
                   variant="h3"
                   sx={{
-                    width: "33%",
+                    width: "80%",
                     flexShrink: 0,
                     textTransform: "capitalize",
                   }}
                 >
                   {x?.name}
                 </Typography>
-                <Typography sx={{ color: "text.secondary" }}>
-                  {x?.instructions}
-                </Typography>
-                <Grid item>
+                <Box sx={{ width: "20%" }}>
                   <DeleteDialog removeItem={() => removeProgram(x)} item={x} />
-                </Grid>
+                </Box>
               </AccordionSummary>
               <AccordionDetails>
                 {x?.workoutList && x?.workoutList.length > 0 && (
