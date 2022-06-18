@@ -13,7 +13,6 @@ import Grid from "@mui/material/Grid";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { palette } from "../src/theme";
-import Image from "next/image";
 
 import Person from "@mui/icons-material/AccountCircle";
 import { Auth } from "aws-amplify";
