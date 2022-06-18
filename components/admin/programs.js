@@ -79,6 +79,7 @@ const listPrograms = /* GraphQL */ `
               name
               sets
               reps
+              order
             }
           }
         }
@@ -210,8 +211,14 @@ export default function Programs() {
                       Length: {x?.weeks} weeks
                     </Typography>
                     {x.workoutList.map((list, index) => (
-                      <>
-                        <Typography variant="h3" mt={2}>
+                      <Box
+                        key={index}
+                        borderBottom={0.5}
+                        borderColor="lightgrey"
+                        pb={4}
+                        pt={4}
+                      >
+                        <Typography variant="h4">
                           Week {list?.week} Day {list?.day}
                         </Typography>
                         <Typography variant="h5">
@@ -220,17 +227,17 @@ export default function Programs() {
                         {list?.workout?.exercises &&
                           list?.workout?.exercises.length > 0 && (
                             <div>
-                              {list.workout.exercises.map((exercise) => (
-                                <div>
+                              {list.workout.exercises.map((exercise, index) => (
+                                <div key={index}>
                                   <div>
-                                    {exercise?.name} {exercise?.sets} x{" "}
-                                    {exercise?.reps}
+                                    {exercise?.order}. {exercise?.name}{" "}
+                                    {exercise?.sets} x {exercise?.reps}
                                   </div>
                                 </div>
                               ))}
                             </div>
                           )}
-                      </>
+                      </Box>
                     ))}
                   </>
                 )}
