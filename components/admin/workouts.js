@@ -133,21 +133,21 @@ export default function Workouts() {
                 <Typography
                   variant="h3"
                   sx={{
-                    width: "33%",
+                    width: "80%",
                     flexShrink: 0,
                     textTransform: "capitalize",
                   }}
                 >
                   {x?.name}
                 </Typography>
+                <Box sx={{ width: "20%" }}>
+                  <DeleteDialog removeItem={() => removeWorkout(x)} item={x} />
+                </Box>
+              </AccordionSummary>
+              <AccordionDetails>
                 <Typography sx={{ color: "text.secondary" }}>
                   {x?.instructions}
                 </Typography>
-                <Grid item>
-                  <DeleteDialog removeItem={() => removeWorkout(x)} item={x} />
-                </Grid>
-              </AccordionSummary>
-              <AccordionDetails>
                 {x?.exercises && x?.exercises.length > 0 && (
                   <ExerciseList list={x?.exercises} />
                 )}
