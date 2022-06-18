@@ -21,10 +21,10 @@ import { Auth } from "aws-amplify";
 import Context from "../src/context";
 
 const pages = [
-  { name: "Dashboard", path: "/dashboard" },
+  // { name: "Dashboard", path: "/dashboard" },
   { name: "Training", path: "/trainingplans" },
   { name: "Profile", path: "/profile" },
-  { name: "Settings", path: "/settings" },
+  // { name: "Settings", path: "/settings" },
 ];
 
 const ResponsiveAppBar = () => {
