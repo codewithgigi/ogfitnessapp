@@ -85,7 +85,9 @@ export const ExerciseList = ({ list, removeExercise = null }) => {
         )}
       </Grid>
       <Grid item>
-        <Typography variant="h5">{x?.name}</Typography>
+        <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
+          {x?.name}
+        </Typography>
         {x?.reps && x?.sets && (
           <Typography variant="body" mt={0.5}>
             {x?.sets} X {x?.reps}x

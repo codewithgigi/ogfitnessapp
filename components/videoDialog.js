@@ -29,11 +29,14 @@ export default function VideoDialog({ item }) {
       </Button>
       <Dialog fullWidth maxWidth="md" open={open} onClose={handleClose}>
         <DialogTitle>
-          <Typography variant="h3">{item?.name}</Typography>
+          <Typography variant="h3" sx={{ width: "90%" }}>
+            {item?.name}
+          </Typography>
           <IconButton
             aria-label="close"
             onClick={handleClose}
             sx={{
+              width: "10%",
               position: "absolute",
               right: 8,
               top: 8,

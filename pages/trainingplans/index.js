@@ -6,6 +6,7 @@ import {
   Grid,
   CardActions,
   CardContent,
+  CardMedia,
   Button,
   Typography,
 } from "@mui/material";
@@ -88,7 +89,7 @@ export default function MyPlan() {
     if (router?.query?.workoutId) {
       const plan = (programs || []).find((x) => x.id === router?.query?.planId);
       const workout = (plan?.workoutList || []).find(
-        (w) => w.workout.id === router?.query?.workoutId,
+        (w) => w.workout?.id === router?.query?.workoutId,
       );
       setViewWorkout(workout);
     } else setViewWorkout();
@@ -124,15 +125,17 @@ export default function MyPlan() {
 
   const card = (x) => (
     <Card>
+      <CardMedia
+        component="img"
+        height="290"
+        image="/assets/fat-loss-female.png"
+        alt="female fat loss oksana"
+      />
       <CardContent>
         <Typography variant="h2">{x?.name}</Typography>
-        <Typography variant="h3">{x?.weeks} Week Program</Typography>
         <Typography variant="body2" sx={{ mb: 1 }}>
           {x?.description}
         </Typography>
-        {/* <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Goal: {x?.goal}
-        </Typography> */}
       </CardContent>
       <CardActions>
         <Button
@@ -178,22 +181,14 @@ export default function MyPlan() {
                   borderBottom={day !== 7 ? 1 : 0}
                   borderColor="lightgrey"
                 >
-                  <Grid container direction={"row"}>
+                  <Grid container direction={"row"} alignItems="center">
                     <Grid item xs={2}>
                       <Typography variant="h5"> Day {day} </Typography>
                     </Grid>
                     <Grid item xs={8}>
-                      <Typography
-                        variant="body"
-                        sx={{ textTransform: "capitalize", ml: 1 }}
-                      >
-                        {workout?.workout?.name ?? "Rest Day"}
-                      </Typography>
-                    </Grid>
-                    {workout?.workout?.id && (
-                      <Grid item xs={2}>
+                      {workout?.workout?.id ? (
                         <Button
-                          size="small"
+                          sx={{ textAlign: "left" }}
                           onClick={() =>
                             router.push({
                               pathname: "/trainingplans",
@@ -204,10 +199,17 @@ export default function MyPlan() {
                             })
                           }
                         >
-                          View
+                          {workout?.workout?.name ?? "Rest Day"}
                         </Button>
-                      </Grid>
-                    )}
+                      ) : (
+                        <Typography
+                          variant="body"
+                          sx={{ textTransform: "capitalize", ml: 1 }}
+                        >
+                          {workout?.workout?.name ?? "Rest Day"}
+                        </Typography>
+                      )}
+                    </Grid>
                   </Grid>
                 </Box>
               );
@@ -218,7 +220,6 @@ export default function MyPlan() {
     }
     return <div>{weeks}</div>;
   };
-  console.log("viewworkout", viewWorkout);
   if (viewWorkout) {
     return <Workout workout={viewWorkout} planId={viewPlan?.id} />;
   } else if (viewPlan)
@@ -226,13 +227,11 @@ export default function MyPlan() {
       <Section>
         <Button onClick={() => router.push("/trainingplans")}>All Plans</Button>
         <Typography variant="h2">{viewPlan?.name}</Typography>
-        <Typography variant="h3">{viewPlan?.weeks} Week Program</Typography>
-        <Typography variant="body2" sx={{ mb: 1 }}>
-          {viewPlan?.description}
-        </Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Goal: {viewPlan?.goal}
-        </Typography>
+        <Typography
+          sx={{ fontSize: 14 }}
+          color="text.secondary"
+          gutterBottom
+        ></Typography>
         <Box>{renderWeeks()}</Box>
       </Section>
     );
@@ -241,14 +240,6 @@ export default function MyPlan() {
       <Section>
         <Typography variant="h1">Training Plans</Typography>
 
-        <p>
-          {profile?.onboarding?.compete
-            ? `Compete in ${profile?.onboarding?.compete}`
-            : `Goal: ${profile?.onboarding?.goal}`}
-          <Button size="small" onClick={() => router.push("/onboarding")}>
-            Change Goal
-          </Button>
-        </p>
         {profile?.onboarding?.compete && (
           <Box>
             <p>
@@ -264,7 +255,7 @@ export default function MyPlan() {
         <Grid container flexDirection={"column"}>
           {(programs || []).map((x, index) => (
             <div key={index}>
-              <Box key={index} sx={{ mb: 2, maxWidth: 320 }}>
+              <Box key={index} sx={{ mb: 2, maxWidth: 400 }}>
                 {card(x)}
               </Box>
               {x.workoutList.type}
