@@ -70,9 +70,17 @@ const listPrograms = /* GraphQL */ `
         workoutList {
           day
           week
-          type
-          workoutName
-          workoutDescription
+          workout {
+            id
+            name
+            instructions
+            exercises {
+              id
+              name
+              sets
+              reps
+            }
+          }
         }
       }
       nextToken
@@ -194,9 +202,37 @@ export default function Programs() {
               </AccordionSummary>
               <AccordionDetails>
                 {x?.workoutList && x?.workoutList.length > 0 && (
-                  <Typography sx={{ color: "text.secondary" }}>
-                    {x?.name}
-                  </Typography>
+                  <>
+                    <Typography sx={{ color: "text.secondary" }}>
+                      {x?.description}
+                    </Typography>
+                    <Typography sx={{ color: "text.secondary" }}>
+                      Length: {x?.weeks} weeks
+                    </Typography>
+                    {x.workoutList.map((list, index) => (
+                      <>
+                        <Typography variant="h3" mt={2}>
+                          Week {list?.week} Day {list?.day}
+                        </Typography>
+                        <Typography variant="h5">
+                          {list?.workout?.name ?? "Rest Day"}
+                        </Typography>
+                        {list?.workout?.exercises &&
+                          list?.workout?.exercises.length > 0 && (
+                            <div>
+                              {list.workout.exercises.map((exercise) => (
+                                <div>
+                                  <div>
+                                    {exercise?.name} {exercise?.sets} x{" "}
+                                    {exercise?.reps}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                      </>
+                    ))}
+                  </>
                 )}
               </AccordionDetails>
             </Accordion>
