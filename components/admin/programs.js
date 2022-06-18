@@ -213,7 +213,9 @@ export default function Programs() {
                     {x.workoutList.map((list, index) => (
                       <Box
                         key={index}
-                        borderBottom={0.5}
+                        borderBottom={
+                          index < x?.workoutList.length - 1 ? 0.5 : 0
+                        }
                         borderColor="lightgrey"
                         pb={4}
                         pt={4}
