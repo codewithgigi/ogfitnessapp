@@ -21,9 +21,9 @@ function AdminTabs({ view = "exercises" }) {
 
   const handleChange = (event, newValue) => {
     setTab(newValue);
-    if (newValue === 0) router.push("/admin?view=exercises");
-    else if (newValue === 1) router.push("/admin?view=workouts");
-    else if (newValue === 2) router.push("/admin?view=programs");
+    if (newValue === 0) router.push("/admin-page?view=exercises");
+    else if (newValue === 1) router.push("/admin-page?view=workouts");
+    else if (newValue === 2) router.push("/admin-page?view=programs");
   };
 
   return (

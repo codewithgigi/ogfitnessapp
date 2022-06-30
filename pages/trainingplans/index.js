@@ -9,13 +9,17 @@ import {
   CardMedia,
   Button,
   Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import { useRouter } from "next/router";
-import Workout from "../../components/workout";
 
 import Section from "../../components/Section";
 import Context from "../../src/context";
-import { getStorageFiles } from "../../components/admin/exercises";
+import { ExerciseList } from "../../components/admin/exercises";
 
 const listPrograms = /* GraphQL */ `
   query ListPrograms(
@@ -67,6 +71,64 @@ const listPrograms = /* GraphQL */ `
   }
 `;
 
+const WorkoutAccordion = ({ workout, day, setViewWorkout }) => {
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleChangeExpanded = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+    setViewWorkout(workout);
+  };
+
+  return (
+    <Accordion expanded={expanded === day} onChange={handleChangeExpanded(day)}>
+      {workout ? (
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls={`${day}-content`}
+          id={`${day}-header`}
+        >
+          {workout ? (
+            <Typography
+              variant="h3"
+              sx={{
+                width: "80%",
+                flexShrink: 0,
+                textTransform: "capitalize",
+              }}
+            >
+              {workout?.name ?? "Rest Day"}
+            </Typography>
+          ) : (
+            <Typography
+              variant="h4"
+              sx={{
+                width: "80%",
+                flexShrink: 0,
+                textTransform: "capitalize",
+              }}
+            >
+              Rest Day
+            </Typography>
+          )}
+        </AccordionSummary>
+      ) : (
+        <AccordionSummary>Test</AccordionSummary>
+      )}
+
+      {workout && (
+        <AccordionDetails>
+          <Typography sx={{ color: "text.secondary" }}>
+            {workout?.instructions ?? "Rest Day"}
+          </Typography>
+          {workout?.exercises && workout?.exercises.length > 0 && (
+            <ExerciseList list={workout?.exercises} />
+          )}
+        </AccordionDetails>
+      )}
+    </Accordion>
+  );
+};
+
 export default function MyPlan() {
   const { state } = useContext(Context);
   const [programs, setPrograms] = useState();
@@ -84,16 +146,6 @@ export default function MyPlan() {
       setViewPlan(plan);
     } else setViewPlan();
   }, [router?.query?.planId, programs]);
-
-  useEffect(() => {
-    if (router?.query?.workoutId) {
-      const plan = (programs || []).find((x) => x.id === router?.query?.planId);
-      const workout = (plan?.workoutList || []).find(
-        (w) => w.workout?.id === router?.query?.workoutId,
-      );
-      setViewWorkout(workout);
-    } else setViewWorkout();
-  }, [router?.query?.workoutId, programs]);
 
   async function getProgramList() {
     let {
@@ -116,8 +168,7 @@ export default function MyPlan() {
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
       const items = data?.listPrograms?.items;
-      let newItems = await getStorageFiles(items);
-      setPrograms(newItems);
+      setPrograms(items);
     } catch (error) {
       console.log("Error with api listWorkouts", error);
     }
@@ -160,7 +211,9 @@ export default function MyPlan() {
     for (const week = 1; week <= viewPlan?.weeks; week++) {
       weeks.push(
         <>
-          <Typography variant="h2">Week {week}</Typography>
+          {weeks.length > 1 && (
+            <Typography variant="h2">Week {week}</Typography>
+          )}
           <Box
             border={1}
             borderColor="lightgrey"
@@ -172,46 +225,13 @@ export default function MyPlan() {
               const workout = (viewPlan.workoutList || []).find(
                 (list) => list?.day === day && list?.week === week,
               );
+              console.log("dDAYYYYYY", day);
               return (
-                <Box
-                  key={day}
-                  p={1}
-                  mb={1}
-                  mt={1}
-                  borderBottom={day !== 7 ? 1 : 0}
-                  borderColor="lightgrey"
-                >
-                  <Grid container direction={"row"} alignItems="center">
-                    <Grid item xs={2}>
-                      <Typography variant="h5"> Day {day} </Typography>
-                    </Grid>
-                    <Grid item xs={8}>
-                      {workout?.workout?.id ? (
-                        <Button
-                          sx={{ textAlign: "left" }}
-                          onClick={() =>
-                            router.push({
-                              pathname: "/trainingplans",
-                              query: {
-                                planId: viewPlan?.id,
-                                workoutId: workout?.workout?.id,
-                              },
-                            })
-                          }
-                        >
-                          {workout?.workout?.name ?? "Rest Day"}
-                        </Button>
-                      ) : (
-                        <Typography
-                          variant="body"
-                          sx={{ textTransform: "capitalize", ml: 1 }}
-                        >
-                          {workout?.workout?.name ?? "Rest Day"}
-                        </Typography>
-                      )}
-                    </Grid>
-                  </Grid>
-                </Box>
+                <WorkoutAccordion
+                  workout={workout?.workout}
+                  setViewWorkout={setViewWorkout}
+                  day={day}
+                />
               );
             })}
           </Box>
@@ -220,9 +240,10 @@ export default function MyPlan() {
     }
     return <div>{weeks}</div>;
   };
-  if (viewWorkout) {
-    return <Workout workout={viewWorkout} planId={viewPlan?.id} />;
-  } else if (viewPlan)
+  // if (viewWorkout) {
+  //   return <Workout workout={viewWorkout} planId={viewPlan?.id} />;
+  // } else
+  if (viewPlan)
     return (
       <Section>
         <Button onClick={() => router.push("/trainingplans")}>All Plans</Button>
@@ -253,12 +274,12 @@ export default function MyPlan() {
           </Box>
         )}
         <Grid container flexDirection={"column"}>
-          {(programs || []).map((x, index) => (
+          {(programs || []).map((program, index) => (
             <div key={index}>
               <Box key={index} sx={{ mb: 2, maxWidth: 400 }}>
-                {card(x, index)}
+                {card(program, index)}
               </Box>
-              {x.workoutList.type}
+              {program.workoutList.type}
             </div>
           ))}
         </Grid>

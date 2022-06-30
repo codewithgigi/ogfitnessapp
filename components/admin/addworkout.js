@@ -8,7 +8,7 @@ import {
   Alert,
   Typography,
 } from "@mui/material";
-import { API, Storage } from "aws-amplify";
+import { API } from "aws-amplify";
 import MultiSelectExercises from "../../components/autocomplete";
 import { createWorkout } from "../../src/graphql/mutations";
 import { useRouter } from "next/router";
@@ -40,7 +40,7 @@ export default function AddWorkout({ setEdit, exercises, setShowAdd }) {
       if (setEdit) setEdit(false);
       setError();
       setShowAdd();
-      router.replace("/admin?view=workouts");
+      router.replace("/admin-page?view=workouts");
     } catch (error) {
       setLoading(false);
       setError("Oops there was an error creating/updating exercise");
@@ -84,10 +84,23 @@ export default function AddWorkout({ setEdit, exercises, setShowAdd }) {
             variant="outlined"
             margin="dense"
             name="name"
-            label="Workout name"
+            label="Workout name - (user sees in program - weight training, cardio)"
             onChange={handleChange}
             placeholder="Name"
             value={formData?.name}
+            inputProps={{ maxLength: 50 }}
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            required
+            variant="outlined"
+            margin="dense"
+            name="description"
+            label="Workout description"
+            onChange={handleChange}
+            placeholder="Description"
+            value={formData?.description}
             inputProps={{ maxLength: 50 }}
             fullWidth
           />

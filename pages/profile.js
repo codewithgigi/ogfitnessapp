@@ -26,11 +26,9 @@ export default function Profile() {
       <Box border={0.5} borderColor="lightgrey" p={1} borderRadius={2} mt={4}>
         <Typography variant="h2" mt={1}>
           Goals
-          {isAdmin && (
-            <Button onClick={() => router.push("/onboarding")}>
-              Change Goals
-            </Button>
-          )}
+          <Button onClick={() => router.push("/onboarding")}>
+            Change Goals
+          </Button>
         </Typography>
         <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
           Goal: {state?.user?.profile?.onboarding?.goal}
@@ -47,7 +45,7 @@ export default function Profile() {
       </Box>
       <Box mt={3}>
         {isAdmin && (
-          <Button onClick={() => router.push("/admin")}>Admin Page</Button>
+          <Button onClick={() => router.push("/admin-page")}>Admin Page</Button>
         )}
       </Box>
     </Section>

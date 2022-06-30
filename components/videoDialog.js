@@ -47,14 +47,17 @@ export default function VideoDialog({ item }) {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          {item?.videoSource && (
+          {item?.video && (
             <video
               controls
               width="100%"
-              poster={item?.imageSource}
+              poster={`https://ogfitnessapp192906-dev.s3.us-west-2.amazonaws.com/public/${item?.image}`}
               controlsList="nodownload"
             >
-              <source src={item?.videoSource} type="video/mp4" />
+              <source
+                src={`https://ogfitnessapp192906-dev.s3.us-west-2.amazonaws.com/public/${item?.video}`}
+                type="video/mp4"
+              />
               Sorry, your browser doesn't support embedded videos.
             </video>
           )}

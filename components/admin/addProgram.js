@@ -92,7 +92,7 @@ export default function AddProgram({ setEdit, workouts, setShowAdd }) {
       setShowAdd();
       if (setEdit) setEdit(false);
       setError();
-      router.replace("/admin?view=programs");
+      router.replace("/admin-page?view=programs");
     } catch (error) {
       setLoading(false);
       setError("Oops there was an error creating/updating program");

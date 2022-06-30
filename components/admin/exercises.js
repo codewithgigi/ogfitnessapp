@@ -62,16 +62,15 @@ export const ExerciseList = ({ list, removeExercise = null }) => {
       direction="row"
       mt={2}
       spacing={2}
-      wrap={true}
     >
       <Grid item>
         <Typography variant="h3">{x?.order}</Typography>
       </Grid>
       <Grid item key={index}>
-        {x?.imageSource && (
-          <div class="container">
+        {x?.image && (
+          <div className="container">
             <img
-              src={x?.imageSource}
+              src={`https://ogfitnessapp192906-dev.s3.us-west-2.amazonaws.com/public/${x?.image}`}
               style={{
                 height: 80,
                 width: 120,
@@ -79,7 +78,7 @@ export const ExerciseList = ({ list, removeExercise = null }) => {
               }}
             />
             <div className="play-button">
-              {x?.video && x?.videoSource && <VideoDialog item={x} />}
+              {x?.video && <VideoDialog item={x} />}
             </div>
           </div>
         )}
@@ -90,7 +89,7 @@ export const ExerciseList = ({ list, removeExercise = null }) => {
         </Typography>
         {x?.reps && x?.sets && (
           <Typography variant="body" mt={0.5}>
-            {x?.sets} X {x?.reps}x
+            {x?.sets} X {x?.reps}
           </Typography>
         )}
       </Grid>
@@ -187,8 +186,7 @@ export default function Exercises() {
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
       const items = data?.listExercises?.items;
-      const newItems = await getStorageFiles(items);
-      setExercises(newItems);
+      setExercises(items);
       let filterlist = new Set();
       newItems.map((x) => {
         filterlist.add(x.muscles);

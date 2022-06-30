@@ -162,6 +162,7 @@ export const createWorkout = /* GraphQL */ `
     createWorkout(input: $input, condition: $condition) {
       id
       name
+      description
       image
       video
       instructions
@@ -191,6 +192,7 @@ export const updateWorkout = /* GraphQL */ `
     updateWorkout(input: $input, condition: $condition) {
       id
       name
+      description
       image
       video
       instructions
@@ -220,6 +222,7 @@ export const deleteWorkout = /* GraphQL */ `
     deleteWorkout(input: $input, condition: $condition) {
       id
       name
+      description
       image
       video
       instructions
@@ -265,6 +268,7 @@ export const createProgram = /* GraphQL */ `
         workout {
           id
           name
+          description
           image
           video
           instructions
@@ -301,6 +305,7 @@ export const updateProgram = /* GraphQL */ `
         workout {
           id
           name
+          description
           image
           video
           instructions
@@ -337,6 +342,7 @@ export const deleteProgram = /* GraphQL */ `
         workout {
           id
           name
+          description
           image
           video
           instructions

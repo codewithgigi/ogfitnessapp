@@ -14,10 +14,62 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import AddWorkout from "./addworkout";
-import { getStorageFiles, ExerciseList } from "./exercises";
+import { ExerciseList } from "./exercises";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { listExercises } from "./exercises";
 import DeleteDialog from "../deleteDialog";
+
+export const WorkoutAccordion = ({ workout, key }) => {
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleChangeExpanded = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  return (
+    <Accordion expanded={expanded === key} onChange={handleChangeExpanded(key)}>
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1bh-content"
+        id="panel1bh-header"
+      >
+        <Typography
+          variant="h3"
+          sx={{
+            width: "80%",
+            flexShrink: 0,
+            textTransform: "capitalize",
+          }}
+        >
+          {workout?.name}
+        </Typography>
+        {/* <Typography
+          variant="h5"
+          sx={{
+            width: "80%",
+            flexShrink: 0,
+            textTransform: "capitalize",
+          }}
+        >
+          {workout?.instructions}
+        </Typography> */}
+        <Box sx={{ width: "20%" }}>
+          <DeleteDialog
+            removeItem={() => removeWorkout(workout)}
+            item={workout}
+          />
+        </Box>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Typography sx={{ color: "text.secondary" }}>
+          {workout?.instructions}
+        </Typography>
+        {workout?.exercises && workout?.exercises.length > 0 && (
+          <ExerciseList list={workout?.exercises} />
+        )}
+      </AccordionDetails>
+    </Accordion>
+  );
+};
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState();
@@ -47,21 +99,7 @@ export default function Workouts() {
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
       const items = data?.listWorkouts?.items;
-      let newItems = await getStorageFiles(items);
-      let itemsImages = await Promise.all(
-        items.map(async (item) => {
-          try {
-            if (item?.exercises && item?.exercises.length > 0) {
-              let newitems = await getStorageFiles(item?.exercises);
-              item.exercises = newitems;
-            }
-            return item;
-          } catch (error) {
-            console.log("error getting exercise images");
-          }
-        }),
-      );
-      setWorkouts(itemsImages);
+      setWorkouts(items);
     } catch (error) {
       console.warn("Error with api listWorkouts", error);
     }
@@ -121,38 +159,7 @@ export default function Workouts() {
       ) : (
         <div>
           {(workouts ?? []).map((x, index) => (
-            <Accordion
-              expanded={expanded === index}
-              onChange={handleChangeExpanded(index)}
-            >
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
-              >
-                <Typography
-                  variant="h3"
-                  sx={{
-                    width: "80%",
-                    flexShrink: 0,
-                    textTransform: "capitalize",
-                  }}
-                >
-                  {x?.name}
-                </Typography>
-                <Box sx={{ width: "20%" }}>
-                  <DeleteDialog removeItem={() => removeWorkout(x)} item={x} />
-                </Box>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography sx={{ color: "text.secondary" }}>
-                  {x?.instructions}
-                </Typography>
-                {x?.exercises && x?.exercises.length > 0 && (
-                  <ExerciseList list={x?.exercises} />
-                )}
-              </AccordionDetails>
-            </Accordion>
+            <WorkoutAccordion workout={x} key={index} />
           ))}
         </div>
       )}

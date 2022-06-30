@@ -26,6 +26,7 @@ const listWorkouts = /* GraphQL */ `
       items {
         id
         name
+        description
         image
         video
         instructions
@@ -73,6 +74,7 @@ const listPrograms = /* GraphQL */ `
           workout {
             id
             name
+            description
             instructions
             exercises {
               id
@@ -204,9 +206,9 @@ export default function Programs() {
                     <Typography sx={{ color: "text.secondary" }}>
                       {x?.description}
                     </Typography>
-                    <Typography sx={{ color: "text.secondary" }}>
+                    {/* <Typography sx={{ color: "text.secondary" }}>
                       Length: {x?.weeks} weeks
-                    </Typography>
+                    </Typography> */}
                     {x.workoutList.map((list, index) => (
                       <Box
                         key={index}
@@ -218,7 +220,8 @@ export default function Programs() {
                         pt={4}
                       >
                         <Typography variant="h4">
-                          Week {list?.week} Day {list?.day}
+                          {/* Week {list?.week}  */}
+                          Day {list?.day}
                         </Typography>
                         <Typography variant="h5">
                           {list?.workout?.name ?? "Rest Day"}

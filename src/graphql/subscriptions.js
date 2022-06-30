@@ -141,6 +141,7 @@ export const onCreateWorkout = /* GraphQL */ `
     onCreateWorkout {
       id
       name
+      description
       image
       video
       instructions
@@ -167,6 +168,7 @@ export const onUpdateWorkout = /* GraphQL */ `
     onUpdateWorkout {
       id
       name
+      description
       image
       video
       instructions
@@ -193,6 +195,7 @@ export const onDeleteWorkout = /* GraphQL */ `
     onDeleteWorkout {
       id
       name
+      description
       image
       video
       instructions
@@ -235,6 +238,7 @@ export const onCreateProgram = /* GraphQL */ `
         workout {
           id
           name
+          description
           image
           video
           instructions
@@ -268,6 +272,7 @@ export const onUpdateProgram = /* GraphQL */ `
         workout {
           id
           name
+          description
           image
           video
           instructions
@@ -301,6 +306,7 @@ export const onDeleteProgram = /* GraphQL */ `
         workout {
           id
           name
+          description
           image
           video
           instructions

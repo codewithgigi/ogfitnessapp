@@ -4,12 +4,6 @@ import {
   TextField,
   CircularProgress,
   Grid,
-  ToggleButton,
-  ToggleButtonGroup,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Box,
   Alert,
   Typography,
@@ -33,6 +27,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
     }
     try {
       let newdata = { ...formData };
+      newdata.name = formData?.name.toLowerCase();
       const filename = formData?.image;
       if (image) {
         const { key } = await Storage.put(filename, image, {
@@ -73,7 +68,7 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
   const handleChange = (event) => {
     let value = event.target.value;
     let name = event.target.name;
-    formData[name] = value;
+    formData[name] = value.toLowerCase();
     setFormData({ ...formData });
   };
 
@@ -94,9 +89,8 @@ export default function AddExercise({ exercise, setEdit, updateExeriseList }) {
         return;
       } else {
         const fileparts = file.name.split(".");
-        const timestamp = new Date().getTime();
-        const filename =
-          `${formData?.name}-${timestamp}.${fileparts[1]}`.replaceAll(" ", "-");
+        const imagename = formData.name.toLowerCase().replaceAll(" ", "-");
+        const filename = `${imagename}.${fileparts[1]}`;
 
         setFormData({ ...formData, [name]: filename });
         if (name === "image") {

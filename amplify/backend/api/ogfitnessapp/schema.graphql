@@ -71,6 +71,7 @@ type Workout
   ) {
   id: ID!
   name: String
+  description: String
   image: String
   video: String
   instructions: String
@@ -125,6 +126,7 @@ type WorkoutList {
 type ProgramWorkout {
   id: ID!
   name: String
+  description: String
   image: String
   video: String
   instructions: String

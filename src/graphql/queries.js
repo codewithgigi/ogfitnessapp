@@ -110,6 +110,7 @@ export const getWorkout = /* GraphQL */ `
     getWorkout(id: $id) {
       id
       name
+      description
       image
       video
       instructions
@@ -141,6 +142,7 @@ export const listWorkouts = /* GraphQL */ `
       items {
         id
         name
+        description
         image
         video
         instructions
@@ -185,6 +187,7 @@ export const getProgram = /* GraphQL */ `
         workout {
           id
           name
+          description
           image
           video
           instructions
