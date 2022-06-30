@@ -112,7 +112,7 @@ const WorkoutAccordion = ({ workout, day, setViewWorkout }) => {
           )}
         </AccordionSummary>
       ) : (
-        <AccordionSummary>Test</AccordionSummary>
+        <AccordionSummary>Rest Day</AccordionSummary>
       )}
 
       {workout && (
