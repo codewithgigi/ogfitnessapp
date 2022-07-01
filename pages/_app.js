@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
-import Amplify, { Auth, API } from "aws-amplify";
+import { Amplify, Auth, API } from "aws-amplify";
 
 import awsConfig from "../src/aws-exports";
 import Footer from "../components/Footer";
@@ -17,6 +17,7 @@ import theme from "../src/theme";
 import "../src/styles/payments.css";
 import "../src/styles/global.css";
 import ResposiveAppBar from "../components/app-bar";
+import BottomNav from "../components/BottomNav";
 
 const getProfile = /* GraphQL */ `
   query getProfile($id: ID!) {
@@ -96,38 +97,30 @@ function MyApp({
       }
   }
 
-  if (router?.pathname.includes("amazonfresh"))
-    return (
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 10 }}>
-        <Component {...pageProps} />
-      </div>
-    );
-  else
-    return (
-      <Context.Provider value={{ state, dispatch }}>
-        <CacheProvider value={emotionCache}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <div
-              style={{
-                maxWidth: maintheme.layout.contentWidth,
-                margin: "0 auto",
-              }}
-            >
-              {/* {!isMdDown && <Header />} */}
-              <ResposiveAppBar />
-              <Component {...pageProps} />
+  return (
+    <Context.Provider value={{ state, dispatch }}>
+      <CacheProvider value={emotionCache}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <div
+            style={{
+              maxWidth: maintheme.layout.contentWidth,
+              margin: "0 auto",
+            }}
+          >
+            {(!state?.user || !isMdDown) && <ResposiveAppBar />}
+            <Component {...pageProps} />
+          </div>
+          {isMdDown && state?.user && (
+            <div style={{ marginTop: 80 }} id="bottom-nav">
+              <BottomNav />
             </div>
-            {!isMdDown && <Footer />}
-            {/* {isMdDown && router?.pathname !== "/recipes" && (
-              <div style={{ marginTop: 80 }} id="bottom-nav">
-                <BottomNav />
-              </div>
-            )} */}
-          </ThemeProvider>
-        </CacheProvider>
-      </Context.Provider>
-    );
+          )}
+          {!isMdDown && <Footer />}
+        </ThemeProvider>
+      </CacheProvider>
+    </Context.Provider>
+  );
 }
 
 export default MyApp;

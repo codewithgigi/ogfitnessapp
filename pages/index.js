@@ -7,8 +7,6 @@ import Welcome from "./welcome";
 export default function Home() {
   const { state } = React.useContext(Context);
 
-  console.log("user ......", state.user);
-
   if (state?.user?.profile?.onboarding) return <MyPlan />;
   else if (state?.user && !state?.user?.profile?.onboarding)
     return <Onboarding />;

@@ -12,8 +12,11 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  IconButton,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import { useRouter } from "next/router";
 
@@ -72,48 +75,37 @@ const listPrograms = /* GraphQL */ `
 `;
 
 const WorkoutAccordion = ({ workout, day, setViewWorkout }) => {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState();
+
+  console.log("expanded", expanded, day);
 
   const handleChangeExpanded = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+    setExpanded(isExpanded ? panel : 0);
     setViewWorkout(workout);
   };
 
   return (
     <Accordion expanded={expanded === day} onChange={handleChangeExpanded(day)}>
-      {workout ? (
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls={`${day}-content`}
-          id={`${day}-header`}
-        >
-          {workout ? (
-            <Typography
-              variant="h3"
-              sx={{
-                width: "80%",
-                flexShrink: 0,
-                textTransform: "capitalize",
-              }}
-            >
-              {workout?.name ?? "Rest Day"}
-            </Typography>
-          ) : (
-            <Typography
-              variant="h4"
-              sx={{
-                width: "80%",
-                flexShrink: 0,
-                textTransform: "capitalize",
-              }}
-            >
-              Rest Day
-            </Typography>
-          )}
-        </AccordionSummary>
-      ) : (
-        <AccordionSummary>Rest Day</AccordionSummary>
-      )}
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls={`${day}-content`}
+        id={`${day}-header`}
+      >
+        {workout ? (
+          <Typography
+            variant="h3"
+            sx={{
+              width: "80%",
+              flexShrink: 0,
+              textTransform: "capitalize",
+            }}
+          >
+            Day {day}: {workout?.name ?? "Rest Day"}
+          </Typography>
+        ) : (
+          <Typography>Day {day}: Rest Day</Typography>
+        )}
+      </AccordionSummary>
 
       {workout && (
         <AccordionDetails>
@@ -123,6 +115,9 @@ const WorkoutAccordion = ({ workout, day, setViewWorkout }) => {
           {workout?.exercises && workout?.exercises.length > 0 && (
             <ExerciseList list={workout?.exercises} />
           )}
+          <Button fullWidth variant="contained" sx={{ mt: 3 }}>
+            Complete
+          </Button>
         </AccordionDetails>
       )}
     </Accordion>
@@ -133,6 +128,7 @@ export default function MyPlan() {
   const { state } = useContext(Context);
   const [programs, setPrograms] = useState();
   const [viewPlan, setViewPlan] = useState();
+  const [day, setDay] = useState(1);
   const [viewWorkout, setViewWorkout] = useState();
   const router = useRouter();
 
@@ -178,14 +174,16 @@ export default function MyPlan() {
     <Card>
       <CardMedia
         component="img"
-        height="290"
+        height="190"
         image={`/assets/fat-loss-female-${index + 1}.png`}
-        alt="female fat loss oksana"
+        alt={x?.name}
       />
       <CardContent>
-        <Typography variant="h2">{x?.name}</Typography>
+        <Typography variant="h2" sx={{ textTransform: "capitalize" }}>
+          {x?.name}
+        </Typography>
         <Typography variant="body2" sx={{ mb: 1 }}>
-          {x?.description}
+          {/* {x?.description} */}
         </Typography>
       </CardContent>
       <CardActions>
@@ -198,7 +196,7 @@ export default function MyPlan() {
             })
           }
         >
-          View Plan
+          Go to Plan
         </Button>
       </CardActions>
     </Card>
@@ -206,48 +204,76 @@ export default function MyPlan() {
   const profile = state?.user?.profile ?? null;
 
   const renderWeeks = () => {
-    const weeks = [];
+    const workout = (viewPlan.workoutList || []).find(
+      (list) => list?.day === day && list?.week === 1,
+    );
 
-    for (const week = 1; week <= viewPlan?.weeks; week++) {
-      weeks.push(
-        <>
-          {weeks.length > 1 && (
-            <Typography variant="h2">Week {week}</Typography>
-          )}
-          <Box
-            border={1}
-            borderColor="lightgrey"
-            borderRadius={2}
-            boxShadow={1}
-            mb={4}
-          >
-            {[1, 2, 3, 4, 5, 6, 7].map((day) => {
-              const workout = (viewPlan.workoutList || []).find(
-                (list) => list?.day === day && list?.week === week,
-              );
-              console.log("dDAYYYYYY", day);
-              return (
-                <WorkoutAccordion
-                  workout={workout?.workout}
-                  setViewWorkout={setViewWorkout}
-                  day={day}
-                />
-              );
-            })}
+    return (
+      <Box mb={4}>
+        <Grid container justifyContent={"center"} alignItems="center">
+          <Grid item xs={1}>
+            {day > 1 && (
+              <IconButton onClick={() => setDay(day - 1)}>
+                <ArrowBackIosIcon sx={{ fontSize: 26 }} color="primary" />
+              </IconButton>
+            )}
+          </Grid>
+          <Grid item xs={2}>
+            <Typography
+              sx={{ fontSize: 20, fontWeight: 600, textAlign: "center" }}
+            >
+              Day {day}
+            </Typography>
+          </Grid>
+          <Grid item xs={1}>
+            {day < 7 && (
+              <IconButton onClick={() => setDay(day + 1)}>
+                <ArrowForwardIosIcon sx={{ fontSize: 26 }} color="primary" />
+              </IconButton>
+            )}
+          </Grid>
+        </Grid>
+        {workout && (
+          <Box>
+            <Typography sx={{ color: "text.secondary" }}>
+              {workout?.workout?.instructions ?? "Rest Day"}
+            </Typography>
+            {workout?.workout?.exercises &&
+              workout?.workout?.exercises.length > 0 && (
+                <ExerciseList list={workout?.workout?.exercises} />
+              )}
+            <Button fullWidth variant="contained" sx={{ mt: 3 }}>
+              Complete
+            </Button>
           </Box>
-        </>,
-      );
-    }
-    return <div>{weeks}</div>;
+        )}
+      </Box>
+    );
   };
-  // if (viewWorkout) {
-  //   return <Workout workout={viewWorkout} planId={viewPlan?.id} />;
-  // } else
   if (viewPlan)
     return (
       <Section>
-        <Button onClick={() => router.push("/trainingplans")}>All Plans</Button>
-        <Typography variant="h2">{viewPlan?.name}</Typography>
+        <Grid container alignItems="center">
+          <Grid item>
+            <ArrowBackIosIcon
+              fontSize="small"
+              onClick={() => router.push("/trainingplans")}
+              color="primary"
+            />
+          </Grid>
+          <Grid item xs={9}>
+            <Typography
+              variant="h2"
+              sx={{
+                textTransform: "capitalize",
+                textAlign: "center",
+              }}
+            >
+              {viewPlan?.name}
+            </Typography>
+          </Grid>
+          <Grid item></Grid>
+        </Grid>
         <Typography
           sx={{ fontSize: 14 }}
           color="text.secondary"
@@ -259,7 +285,9 @@ export default function MyPlan() {
   else
     return (
       <Section>
-        <Typography variant="h1">Training Plans</Typography>
+        <Typography variant="h2" sx={{ textAlign: "center" }}>
+          Training Plans
+        </Typography>
 
         {profile?.onboarding?.compete && (
           <Box>

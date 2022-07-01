@@ -63,10 +63,8 @@ export const ExerciseList = ({ list, removeExercise = null }) => {
       mt={2}
       spacing={2}
     >
-      <Grid item>
-        <Typography variant="h3">{x?.order}</Typography>
-      </Grid>
-      <Grid item key={index}>
+      <Grid item xs={5}>
+        {/* <Typography variant="h3">{x?.order}</Typography> */}
         {x?.image && (
           <div className="container">
             <img
@@ -83,7 +81,7 @@ export const ExerciseList = ({ list, removeExercise = null }) => {
           </div>
         )}
       </Grid>
-      <Grid item>
+      <Grid item xs={7}>
         <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
           {x?.name}
         </Typography>

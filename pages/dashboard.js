@@ -14,9 +14,12 @@ export default function Dashboard() {
 
   return (
     <Section>
-      <Typography>Dashboard</Typography>
-      <Typography>
-        Signed in as {state?.user?.attributes?.preferred_username}
+      <Typography variant="h3" sx={{ textAlign: "center" }}>
+        Tracking
+      </Typography>
+      <Typography variant="body1">
+        In this section you'll be able to track the days you've worked out.
+        Uplaod progress photos and track your weight.
       </Typography>
     </Section>
   );
