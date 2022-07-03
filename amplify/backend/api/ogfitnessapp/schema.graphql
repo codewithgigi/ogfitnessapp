@@ -13,6 +13,19 @@ type Profile
   onboarding: Onboarding
   weight: [Weight]
   progressPhotos: [ProgressPhotos]
+  workoutResults: [WorkoutResult]
+  exerciseResults: [ExerciseResult]
+}
+
+type WorkoutResult {
+  workoutId: String
+  date: AWSDate
+  notes: String
+}
+type ExerciseResult {
+  exerciseId: String
+  date: AWSDate
+  notes: String
 }
 
 type Onboarding {
