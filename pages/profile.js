@@ -3,7 +3,7 @@ import { Typography, Button, Box } from "@mui/material";
 import { useRouter } from "next/router";
 import Context from "../src/context";
 import Section from "../components/Section";
-
+import { Auth } from "aws-amplify";
 export const getProfile = /* GraphQL */ `
   query GetProfile($id: ID!) {
     getProfile(id: $id) {
@@ -45,7 +45,7 @@ export const getProfile = /* GraphQL */ `
 `;
 
 export default function Profile() {
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
   const [isAdmin, setIsAdmin] = useState(false);
   let router = useRouter();
 
@@ -57,6 +57,16 @@ export default function Profile() {
     if (!state?.user) router.push(`/auth/signin?r=profile`);
   });
 
+  const signOut = async () => {
+    try {
+      await Auth.signOut();
+      dispatch({ type: "removeUser", payload: null });
+      router.push("/auth/signin");
+    } catch (error) {
+      console.log("error signing out", error);
+    }
+  };
+
   return (
     <Section>
       <Typography variant="h3">Profile</Typography>
@@ -66,7 +76,11 @@ export default function Profile() {
       <Box border={0.5} borderColor="lightgrey" p={1} borderRadius={2} mt={4}>
         <Typography variant="h2" mt={1}>
           Goals
-          <Button onClick={() => router.push("/onboarding")}>
+          <Button
+            onClick={() =>
+              router.push({ pathname: "/onboarding", query: { update: true } })
+            }
+          >
             Change Goals
           </Button>
         </Typography>
@@ -83,6 +97,7 @@ export default function Profile() {
           Age: {state?.user?.profile?.onboarding?.age}
         </Typography>
       </Box>
+      <Button onClick={() => signOut()}>Logout</Button>
       <Box mt={3}>
         {isAdmin && (
           <Button onClick={() => router.push("/admin-page")}>Admin Page</Button>

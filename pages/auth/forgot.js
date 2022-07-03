@@ -46,6 +46,7 @@ export default function ForgotPasword() {
         flexDirection={"column"}
         justifyContent="center"
         alignItems={"center"}
+        mt={15}
       >
         <Grid item>
           <Typography component="h1" variant="h5">

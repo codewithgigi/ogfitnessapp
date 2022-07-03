@@ -122,7 +122,8 @@ export default function MyPlan() {
   const router = useRouter();
 
   useEffect(() => {
-    getProgramList();
+    if (state?.user?.profile) getProgramList();
+    else router.push("/onboarding");
   }, [state?.user?.profile?.onboarding]);
 
   useEffect(() => {

@@ -7,11 +7,9 @@ import theme from "../src/theme";
  * @param {Object} props
  */
 const Section = ({ bgColor, children, ...rest }) => {
-  const isMdDown = useMediaQuery(theme.breakpoints.down("md"));
   return (
     <section
       style={{
-        marginTop: isMdDown ? 5 : 65,
         minHeight: "90vh",
         padding: 16,
       }}

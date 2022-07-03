@@ -5,6 +5,7 @@ import Context from "../src/context";
 import { useRouter } from "next/router";
 import { API } from "aws-amplify";
 import { palette } from "../src/theme";
+import { getProfile } from "./profile";
 
 export const ChipSelection = ({ onclick, field, value }) => {
   return (
@@ -78,6 +79,7 @@ const womenCompete = [
 export default function Onboarding() {
   const { state, dispatch } = React.useContext(Context);
   const [step, setStep] = React.useState(0);
+  const [profile, setProfile] = React.useState(0);
   const router = useRouter();
   const buttonRef = useRef();
 
@@ -90,12 +92,30 @@ export default function Onboarding() {
   });
 
   useEffect(() => {
-    if (state?.user?.profile?.onboarding) {
-      setOnboarding(state.user.profile.onboarding);
+    console.log(profile);
+    if (profile?.onboarding) {
+      setOnboarding(profile.onboarding);
       setStep(5);
-    }
+      if (!router?.query?.update) router.push("/trainingplans");
+    } else myProfile();
   }, [state]);
 
+  console.log("onboarding", onboarding);
+
+  async function myProfile() {
+    if (state?.user?.username)
+      try {
+        const { data } = await API.graphql({
+          query: getProfile,
+          variables: { id: state?.user?.username },
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+        });
+        const profile = data?.getProfile;
+        setProfile(profile);
+      } catch (error) {
+        console.warn("Error with api getProfile", error);
+      }
+  }
   async function addProfile() {
     const profileId = state?.user?.attributes?.email;
     if (profileId)
@@ -105,6 +125,7 @@ export default function Onboarding() {
           variables: {
             input: {
               id: state?.user?.username,
+              email: state?.user?.attributes?.email,
               onboarding: onboarding,
             },
           },

@@ -37,7 +37,15 @@ export default function ResendConfirmation() {
   else
     return (
       <Section>
-        <Grid container item md={4} sm={6} xs={12} justifyContent="center">
+        <Grid
+          container
+          item
+          md={4}
+          sm={6}
+          xs={12}
+          justifyContent="center"
+          mt={15}
+        >
           <TextField
             variant="outlined"
             margin="normal"
