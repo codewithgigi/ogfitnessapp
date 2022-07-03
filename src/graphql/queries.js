@@ -25,6 +25,16 @@ export const getProfile = /* GraphQL */ `
         backImage
         date
       }
+      workoutResults {
+        workoutId
+        date
+        notes
+      }
+      exerciseResults {
+        exerciseId
+        date
+        notes
+      }
       createdAt
       updatedAt
     }
@@ -58,6 +68,16 @@ export const listProfiles = /* GraphQL */ `
           sideImage
           backImage
           date
+        }
+        workoutResults {
+          workoutId
+          date
+          notes
+        }
+        exerciseResults {
+          exerciseId
+          date
+          notes
         }
         createdAt
         updatedAt

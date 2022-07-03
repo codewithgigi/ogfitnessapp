@@ -9,12 +9,8 @@ import {
   CardMedia,
   Button,
   Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   IconButton,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
@@ -23,6 +19,50 @@ import { useRouter } from "next/router";
 import Section from "../../components/Section";
 import Context from "../../src/context";
 import { ExerciseList } from "../../components/admin/exercises";
+import CompleteWorkoutDialog from "../../components/completeWorkoutDialog";
+
+export const updateProfileResults = /* GraphQL */ `
+  mutation UpdateProfile(
+    $input: UpdateProfileInput!
+    $condition: ModelProfileConditionInput
+  ) {
+    updateProfile(input: $input, condition: $condition) {
+      id
+      user
+      email
+      onboarding {
+        goal
+        gender
+        age
+        experience
+        compete
+        competeLevel
+      }
+      weight {
+        weight
+        date
+      }
+      progressPhotos {
+        frontImage
+        sideImage
+        backImage
+        date
+      }
+      workoutResults {
+        workoutId
+        date
+        notes
+      }
+      exerciseResults {
+        exerciseId
+        date
+        notes
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
 
 const listPrograms = /* GraphQL */ `
   query ListPrograms(
@@ -74,62 +114,11 @@ const listPrograms = /* GraphQL */ `
   }
 `;
 
-const WorkoutAccordion = ({ workout, day, setViewWorkout }) => {
-  const [expanded, setExpanded] = React.useState();
-
-  console.log("expanded", expanded, day);
-
-  const handleChangeExpanded = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : 0);
-    setViewWorkout(workout);
-  };
-
-  return (
-    <Accordion expanded={expanded === day} onChange={handleChangeExpanded(day)}>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls={`${day}-content`}
-        id={`${day}-header`}
-      >
-        {workout ? (
-          <Typography
-            variant="h3"
-            sx={{
-              width: "80%",
-              flexShrink: 0,
-              textTransform: "capitalize",
-            }}
-          >
-            Day {day}: {workout?.name ?? "Rest Day"}
-          </Typography>
-        ) : (
-          <Typography>Day {day}: Rest Day</Typography>
-        )}
-      </AccordionSummary>
-
-      {workout && (
-        <AccordionDetails>
-          <Typography sx={{ color: "text.secondary" }}>
-            {workout?.instructions ?? "Rest Day"}
-          </Typography>
-          {workout?.exercises && workout?.exercises.length > 0 && (
-            <ExerciseList list={workout?.exercises} />
-          )}
-          <Button fullWidth variant="contained" sx={{ mt: 3 }}>
-            Complete
-          </Button>
-        </AccordionDetails>
-      )}
-    </Accordion>
-  );
-};
-
 export default function MyPlan() {
   const { state } = useContext(Context);
   const [programs, setPrograms] = useState();
   const [viewPlan, setViewPlan] = useState();
   const [day, setDay] = useState(1);
-  const [viewWorkout, setViewWorkout] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -142,6 +131,31 @@ export default function MyPlan() {
       setViewPlan(plan);
     } else setViewPlan();
   }, [router?.query?.planId, programs]);
+
+  async function updateProfile(data) {
+    const profileId = state?.user?.profile?.id;
+    let newDate = new Date(data?.date ?? "");
+    var dd = String(newDate.getDate()).padStart(2, "0");
+    var mm = String(newDate.getMonth() + 1).padStart(2, "0");
+    var yyyy = newDate.getFullYear();
+    //awsDateformat tring in the format YYYY-MM-DD
+    data.date = `${yyyy}-${mm}-${dd}`;
+    if (profileId)
+      try {
+        const results = await API.graphql({
+          query: updateProfileResults,
+          authMode: "AMAZON_COGNITO_USER_POOLS",
+          variables: {
+            input: {
+              id: profileId,
+              workoutResults: { ...data },
+            },
+          },
+        });
+      } catch (error) {
+        console.log("udpate profile eror results", error);
+      }
+  }
 
   async function getProgramList() {
     let {
@@ -242,9 +256,10 @@ export default function MyPlan() {
               workout?.workout?.exercises.length > 0 && (
                 <ExerciseList list={workout?.workout?.exercises} />
               )}
-            <Button fullWidth variant="contained" sx={{ mt: 3 }}>
-              Complete
-            </Button>
+            <CompleteWorkoutDialog
+              item={workout}
+              updateProfile={updateProfile}
+            />
           </Box>
         )}
       </Box>

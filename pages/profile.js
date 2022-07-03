@@ -4,6 +4,46 @@ import { useRouter } from "next/router";
 import Context from "../src/context";
 import Section from "../components/Section";
 
+export const getProfile = /* GraphQL */ `
+  query GetProfile($id: ID!) {
+    getProfile(id: $id) {
+      id
+      user
+      email
+      onboarding {
+        goal
+        gender
+        age
+        experience
+        compete
+        competeLevel
+      }
+      weight {
+        weight
+        date
+      }
+      progressPhotos {
+        frontImage
+        sideImage
+        backImage
+        date
+      }
+      workoutResults {
+        workoutId
+        date
+        notes
+      }
+      exerciseResults {
+        exerciseId
+        date
+        notes
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export default function Profile() {
   const { state } = useContext(Context);
   const [isAdmin, setIsAdmin] = useState(false);

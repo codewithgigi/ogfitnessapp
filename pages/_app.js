@@ -18,23 +18,7 @@ import "../src/styles/payments.css";
 import "../src/styles/global.css";
 import ResposiveAppBar from "../components/app-bar";
 import BottomNav from "../components/BottomNav";
-
-const getProfile = /* GraphQL */ `
-  query getProfile($id: ID!) {
-    getProfile(id: $id) {
-      id
-      user
-      onboarding {
-        goal
-        gender
-        age
-        experience
-        compete
-        competeLevel
-      }
-    }
-  }
-`;
+import { getProfile } from "./profile";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -55,6 +39,7 @@ function MyApp({
   }, [state?.user]);
 
   async function getUser() {
+    console.log("get user ...");
     try {
       const userData = await Auth.currentAuthenticatedUser();
       dispatch({ type: "addUser", payload: userData });

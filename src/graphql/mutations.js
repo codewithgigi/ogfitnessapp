@@ -28,6 +28,16 @@ export const createProfile = /* GraphQL */ `
         backImage
         date
       }
+      workoutResults {
+        workoutId
+        date
+        notes
+      }
+      exerciseResults {
+        exerciseId
+        date
+        notes
+      }
       createdAt
       updatedAt
     }
@@ -60,6 +70,16 @@ export const updateProfile = /* GraphQL */ `
         backImage
         date
       }
+      workoutResults {
+        workoutId
+        date
+        notes
+      }
+      exerciseResults {
+        exerciseId
+        date
+        notes
+      }
       createdAt
       updatedAt
     }
@@ -91,6 +111,16 @@ export const deleteProfile = /* GraphQL */ `
         sideImage
         backImage
         date
+      }
+      workoutResults {
+        workoutId
+        date
+        notes
+      }
+      exerciseResults {
+        exerciseId
+        date
+        notes
       }
       createdAt
       updatedAt
