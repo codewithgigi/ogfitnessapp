@@ -11,7 +11,6 @@ function AdminTabs({ view = "exercises" }) {
   const [tab, setTab] = React.useState(0);
   const router = useRouter();
 
-  console.log("router query", router?.query);
   useEffect(() => {
     const view = router?.query?.view;
     if (view === "exercises") setTab(0);

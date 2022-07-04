@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Box, Chip } from "@mui/material";
+import { Box, Chip, Typography } from "@mui/material";
 import Section from "../components/Section";
 import Context from "../src/context";
 import { useRouter } from "next/router";
@@ -79,7 +79,6 @@ const womenCompete = [
 export default function Onboarding() {
   const { state, dispatch } = React.useContext(Context);
   const [step, setStep] = React.useState(0);
-  const [profile, setProfile] = React.useState(0);
   const router = useRouter();
   const buttonRef = useRef();
 
@@ -92,15 +91,12 @@ export default function Onboarding() {
   });
 
   useEffect(() => {
-    console.log(profile);
-    if (profile?.onboarding) {
-      setOnboarding(profile.onboarding);
+    if (state?.user?.profile?.onboarding) {
+      setOnboarding(state?.user?.profile.onboarding);
       setStep(5);
       if (!router?.query?.update) router.push("/trainingplans");
     } else myProfile();
   }, [state]);
-
-  console.log("onboarding", onboarding);
 
   async function myProfile() {
     if (state?.user?.username)
@@ -111,7 +107,12 @@ export default function Onboarding() {
           authMode: "AMAZON_COGNITO_USER_POOLS",
         });
         const profile = data?.getProfile;
-        setProfile(profile);
+        if (profile?.onboarding) {
+          const newUser = { ...state.user, profile: profile };
+          dispatch({ type: "addUser", payload: newUser });
+          setOnboarding(profile?.onboarding);
+          setStep(5);
+        }
       } catch (error) {
         console.warn("Error with api getProfile", error);
       }
@@ -174,7 +175,9 @@ export default function Onboarding() {
   };
   return (
     <Section>
-      <h1>training goals</h1>
+      <Typography variant="h2" sx={{ textAlign: "center" }}>
+        training goals
+      </Typography>
       {step >= 0 && (
         <>
           {["female", "male"].map((g) => (

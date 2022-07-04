@@ -39,7 +39,6 @@ function MyApp({
   }, [state?.user]);
 
   async function getUser() {
-    console.log("get user ...");
     try {
       const userData = await Auth.currentAuthenticatedUser();
       dispatch({ type: "addUser", payload: userData });
