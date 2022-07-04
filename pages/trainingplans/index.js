@@ -115,7 +115,7 @@ const listPrograms = /* GraphQL */ `
 `;
 
 export default function MyPlan() {
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
   const [programs, setPrograms] = useState();
   const [viewPlan, setViewPlan] = useState();
   const [day, setDay] = useState(1);
@@ -141,18 +141,25 @@ export default function MyPlan() {
     var yyyy = newDate.getFullYear();
     //awsDateformat tring in the format YYYY-MM-DD
     data.date = `${yyyy}-${mm}-${dd}`;
+    let workoutresults = [...state?.user?.profile?.workoutResults, data];
     if (profileId)
       try {
+        console.log(workoutresults);
         const results = await API.graphql({
           query: updateProfileResults,
           authMode: "AMAZON_COGNITO_USER_POOLS",
           variables: {
             input: {
               id: profileId,
-              workoutResults: { ...data },
+              workoutResults: workoutresults,
             },
           },
         });
+        const newUser = {
+          ...state.user,
+          profile: results?.data?.updateProfile,
+        };
+        dispatch({ type: "addUser", payload: newUser });
       } catch (error) {
         console.log("udpate profile eror results", error);
       }
@@ -261,11 +268,27 @@ export default function MyPlan() {
               item={workout}
               updateProfile={updateProfile}
             />
+            {state?.user?.profile?.workoutResults && (
+              <Typography variant="h5" mt={1}>
+                Previous Results
+              </Typography>
+            )}
+            {(state?.user?.profile?.workoutResults || []).map(
+              (results, index) => (
+                <Box>
+                  <Typography variant="caption">
+                    Week {index + 1} ({results?.date}): {results?.notes}
+                  </Typography>
+                </Box>
+              ),
+            )}
           </Box>
         )}
       </Box>
     );
   };
+
+  console.log("plan results profile", state?.user?.profile);
   if (viewPlan)
     return (
       <Section>
