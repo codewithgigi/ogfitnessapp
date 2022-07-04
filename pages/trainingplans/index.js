@@ -292,7 +292,7 @@ export default function MyPlan() {
   if (viewPlan)
     return (
       <Section>
-        <Grid container alignItems="center">
+        <Grid container alignItems="center" justifyContent={"space-between"}>
           <Grid item>
             <ArrowBackIosIcon
               fontSize="small"
@@ -300,7 +300,7 @@ export default function MyPlan() {
               color="primary"
             />
           </Grid>
-          <Grid item xs={9}>
+          <Grid item>
             <Typography
               variant="h2"
               sx={{
@@ -313,11 +313,6 @@ export default function MyPlan() {
           </Grid>
           <Grid item></Grid>
         </Grid>
-        <Typography
-          sx={{ fontSize: 14 }}
-          color="text.secondary"
-          gutterBottom
-        ></Typography>
         <Box>{renderWeeks()}</Box>
       </Section>
     );
