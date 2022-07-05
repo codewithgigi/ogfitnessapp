@@ -8,11 +8,12 @@ import {
   CardContent,
   CardMedia,
   Button,
+  ButtonGroup,
   Typography,
-  IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import theme, { palette } from "../../src/theme";
 
 import { useRouter } from "next/router";
 
@@ -121,9 +122,10 @@ export default function MyPlan() {
   const [day, setDay] = useState(1);
   const router = useRouter();
 
+  const isMdDown = useMediaQuery(theme.breakpoints.down("md"));
+
   useEffect(() => {
     if (state?.user?.profile) getProgramList();
-    else router.push("/onboarding");
   }, [state?.user?.profile?.onboarding]);
 
   useEffect(() => {
@@ -231,30 +233,31 @@ export default function MyPlan() {
     );
 
     return (
-      <Box mb={4}>
-        <Grid container justifyContent={"center"} alignItems="center">
-          <Grid item xs={1}>
-            {day > 1 && (
-              <IconButton onClick={() => setDay(day - 1)}>
-                <ArrowBackIosIcon sx={{ fontSize: 26 }} color="primary" />
-              </IconButton>
+      <Box>
+        <Box display="flex" justifyContent={"center"} mb={2}>
+          <ButtonGroup
+            size="small"
+            variant="text"
+            aria-label="text button group"
+            mb={2}
+          >
+            {["day1", "day2", "day3", "day4", "day5", "day6", "day7"].map(
+              (label, index) => (
+                <Button
+                  sx={{
+                    fontSize: isMdDown ? 12 : 16,
+                    textTransform: "capitalize",
+                  }}
+                  variant={day === index + 1 ? "contained" : "outlined"}
+                  onClick={() => setDay(index + 1)}
+                >
+                  {label}
+                </Button>
+              ),
             )}
-          </Grid>
-          <Grid item xs={2}>
-            <Typography
-              sx={{ fontSize: 20, fontWeight: 600, textAlign: "center" }}
-            >
-              Day {day}
-            </Typography>
-          </Grid>
-          <Grid item xs={1}>
-            {day < 7 && (
-              <IconButton onClick={() => setDay(day + 1)}>
-                <ArrowForwardIosIcon sx={{ fontSize: 26 }} color="primary" />
-              </IconButton>
-            )}
-          </Grid>
-        </Grid>
+          </ButtonGroup>
+        </Box>
+
         {workout && (
           <Box>
             <Typography sx={{ color: "text.secondary" }}>
@@ -270,14 +273,14 @@ export default function MyPlan() {
             />
             {state?.user?.profile?.workoutResults && (
               <Typography variant="h5" mt={1}>
-                Previous Results
+                Workout Notes
               </Typography>
             )}
             {(state?.user?.profile?.workoutResults || []).map(
               (results, index) => (
                 <Box>
                   <Typography variant="caption">
-                    Week {index + 1} ({results?.date}): {results?.notes}
+                    {results?.date}: {results?.notes}
                   </Typography>
                 </Box>
               ),
@@ -288,32 +291,35 @@ export default function MyPlan() {
     );
   };
 
-  console.log("plan results profile", state?.user?.profile);
   if (viewPlan)
     return (
       <Section>
-        <Grid container alignItems="center" justifyContent={"space-between"}>
-          <Grid item>
-            <ArrowBackIosIcon
-              fontSize="small"
-              onClick={() => router.push("/trainingplans")}
-              color="primary"
-            />
-          </Grid>
-          <Grid item>
-            <Typography
-              variant="h2"
-              sx={{
-                textTransform: "capitalize",
-                textAlign: "center",
-              }}
-            >
-              {viewPlan?.name}
-            </Typography>
-          </Grid>
-          <Grid item></Grid>
-        </Grid>
-        <Box>{renderWeeks()}</Box>
+        <Typography
+          variant="h2"
+          sx={{
+            textTransform: "capitalize",
+            textAlign: "center",
+            marginBottom: 0,
+          }}
+        >
+          {viewPlan?.name}
+        </Typography>
+        <Box
+          justifyContent={"center"}
+          display="flex"
+          alignItems="center"
+          sx={{ color: palette.blue, fontSize: 14 }}
+        >
+          <Button
+            onClick={() => router.push("/trainingplans")}
+            size="small"
+            sx={{ fontSize: 14, textTransform: "capitalize", fontWeight: 400 }}
+            startIcon={<ArrowBackIosIcon />}
+          >
+            More Plans
+          </Button>
+        </Box>
+        <Box mt={2}>{renderWeeks()}</Box>
       </Section>
     );
   else

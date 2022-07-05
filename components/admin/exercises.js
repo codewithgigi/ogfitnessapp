@@ -62,8 +62,9 @@ export const ExerciseList = ({ list, removeExercise = null }) => {
       direction="row"
       mt={2}
       spacing={2}
+      wrap
     >
-      <Grid item xs={5}>
+      <Grid item>
         {/* <Typography variant="h3">{x?.order}</Typography> */}
         {x?.image && (
           <div className="container">
@@ -71,7 +72,7 @@ export const ExerciseList = ({ list, removeExercise = null }) => {
               src={`https://ogfitnessapp192906-dev.s3.us-west-2.amazonaws.com/public/${x?.image}`}
               style={{
                 height: 80,
-                width: 120,
+                width: 100,
                 objectFit: "cover",
               }}
             />
@@ -81,7 +82,7 @@ export const ExerciseList = ({ list, removeExercise = null }) => {
           </div>
         )}
       </Grid>
-      <Grid item xs={7}>
+      <Grid item>
         <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
           {x?.name}
         </Typography>

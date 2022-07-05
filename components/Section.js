@@ -13,7 +13,7 @@ const Section = ({ bgColor, children, ...rest }) => {
       style={{
         minHeight: "90vh",
         padding: 16,
-        marginTop: isMdDown ? 0 : 40,
+        marginTop: isMdDown ? 0 : 60,
       }}
       {...rest}
     >

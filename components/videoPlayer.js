@@ -20,7 +20,7 @@ export default function VideoPlayer({ videoid }) {
       {videoid && (
         <>
           <iframe
-            class="responsive-iframe"
+            className="responsive-iframe"
             src={`https://player.vimeo.com/video/${videoid}`}
             width="640"
             height="360"

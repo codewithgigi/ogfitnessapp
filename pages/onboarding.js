@@ -91,6 +91,7 @@ export default function Onboarding() {
   });
 
   useEffect(() => {
+    console.log("onboardin......");
     if (state?.user?.profile?.onboarding) {
       setOnboarding(state?.user?.profile.onboarding);
       setStep(5);
@@ -180,8 +181,9 @@ export default function Onboarding() {
       </Typography>
       {step >= 0 && (
         <>
-          {["female", "male"].map((g) => (
+          {["female", "male"].map((g, index) => (
             <ChipSelection
+              key={index}
               field={onboarding.gender}
               value={g}
               onclick={() => {
@@ -305,7 +307,7 @@ export default function Onboarding() {
             onboarding.competeLevel)) && (
           <div>
             <button
-              class="button"
+              className="button"
               ref={buttonRef}
               type="submit"
               onClick={onSubmit}
