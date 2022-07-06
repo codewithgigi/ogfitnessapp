@@ -12,6 +12,7 @@ import {
 import DatePicker from "./datePicker";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
 import { palette } from "../src/theme";
+import { formatDate } from "../lib/formatDate";
 
 export default function ExerciseNotesDialog({ item, updateProfile, profile }) {
   const [open, setOpen] = useState(false);
@@ -71,8 +72,8 @@ export default function ExerciseNotesDialog({ item, updateProfile, profile }) {
           )}
           {(previousResults || []).map((x, index) => (
             <Box key={index}>
-              <Typography>
-                {x?.date}: {x?.notes}{" "}
+              <Typography sx={{ color: "green" }}>
+                {formatDate(x?.date)}:{x?.notes}{" "}
               </Typography>
             </Box>
           ))}

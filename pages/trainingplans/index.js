@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import theme, { palette } from "../../src/theme";
+import { formatDate } from "../../lib/formatDate";
 
 import { useRouter } from "next/router";
 
@@ -283,17 +284,20 @@ export default function MyPlan() {
             />
             {state?.user?.profile?.workoutResults && (
               <Typography variant="h5" mt={1}>
-                Workout Notes
+                My Workout Notes
               </Typography>
             )}
             {(state?.user?.profile?.workoutResults || []).map(
-              (results, index) => (
-                <Box>
-                  <Typography variant="caption">
-                    {results?.date}: {results?.notes}
-                  </Typography>
-                </Box>
-              ),
+              (results, index) => {
+                if (results?.workoutId === workout?.workout?.id)
+                  return (
+                    <Box>
+                      <Typography variant="caption" sx={{ color: "green" }}>
+                        {formatDate(results?.date)}: {results?.notes}
+                      </Typography>
+                    </Box>
+                  );
+              },
             )}
           </Box>
         )}
