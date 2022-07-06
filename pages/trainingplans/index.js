@@ -205,7 +205,6 @@ export default function MyPlan() {
     <Card>
       <CardMedia
         component="img"
-        height="190"
         image={`/assets/fat-loss-female-${index + 1}.png`}
         alt={x?.name}
       />
@@ -214,7 +213,7 @@ export default function MyPlan() {
           {x?.name}
         </Typography>
         <Typography variant="body2" sx={{ mb: 1 }}>
-          {/* {x?.description} */}
+          {x?.description}
         </Typography>
       </CardContent>
       <CardActions>
@@ -358,7 +357,10 @@ export default function MyPlan() {
         <Grid container flexDirection={"column"}>
           {(programs || []).map((program, index) => (
             <div key={index}>
-              <Box key={index} sx={{ mb: 2, maxWidth: 400 }}>
+              <Box
+                key={index}
+                sx={{ mb: 2, maxWidth: isMdDown ? "100%" : 400 }}
+              >
                 {card(program, index)}
               </Box>
               {program.workoutList.type}
