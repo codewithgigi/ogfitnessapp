@@ -3,7 +3,7 @@ export const palette = {
   green: "#62BD4E",
   orange: "#FF9F19",
   yellow: "#F9CA25",
-  blue: "#3e6ae1",
+  blue: "#0071e3",
   contrastBlue: "#0092AB",
   red: "#F14447",
   purple: "#C377E0",
@@ -11,6 +11,7 @@ export const palette = {
   white: "#FFFFFF",
   lightgrey: "#EBECF0",
   black: "#000000",
+  magenta: "#ca2266",
 };
 export const layout = {
   //contentWidth: 1236,
@@ -30,7 +31,7 @@ const theme = createTheme({
       contrastText: "#fff",
     },
     secondary: {
-      main: "#000",
+      main: palette.magenta,
       contrastText: "#FFF",
     },
     error: {

@@ -10,8 +10,10 @@ import {
   Box,
 } from "@mui/material";
 import DatePicker from "./datePicker";
+import StickyNote2Icon from "@mui/icons-material/StickyNote2";
+import { palette } from "../src/theme";
 
-export default function CompleteWorkoutDialog({ item, updateProfile }) {
+export default function ExerciseNotesDialog({ item, updateProfile, profile }) {
   const [open, setOpen] = useState(false);
   const [notes, setNotes] = useState("");
   const [date, setDate] = useState(new Date());
@@ -21,27 +23,29 @@ export default function CompleteWorkoutDialog({ item, updateProfile }) {
   };
 
   const handleClose = () => {
-    updateProfile({ notes, date, workoutId: item?.workout?.id });
+    updateProfile({ notes, date, exerciseId: item?.id });
     setOpen(false);
   };
   const handleChange = (e) => {
     setNotes(e?.target?.value);
   };
 
+  const previousResults = (profile?.exerciseResults || []).filter(
+    (x) => x.exerciseId === item?.id,
+  );
+
   return (
     <React.Fragment>
-      <Button
-        fullWidth
-        variant="contained"
-        color="primary"
-        sx={{ mt: 3 }}
+      <StickyNote2Icon
+        sx={{ fontSize: 18, color: palette.blue, marginLeft: 1 }}
         onClick={handleClickOpen}
-      >
-        Done
-      </Button>
+      />
       <Dialog fullWidth maxWidth="md" open={open} onClose={handleClose}>
         <DialogTitle>
-          <Typography variant="h3">Workout Notes</Typography>
+          <Typography variant="h3">Exercise Notes </Typography>
+          <Typography variant="h3" sx={{ textTransform: "capitalize" }}>
+            {item?.name}
+          </Typography>
         </DialogTitle>
         <DialogContent>
           <Box mt={1}>
@@ -50,16 +54,28 @@ export default function CompleteWorkoutDialog({ item, updateProfile }) {
               sx={{ marginTop: 2 }}
               fullWidth
               multiline
-              rows={4}
+              rows={2}
               variant="outlined"
               name="name"
-              label="Workout notes (optional)"
+              label="Exercise notes (optional)"
               onChange={handleChange}
-              placeholder="Notes"
+              placeholder="Weights and reps"
               value={notes}
               inputProps={{ maxLength: 50 }}
             />
           </Box>
+          {previousResults.length > 0 && (
+            <Typography variant="h3" mt={2}>
+              Previous Notes{" "}
+            </Typography>
+          )}
+          {(previousResults || []).map((x, index) => (
+            <Box key={index}>
+              <Typography>
+                {x?.date}: {x?.notes}{" "}
+              </Typography>
+            </Box>
+          ))}
         </DialogContent>
         <DialogActions>
           <Button

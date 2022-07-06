@@ -8,8 +8,9 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import PlayCircleIcon from "@mui/icons-material/PlayArrow";
+import PlayCircleIcon from "@mui/icons-material/PlayCircleFilled";
 import CloseIcon from "@mui/icons-material/Close";
+import { palette } from "../src/theme";
 
 export default function VideoDialog({ item }) {
   const [open, setOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function VideoDialog({ item }) {
   return (
     <React.Fragment>
       <Button onClick={handleClickOpen}>
-        <PlayCircleIcon fontSize="large" sx={{ color: "white" }} />
+        <PlayCircleIcon fontSize="large" sx={{ color: palette.black }} />
       </Button>
       <Dialog fullWidth maxWidth="md" open={open} onClose={handleClose}>
         <DialogTitle>

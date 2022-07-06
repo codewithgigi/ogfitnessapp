@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 
 import Section from "../../components/Section";
 import Context from "../../src/context";
-import { ExerciseList } from "../../components/admin/exercises";
+import { ExerciseList } from "../../components/exerciseList";
 import CompleteWorkoutDialog from "../../components/completeWorkoutDialog";
 
 export const updateProfileResults = /* GraphQL */ `
@@ -143,18 +143,24 @@ export default function MyPlan() {
     var yyyy = newDate.getFullYear();
     //awsDateformat tring in the format YYYY-MM-DD
     data.date = `${yyyy}-${mm}-${dd}`;
-    let workoutresults = [...state?.user?.profile?.workoutResults, data];
+    let variables = { id: profileId };
+    if (data?.exerciseId) {
+      const currentResults = state?.user?.profile?.exerciseResults ?? [];
+      let exerciseResults = [...currentResults, data];
+      variables.exerciseResults = exerciseResults;
+    }
+    if (data?.workoutId) {
+      const currentResults = state?.user?.profile?.workoutResults ?? [];
+      let workoutResults = [...currentResults, data];
+      variables.workoutResults = workoutResults;
+    }
     if (profileId)
       try {
-        console.log(workoutresults);
         const results = await API.graphql({
           query: updateProfileResults,
           authMode: "AMAZON_COGNITO_USER_POOLS",
           variables: {
-            input: {
-              id: profileId,
-              workoutResults: workoutresults,
-            },
+            input: variables,
           },
         });
         const newUser = {
@@ -265,7 +271,11 @@ export default function MyPlan() {
             </Typography>
             {workout?.workout?.exercises &&
               workout?.workout?.exercises.length > 0 && (
-                <ExerciseList list={workout?.workout?.exercises} />
+                <ExerciseList
+                  list={workout?.workout?.exercises}
+                  updateProfile={updateProfile}
+                  profile={state?.user?.profile}
+                />
               )}
             <CompleteWorkoutDialog
               item={workout}

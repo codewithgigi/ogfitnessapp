@@ -65,26 +65,15 @@ export const ExerciseList = ({ list, removeExercise = null }) => {
       wrap
     >
       <Grid item>
-        {/* <Typography variant="h3">{x?.order}</Typography> */}
         {x?.image && (
           <div className="container">
-            <img
-              src={`https://ogfitnessapp192906-dev.s3.us-west-2.amazonaws.com/public/${x?.image}`}
-              style={{
-                height: 80,
-                width: 100,
-                objectFit: "cover",
-              }}
-            />
-            <div className="play-button">
-              {x?.video && <VideoDialog item={x} />}
-            </div>
+            {x?.video && <VideoDialog item={x} />}
           </div>
         )}
       </Grid>
       <Grid item>
         <Typography variant="h5" sx={{ textTransform: "capitalize" }}>
-          {x?.name}
+          {x?.order}. {x?.name}
         </Typography>
         {x?.reps && x?.sets && (
           <Typography variant="body" mt={0.5}>
