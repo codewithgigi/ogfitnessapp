@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "../src/styles/Home.module.css";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Section from "../components/Section";
 import Context from "../src/context";
 import { useRouter } from "next/router";
@@ -17,8 +17,8 @@ export default function Welcome() {
 
   return (
     <Section>
-      <Box sx={{ maxWidth: 325, margin: "auto" }}>
-        <h1 className={styles.title}>Welcome to OGFit.Training</h1>
+      <Box sx={{ maxWidth: 325, margin: "auto", marginTop: 10 }}>
+        <Typography variant="h2">Welcome to OGFit.Training</Typography>
         <p className={styles.description}>
           Get started in your fitness journey with Oksana Grishina, 4x Ms
           Fitness Olympia.
