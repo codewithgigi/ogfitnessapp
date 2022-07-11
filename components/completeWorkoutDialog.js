@@ -21,12 +21,13 @@ export default function CompleteWorkoutDialog({ item, updateProfile }) {
   };
 
   const handleClose = () => {
-    updateProfile({ notes, date, workoutId: item?.workout?.id });
+    updateProfile({ notes, date, workoutId: item?.id });
     setOpen(false);
   };
   const handleChange = (e) => {
     setNotes(e?.target?.value);
   };
+  console.log("item dialog notes", item);
 
   return (
     <React.Fragment>

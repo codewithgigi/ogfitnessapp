@@ -10,8 +10,6 @@ import {
   FormControl,
   InputLabel,
   Select,
-  ToggleButton,
-  ToggleButtonGroup,
   Box,
   MenuItem,
 } from "@mui/material";
@@ -48,58 +46,59 @@ export default function AddWorkoutDialog({
       workoutDescription = event?.target?.value?.instructions;
     }
 
-    if (!newday) {
-      newday = {};
-      newday.day = dayNum;
-      newday.week = week;
-      newday[name] = value;
-      if (workoutName) newday.workoutName = workoutName;
-      if (workoutDescription) newday.workoutDescription = workoutDescription;
-      setDays([...days, newday]);
-    } else {
-      newday.day = dayNum;
-      newday.week = week;
-      newday[name] = value;
-      if (workoutName) newday.workoutName = workoutName;
-      if (workoutDescription) newday.workoutDescription = workoutDescription;
-      if (days.length > 0) {
-        let newdays = (days || []).filter((x) => {
-          if (x.day === newday.day) return newday;
-          else return x;
-        });
-        setDays(newdays);
-      } else {
-        setDays([newday]);
-      }
-    }
+    newday = {};
+    newday.day = dayNum;
+    newday.week = week;
+    newday[name] = value;
+    if (workoutName) newday.workoutName = workoutName;
+    if (workoutDescription) newday.workoutDescription = workoutDescription;
+    setDays([...days, newday]);
   };
 
-  const renderInputByType = (daynum) => {
-    let daybynum = days.find((x) => x.day == daynum);
-    if (daybynum?.type === "workout") {
-      const menus = (workouts || []).map((x) => (
-        <MenuItem value={x}>{x?.name}</MenuItem>
-      ));
-      return (
+  const renderInput = (dayNum) => {
+    const menus = (workouts || []).map((x) => (
+      <MenuItem value={x}>{x?.name}</MenuItem>
+    ));
+    return (
+      <>
         <FormControl fullWidth sx={{ mt: 2 }}>
           <InputLabel id="demo-simple-select-label">
             Select a Workout
           </InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
             name="workout"
-            //value={workout?.name}
             label="workout"
-            onChange={(event) => handleChange({ event, dayNum: daynum })}
+            onChange={(event) => handleChange({ event, dayNum })}
           >
             {menus}
           </Select>
         </FormControl>
-      );
-    } else if (daybynum?.type === "rest") {
-      return <div>Rest Day</div>;
-    }
+        <FormControl fullWidth sx={{ mt: 2 }}>
+          <InputLabel id="demo-simple-select-label">
+            Select a Workout
+          </InputLabel>
+          <Select
+            name="workout"
+            label="workout"
+            onChange={(event) => handleChange({ event, dayNum })}
+          >
+            {menus}
+          </Select>
+        </FormControl>
+        <FormControl fullWidth sx={{ mt: 2 }}>
+          <InputLabel id="demo-simple-select-label">
+            Select a Workout
+          </InputLabel>
+          <Select
+            name="workout"
+            label="workout"
+            onChange={(event) => handleChange({ event, dayNum })}
+          >
+            {menus}
+          </Select>
+        </FormControl>
+      </>
+    );
   };
 
   return (
@@ -125,24 +124,10 @@ export default function AddWorkoutDialog({
         </DialogTitle>
         <DialogContent>
           {[1, 2, 3, 4, 5, 6, 7].map((x) => {
-            const dayType = days.find((item) => item.day === x)?.type;
             return (
               <Box key={x}>
                 <Typography>Day {x}</Typography>
-                <ToggleButtonGroup
-                  color="primary"
-                  value={dayType}
-                  exclusive
-                  onChange={(event) => handleChange({ event, dayNum: x })}
-                  sx={{ mt: 3 }}
-                >
-                  {["rest", "workout"].map((x) => (
-                    <ToggleButton name="type" value={x}>
-                      {x}
-                    </ToggleButton>
-                  ))}
-                </ToggleButtonGroup>
-                {renderInputByType(x)}
+                {renderInput(x)}
               </Box>
             );
           })}

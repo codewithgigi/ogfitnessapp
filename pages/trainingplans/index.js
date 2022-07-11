@@ -11,10 +11,15 @@ import {
   ButtonGroup,
   Typography,
   useMediaQuery,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import theme, { palette } from "../../src/theme";
 import { formatDate } from "../../lib/formatDate";
+import { getTrainingPlans } from "../../lib/api/trainingPlans";
 
 import { useRouter } from "next/router";
 
@@ -66,55 +71,77 @@ export const updateProfileResults = /* GraphQL */ `
   }
 `;
 
-const listPrograms = /* GraphQL */ `
-  query ListPrograms(
-    $filter: ModelProgramFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPrograms(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        image
-        video
-        description
-        active
-        goal
-        gender
-        age
-        level
-        weeks
-        workoutList {
-          day
-          week
-          type
-          workout {
-            id
-            name
-            instructions
-            exercises {
-              id
-              name
-              muscles
-              bodypart
-              equipment
-              instructions
-              image
-              video
-              sets
-              reps
-              order
-            }
-          }
-          workoutName
-          workoutDescription
-        }
-      }
-      nextToken
-    }
-  }
-`;
+const WorkoutAccordion = ({ workout, index, updateProfile }) => {
+  const { state } = useContext(Context);
+  console.log("accord workout", workout);
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleChangeExpanded = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  return (
+    <Accordion
+      key={index}
+      expanded={expanded === index}
+      onChange={handleChangeExpanded(index)}
+    >
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1bh-content"
+        id="panel1bh-header"
+      >
+        <Typography
+          variant="h3"
+          sx={{
+            width: "80%",
+            flexShrink: 0,
+            textTransform: "capitalize",
+          }}
+        >
+          Workout {index + 1} - {workout?.name}
+        </Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Box sx={{ borderBottomWidth: 0.5, borderBottomColor: "lightgrey" }}>
+          <Typography sx={{ color: "text.secondary" }}>
+            {workout?.instructions}
+          </Typography>
+          <Typography variant="body1">
+            {workout?.warmup?.description}
+          </Typography>
+          {workout?.exercises && workout?.exercises.length > 0 && (
+            <ExerciseList
+              list={workout?.exercises}
+              updateProfile={updateProfile}
+              profile={state?.user?.profile}
+            />
+          )}
+          <Typography variant="body1">
+            {workout?.cooldown?.description}
+          </Typography>
+          <CompleteWorkoutDialog item={workout} updateProfile={updateProfile} />
+          {state?.user?.profile?.workoutResults && (
+            <Typography variant="h5" mt={1}>
+              My Workout Notes
+            </Typography>
+          )}
+          {(state?.user?.profile?.workoutResults || []).map(
+            (results, index) => {
+              if (results?.workoutId === workout?.id)
+                return (
+                  <Box>
+                    <Typography variant="caption" sx={{ color: "green" }}>
+                      {formatDate(results?.date)}: {results?.notes}
+                    </Typography>
+                  </Box>
+                );
+            },
+          )}
+        </Box>
+      </AccordionDetails>
+    </Accordion>
+  );
+};
 
 export default function MyPlan() {
   const { state, dispatch } = useContext(Context);
@@ -142,7 +169,7 @@ export default function MyPlan() {
     var dd = String(newDate.getDate()).padStart(2, "0");
     var mm = String(newDate.getMonth() + 1).padStart(2, "0");
     var yyyy = newDate.getFullYear();
-    //awsDateformat tring in the format YYYY-MM-DD
+    //awsDateformat string in the format YYYY-MM-DD
     data.date = `${yyyy}-${mm}-${dd}`;
     let variables = { id: profileId };
     if (data?.exerciseId) {
@@ -177,28 +204,24 @@ export default function MyPlan() {
   async function getProgramList() {
     let {
       goal = "",
-      level = "",
+      experience = "",
       gender = "",
       age = "",
     } = state?.user?.profile?.onboarding ?? {};
     const variables = { limit: 300 };
     let filter = {};
     if (goal) filter.goal = { contains: goal };
-    if (level) filter.level = { contains: level };
+    if (experience) filter.level = { contains: experience };
     if (age) filter.age = { contains: age };
     if (gender) filter.gender = { contains: gender };
     variables.filter = filter;
-    try {
-      const { data } = await API.graphql({
-        query: listPrograms,
-        variables: variables,
-        authMode: "AMAZON_COGNITO_USER_POOLS",
-      });
-      const items = data?.listPrograms?.items;
-      setPrograms(items);
-    } catch (error) {
-      console.log("Error with api listWorkouts", error);
-    }
+    const matchingprograms = getTrainingPlans({
+      goal,
+      experience,
+      gender,
+      age,
+    });
+    if (!matchingprograms?.error) setPrograms(matchingprograms);
   }
 
   const card = (x, index) => (
@@ -234,7 +257,7 @@ export default function MyPlan() {
   const profile = state?.user?.profile ?? null;
 
   const renderWeeks = () => {
-    const workout = (viewPlan.workoutList || []).find(
+    const workoutsByDay = (viewPlan.workoutList || []).filter(
       (list) => list?.day === day && list?.week === 1,
     );
 
@@ -264,41 +287,17 @@ export default function MyPlan() {
           </ButtonGroup>
         </Box>
 
-        {workout && (
-          <Box>
-            <Typography sx={{ color: "text.secondary" }}>
-              {workout?.workout?.instructions ?? "Rest Day"}
-            </Typography>
-            {workout?.workout?.exercises &&
-              workout?.workout?.exercises.length > 0 && (
-                <ExerciseList
-                  list={workout?.workout?.exercises}
-                  updateProfile={updateProfile}
-                  profile={state?.user?.profile}
-                />
-              )}
-            <CompleteWorkoutDialog
-              item={workout}
-              updateProfile={updateProfile}
-            />
-            {state?.user?.profile?.workoutResults && (
-              <Typography variant="h5" mt={1}>
-                My Workout Notes
-              </Typography>
-            )}
-            {(state?.user?.profile?.workoutResults || []).map(
-              (results, index) => {
-                if (results?.workoutId === workout?.workout?.id)
-                  return (
-                    <Box>
-                      <Typography variant="caption" sx={{ color: "green" }}>
-                        {formatDate(results?.date)}: {results?.notes}
-                      </Typography>
-                    </Box>
-                  );
-              },
-            )}
-          </Box>
+        {(workoutsByDay || []).map((workout, index) => (
+          <WorkoutAccordion
+            workout={workout}
+            index={index}
+            updateProfile={updateProfile}
+          />
+        ))}
+        {workoutsByDay?.length <= 0 && (
+          <Typography variant="h2" mt={4} align="center">
+            Rest Day
+          </Typography>
         )}
       </Box>
     );
@@ -363,7 +362,7 @@ export default function MyPlan() {
               >
                 {card(program, index)}
               </Box>
-              {program.workoutList.type}
+              {program.workoutList?.type}
             </div>
           ))}
         </Grid>

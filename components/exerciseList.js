@@ -14,13 +14,13 @@ import { formatDate } from "../lib/formatDate";
 import ExerciseNotesDialog from "./exerciseNotesDialog";
 
 export const ExerciseList = ({ list, updateProfile, profile }) => {
+  console.log("list", list);
   return (
     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
       {(list ?? []).map((x, index) => {
         const previousResults = (profile?.exerciseResults || []).filter(
           (p) => p.exerciseId === x?.id,
         );
-        console.log(profile?.exerciseResults);
         let mostRecentNote;
         if (previousResults.length > 0) mostRecentNote = previousResults.at(-1);
 
@@ -32,7 +32,7 @@ export const ExerciseList = ({ list, updateProfile, profile }) => {
               </ListItemAvatar>
               <ListItemText
                 sx={{ textTransform: "capitalize" }}
-                primary={`${x?.order}.   ${x?.name}`}
+                primary={x?.order ? `${x?.order}.   ${x?.name}` : ` ${x?.name}`}
                 secondary={
                   <React.Fragment>
                     <Typography

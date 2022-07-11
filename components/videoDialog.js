@@ -23,6 +23,8 @@ export default function VideoDialog({ item }) {
     setOpen(false);
   };
 
+  console.log("item", item?.video);
+
   return (
     <React.Fragment>
       <Button onClick={handleClickOpen}>
@@ -52,11 +54,12 @@ export default function VideoDialog({ item }) {
             <video
               controls
               width="100%"
-              poster={`https://ogfitnessapp192906-dev.s3.us-west-2.amazonaws.com/public/${item?.image}`}
+              //poster={`https://ogfitnessapp192906-dev.s3.us-west-2.amazonaws.com/public/${item?.image}`}
               controlsList="nodownload"
             >
               <source
-                src={`https://ogfitnessapp192906-dev.s3.us-west-2.amazonaws.com/public/${item?.video}`}
+                //src={`https://ogfitnessapp192906-dev.s3.us-west-2.amazonaws.com/public/${item?.video}`}
+                src={`/${item?.video}`}
                 type="video/mp4"
               />
               Sorry, your browser doesn't support embedded videos.

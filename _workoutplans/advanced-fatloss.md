@@ -1,13 +1,20 @@
 ---
 
-name: "Advanced Fatloss Workout"
-id: "advanced-fat-loss"
-goal: "advanced-fatloss"
-description: "12 week Advanced Fat loss"
-image: "/assets/recipe/fish-tacos.jpeg"
-date: "2021-12-24T05:35:07.322Z"
-weeks: [
+name: "Advanced Fatloss Workout Phase 1"
+id: "advanced-fat-loss-1"
+goal: ["fatloss"]
+level: ["exprienced"]
+gender: ["male", "female"]
+description: "4 week Advanced Fat loss"
+workouts: [
 {
-days: ["fatloss-weight-training-1", "fatloss-cardio", "fatloss-weight-training-2", "fatloss-cardio", "fatloss-weight-training-3", "rest", "rest" ]},
-days: ["fatloss-weight-training-1", "fatloss-cardio", "fatloss-weight-training-2", "fatloss-cardio", "fatloss-weight-training-3", "rest", "rest" ]},
+day: 1,
+week: 1,
+name: "Day One Fat Loss",
+instructions: "Circuit training for fat loss",
+warmup: "Stretch 5 min, and bicycle or walk for 6 min",
+exercises: [
+{name: 'squat (barbell)', sets: 1, reps: '15-20', image: "/assets/exercise/squatimage.png", video: "/assets/exercise/squat.mp4" } ,
+{name: 'squat (barbell)', sets: 1, reps: '15-20', image: "/assets/exercise/squatimage.png", video: "/assets/exercise/squat.mp4" }
+] }
 ]
