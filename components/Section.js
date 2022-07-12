@@ -11,9 +11,10 @@ const Section = ({ bgColor, children, ...rest }) => {
   return (
     <section
       style={{
-        minHeight: "90vh",
+        minHeight: "95vh",
         padding: 16,
         marginTop: isMdDown ? 0 : 60,
+        backgroundColor: "whitesmoke",
       }}
       {...rest}
     >

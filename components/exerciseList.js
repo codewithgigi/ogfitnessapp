@@ -31,7 +31,7 @@ export const ExerciseList = ({ list, updateProfile, profile }) => {
                 {x?.video && <VideoDialog item={x} />}
               </ListItemAvatar>
               <ListItemText
-                sx={{ textTransform: "capitalize" }}
+                sx={{ textTransform: "capitalize", fontWeight: 700 }}
                 primary={x?.order ? `${x?.order}.   ${x?.name}` : ` ${x?.name}`}
                 secondary={
                   <React.Fragment>
@@ -48,16 +48,15 @@ export const ExerciseList = ({ list, updateProfile, profile }) => {
                       updateProfile={updateProfile}
                       profile={profile}
                     />
-                    {mostRecentNote && (
-                      <Typography sx={{ color: "green" }}>
-                        {formatDate(mostRecentNote?.date)}:{" "}
-                        {mostRecentNote?.notes}
-                      </Typography>
-                    )}
                   </React.Fragment>
                 }
               />
             </ListItem>
+            {mostRecentNote && (
+              <Typography sx={{ color: "green", marginLeft: 2 }}>
+                {formatDate(mostRecentNote?.date)}: {mostRecentNote?.notes}
+              </Typography>
+            )}
             <Divider />
           </React.Fragment>
         );

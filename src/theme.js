@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 export const palette = {
-  green: "#62BD4E",
+  green: "#04AA6D",
   orange: "#FF9F19",
   yellow: "#F9CA25",
   blue: "#0071e3",
@@ -31,7 +31,7 @@ const theme = createTheme({
       contrastText: "#fff",
     },
     secondary: {
-      main: palette.magenta,
+      main: palette.green,
       contrastText: "#FFF",
     },
     error: {

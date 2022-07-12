@@ -7,6 +7,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  Divider,
   Button,
   ButtonGroup,
   Typography,
@@ -20,6 +21,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import theme, { palette } from "../../src/theme";
 import { formatDate } from "../../lib/formatDate";
 import { getTrainingPlans } from "../../lib/api/trainingPlans";
+import VideoDialog from "../../components/videoDialog";
 
 import { useRouter } from "next/router";
 
@@ -82,7 +84,7 @@ const WorkoutAccordion = ({ workout, index, updateProfile }) => {
   return (
     <Accordion
       key={index}
-      expanded={expanded === index}
+      defaultExpanded={true}
       onChange={handleChangeExpanded(index)}
     >
       <AccordionSummary
@@ -93,8 +95,6 @@ const WorkoutAccordion = ({ workout, index, updateProfile }) => {
         <Typography
           variant="h3"
           sx={{
-            width: "80%",
-            flexShrink: 0,
             textTransform: "capitalize",
           }}
         >
@@ -106,30 +106,61 @@ const WorkoutAccordion = ({ workout, index, updateProfile }) => {
           <Typography sx={{ color: "text.secondary" }}>
             {workout?.instructions}
           </Typography>
-          <Typography variant="body1">
-            {workout?.warmup?.description}
-          </Typography>
-          {workout?.exercises && workout?.exercises.length > 0 && (
-            <ExerciseList
-              list={workout?.exercises}
-              updateProfile={updateProfile}
-              profile={state?.user?.profile}
-            />
+          <Divider sx={{ marginTop: 2 }} />
+          {workout?.warmup && (
+            <>
+              <Typography variant="h5" gutterBottom>
+                Warmup
+                <VideoDialog
+                  size="small"
+                  item={{ name: "warmup", ...workout?.warmup }}
+                />
+              </Typography>
+              <Typography variant="body1">
+                {workout?.warmup?.instructions}
+              </Typography>
+              <Divider sx={{ marginTop: 2 }} />
+            </>
           )}
-          <Typography variant="body1">
-            {workout?.cooldown?.description}
-          </Typography>
+          {workout?.exercises && (
+            <>
+              <Typography variant="h5" gutterBottom>
+                Workout
+              </Typography>
+              {workout?.exercises && workout?.exercises.length > 0 && (
+                <ExerciseList
+                  list={workout?.exercises}
+                  updateProfile={updateProfile}
+                  profile={state?.user?.profile}
+                />
+              )}
+            </>
+          )}
+          {workout?.cooldown && (
+            <>
+              <Typography variant="h5" gutterBottom>
+                Cooldown
+                <VideoDialog
+                  size="small"
+                  item={{ name: "warmup", ...workout?.cooldown }}
+                />
+              </Typography>
+              <Typography variant="body1">
+                {workout?.cooldown?.instructions}
+              </Typography>
+            </>
+          )}
           <CompleteWorkoutDialog item={workout} updateProfile={updateProfile} />
           {state?.user?.profile?.workoutResults && (
             <Typography variant="h5" mt={1}>
-              My Workout Notes
+              Comments
             </Typography>
           )}
           {(state?.user?.profile?.workoutResults || []).map(
             (results, index) => {
               if (results?.workoutId === workout?.id)
                 return (
-                  <Box>
+                  <Box key={index}>
                     <Typography variant="caption" sx={{ color: "green" }}>
                       {formatDate(results?.date)}: {results?.notes}
                     </Typography>
@@ -236,7 +267,7 @@ export default function MyPlan() {
           {x?.name}
         </Typography>
         <Typography variant="body2" sx={{ mb: 1 }}>
-          {x?.description}
+          {x?.instructions}
         </Typography>
       </CardContent>
       <CardActions>

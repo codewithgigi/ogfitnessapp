@@ -12,7 +12,7 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircleFilled";
 import CloseIcon from "@mui/icons-material/Close";
 import { palette } from "../src/theme";
 
-export default function VideoDialog({ item }) {
+export default function VideoDialog({ item, size }) {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -23,12 +23,18 @@ export default function VideoDialog({ item }) {
     setOpen(false);
   };
 
-  console.log("item", item?.video);
-
   return (
     <React.Fragment>
-      <Button onClick={handleClickOpen}>
-        <PlayCircleIcon fontSize="large" sx={{ color: palette.black }} />
+      <Button onClick={handleClickOpen} sx={{ marginRight: 1, padding: 0 }}>
+        {item?.image && <img src={item?.image} height={60} />}
+        <PlayCircleIcon
+          fontSize={size ? size : "large"}
+          sx={{
+            color: item?.image ? palette.white : palette.black,
+            position: "absolute",
+          }}
+          className="playbutton"
+        />
       </Button>
       <Dialog fullWidth maxWidth="md" open={open} onClose={handleClose}>
         <DialogTitle>
