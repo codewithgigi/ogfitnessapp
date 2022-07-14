@@ -60,49 +60,16 @@ type Exercise
   ) {
   id: ID!
   name: String!
-  muscles: String
-  bodypart: String
-  equipment: String
-  instructions: String
-  image: String
-  video: String
-}
-
-enum Level {
-  beginner
-  experienced
-}
-
-type Workout
-  @model
-  @aws_cognito_user_pools
-  @auth(
-    rules: [
-      { allow: groups, groups: ["Admin"] }
-      { allow: private, operations: [read] }
-    ]
-  ) {
-  id: ID!
-  name: String
-  description: String
-  image: String
-  video: String
-  instructions: String
-  exercises: [WorkoutExercise]
-}
-
-type WorkoutExercise {
-  id: ID!
-  name: String!
-  muscles: String
-  bodypart: String
-  equipment: String
   instructions: String
   image: String
   video: String
   sets: String
   reps: String
-  order: String
+}
+
+enum Level {
+  beginner
+  experienced
 }
 
 type Program
@@ -115,9 +82,8 @@ type Program
   ) {
   id: ID!
   name: String
-  image: String
-  video: String
   description: String
+  instructions: String
   active: Boolean
   goal: [String]
   gender: [String]
@@ -128,20 +94,26 @@ type Program
 }
 
 type WorkoutList {
+  id: String
+  name: string
   day: Int
   week: Int
-  type: String
-  workout: ProgramWorkout
-  workoutName: String
-  workoutDescription: String
+  warmup: WarmupCooldown
+  cooldown: WarmupCooldown
+  exercises: ExerciseList
 }
 
-type ProgramWorkout {
-  id: ID!
-  name: String
-  description: String
+type WarmupCooldown {
+  instructions: String
+  video: String
+  image: String
+}
+
+type ExerciseList {
+  name: String!
+  instructions: String
   image: String
   video: String
-  instructions: String
-  exercises: [WorkoutExercise]
+  sets: String
+  reps: String
 }
