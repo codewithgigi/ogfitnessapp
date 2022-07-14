@@ -20,7 +20,7 @@ import Context from "../src/context";
 
 const pages = [
   // { name: "Dashboard", path: "/dashboard" },
-  { name: "Training", path: "/trainingplans" },
+  { name: "Training", path: "/training" },
   { name: "Profile", path: "/profile" },
   // { name: "Settings", path: "/settings" },
 ];
@@ -153,35 +153,37 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {state?.user &&
               pages.map((page, index) => (
-                <Link
-                  key={index}
-                  href={page.path}
-                  onClick={() => handleCloseNavMenu(page?.name)}
-                >
-                  {(router.pathname === "/more" && page?.name === "Log") ||
-                  router?.pathname === page?.path ? (
-                    <a
-                      style={{
-                        textDecoration: "none",
-                        color: palette.black,
-                        borderBottom: "2px solid black",
-                        marginRight: 15,
-                      }}
-                    >
-                      {page.name}
-                    </a>
-                  ) : (
-                    <a
-                      style={{
-                        color: palette.black,
-                        textDecoration: "none",
-                        marginRight: 15,
-                      }}
-                    >
-                      {page.name}
-                    </a>
-                  )}
-                </Link>
+                <>
+                  <Link
+                    key={index}
+                    href={page.path}
+                    onClick={() => handleCloseNavMenu(page?.name)}
+                  >
+                    {(router.pathname === "/more" && page?.name === "Log") ||
+                    router?.pathname.includes(page?.path) ? (
+                      <a
+                        style={{
+                          textDecoration: "none",
+                          color: palette.black,
+                          borderBottom: "2px solid black",
+                          marginRight: 15,
+                        }}
+                      >
+                        {page.name}
+                      </a>
+                    ) : (
+                      <a
+                        style={{
+                          color: palette.black,
+                          textDecoration: "none",
+                          marginRight: 15,
+                        }}
+                      >
+                        {page.name}
+                      </a>
+                    )}
+                  </Link>
+                </>
               ))}
           </Box>
 

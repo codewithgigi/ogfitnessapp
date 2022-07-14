@@ -9,7 +9,7 @@ export default function Workout({ workout, planId }) {
 
   return (
     <Section>
-      <Button onClick={() => router.push(`/trainingplans?planId=${planId}`)}>
+      <Button onClick={() => router.push(`/training?planId=${planId}`)}>
         Back to Workouts
       </Button>
       <Typography variant="h2">Workout - {workout?.workout?.name}</Typography>

@@ -10,7 +10,7 @@ export default function Welcome() {
   const router = useRouter();
 
   useEffect(() => {
-    if (state?.user?.profile?.onboarding) router.push("/trainingplans");
+    if (state?.user?.profile?.onboarding) router.push("/training");
     else if (state?.user && !state?.user?.profile?.onboarding)
       router.push("/onboarding");
   }, [state?.user]);

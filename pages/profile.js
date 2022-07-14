@@ -69,8 +69,6 @@ export default function Profile() {
     }
   };
 
-  console.log("beginner p", beginnermg?.workoutList[1]?.exercises);
-
   return (
     <Section>
       <Typography variant="h3">Profile</Typography>

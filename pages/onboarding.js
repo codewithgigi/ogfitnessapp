@@ -94,7 +94,7 @@ export default function Onboarding() {
     if (state?.user?.profile?.onboarding) {
       setOnboarding(state?.user?.profile.onboarding);
       setStep(5);
-      if (!router?.query?.update) router.push("/trainingplans");
+      if (!router?.query?.update) router.push("/training");
     } else myProfile();
   }, [state]);
 
@@ -163,7 +163,7 @@ export default function Onboarding() {
     const profile = state?.user?.profile ?? {};
     if (Object.keys(profile).length === 0) addProfile();
     else editProfile();
-    router.push("/trainingplans");
+    router.push("/training");
   };
 
   const scrollToBottom = () => {

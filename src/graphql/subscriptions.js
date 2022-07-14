@@ -123,12 +123,11 @@ export const onCreateExercise = /* GraphQL */ `
     onCreateExercise {
       id
       name
-      muscles
-      bodypart
-      equipment
       instructions
       image
       video
+      sets
+      reps
       createdAt
       updatedAt
     }
@@ -139,12 +138,11 @@ export const onUpdateExercise = /* GraphQL */ `
     onUpdateExercise {
       id
       name
-      muscles
-      bodypart
-      equipment
       instructions
       image
       video
+      sets
+      reps
       createdAt
       updatedAt
     }
@@ -155,93 +153,11 @@ export const onDeleteExercise = /* GraphQL */ `
     onDeleteExercise {
       id
       name
-      muscles
-      bodypart
-      equipment
       instructions
       image
       video
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onCreateWorkout = /* GraphQL */ `
-  subscription OnCreateWorkout {
-    onCreateWorkout {
-      id
-      name
-      description
-      image
-      video
-      instructions
-      exercises {
-        id
-        name
-        muscles
-        bodypart
-        equipment
-        instructions
-        image
-        video
-        sets
-        reps
-        order
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateWorkout = /* GraphQL */ `
-  subscription OnUpdateWorkout {
-    onUpdateWorkout {
-      id
-      name
-      description
-      image
-      video
-      instructions
-      exercises {
-        id
-        name
-        muscles
-        bodypart
-        equipment
-        instructions
-        image
-        video
-        sets
-        reps
-        order
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteWorkout = /* GraphQL */ `
-  subscription OnDeleteWorkout {
-    onDeleteWorkout {
-      id
-      name
-      description
-      image
-      video
-      instructions
-      exercises {
-        id
-        name
-        muscles
-        bodypart
-        equipment
-        instructions
-        image
-        video
-        sets
-        reps
-        order
-      }
+      sets
+      reps
       createdAt
       updatedAt
     }
@@ -252,9 +168,8 @@ export const onCreateProgram = /* GraphQL */ `
     onCreateProgram {
       id
       name
-      image
-      video
       description
+      instructions
       active
       goal
       gender
@@ -262,19 +177,28 @@ export const onCreateProgram = /* GraphQL */ `
       level
       weeks
       workoutList {
+        id
+        name
         day
         week
-        type
-        workout {
-          id
+        warmup {
+          instructions
+          video
+          image
+        }
+        cooldown {
+          instructions
+          video
+          image
+        }
+        exercises {
           name
-          description
+          instructions
           image
           video
-          instructions
+          sets
+          reps
         }
-        workoutName
-        workoutDescription
       }
       createdAt
       updatedAt
@@ -286,9 +210,8 @@ export const onUpdateProgram = /* GraphQL */ `
     onUpdateProgram {
       id
       name
-      image
-      video
       description
+      instructions
       active
       goal
       gender
@@ -296,19 +219,28 @@ export const onUpdateProgram = /* GraphQL */ `
       level
       weeks
       workoutList {
+        id
+        name
         day
         week
-        type
-        workout {
-          id
+        warmup {
+          instructions
+          video
+          image
+        }
+        cooldown {
+          instructions
+          video
+          image
+        }
+        exercises {
           name
-          description
+          instructions
           image
           video
-          instructions
+          sets
+          reps
         }
-        workoutName
-        workoutDescription
       }
       createdAt
       updatedAt
@@ -320,9 +252,8 @@ export const onDeleteProgram = /* GraphQL */ `
     onDeleteProgram {
       id
       name
-      image
-      video
       description
+      instructions
       active
       goal
       gender
@@ -330,19 +261,28 @@ export const onDeleteProgram = /* GraphQL */ `
       level
       weeks
       workoutList {
+        id
+        name
         day
         week
-        type
-        workout {
-          id
+        warmup {
+          instructions
+          video
+          image
+        }
+        cooldown {
+          instructions
+          video
+          image
+        }
+        exercises {
           name
-          description
+          instructions
           image
           video
-          instructions
+          sets
+          reps
         }
-        workoutName
-        workoutDescription
       }
       createdAt
       updatedAt

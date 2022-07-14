@@ -91,12 +91,11 @@ export const getExercise = /* GraphQL */ `
     getExercise(id: $id) {
       id
       name
-      muscles
-      bodypart
-      equipment
       instructions
       image
       video
+      sets
+      reps
       createdAt
       updatedAt
     }
@@ -112,73 +111,11 @@ export const listExercises = /* GraphQL */ `
       items {
         id
         name
-        muscles
-        bodypart
-        equipment
-        instructions
-        image
-        video
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getWorkout = /* GraphQL */ `
-  query GetWorkout($id: ID!) {
-    getWorkout(id: $id) {
-      id
-      name
-      description
-      image
-      video
-      instructions
-      exercises {
-        id
-        name
-        muscles
-        bodypart
-        equipment
         instructions
         image
         video
         sets
         reps
-        order
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listWorkouts = /* GraphQL */ `
-  query ListWorkouts(
-    $filter: ModelWorkoutFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listWorkouts(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        description
-        image
-        video
-        instructions
-        exercises {
-          id
-          name
-          muscles
-          bodypart
-          equipment
-          instructions
-          image
-          video
-          sets
-          reps
-          order
-        }
         createdAt
         updatedAt
       }
@@ -191,9 +128,8 @@ export const getProgram = /* GraphQL */ `
     getProgram(id: $id) {
       id
       name
-      image
-      video
       description
+      instructions
       active
       goal
       gender
@@ -201,19 +137,28 @@ export const getProgram = /* GraphQL */ `
       level
       weeks
       workoutList {
+        id
+        name
         day
         week
-        type
-        workout {
-          id
+        warmup {
+          instructions
+          video
+          image
+        }
+        cooldown {
+          instructions
+          video
+          image
+        }
+        exercises {
           name
-          description
+          instructions
           image
           video
-          instructions
+          sets
+          reps
         }
-        workoutName
-        workoutDescription
       }
       createdAt
       updatedAt
@@ -230,9 +175,8 @@ export const listPrograms = /* GraphQL */ `
       items {
         id
         name
-        image
-        video
         description
+        instructions
         active
         goal
         gender
@@ -240,11 +184,10 @@ export const listPrograms = /* GraphQL */ `
         level
         weeks
         workoutList {
+          id
+          name
           day
           week
-          type
-          workoutName
-          workoutDescription
         }
         createdAt
         updatedAt

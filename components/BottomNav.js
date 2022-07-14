@@ -32,7 +32,7 @@ export default function BottomNav() {
           label="Training"
           icon={<FitnessCenterIcon />}
           onClick={() => {
-            router.push("/trainingplans");
+            router.push("/training");
           }}
         />
         <BottomNavigationAction

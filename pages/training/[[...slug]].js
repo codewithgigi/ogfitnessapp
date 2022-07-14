@@ -84,11 +84,11 @@ const ViewPrograms = ({ profile, programs }) => {
       )}
       <Grid container direction="row" spacing={1}>
         {(programs || []).map((program, index) => (
-          <Grid item xs={6} md={3}>
+          <Grid item xs={6} md={3} key={index}>
             <Card
               onClick={() =>
                 router.push({
-                  pathname: `/trainingplans/${program?.id}`,
+                  pathname: `/training/${program?.id}`,
                 })
               }
             >
@@ -153,7 +153,7 @@ const ProgramDetail = ({ program, day, setDay }) => {
                         onClick={() => {
                           setDay(workout?.day);
                           router.push(
-                            `/trainingplans/${program?.id}/${workout?.id}`,
+                            `/training/${program?.id}/${workout?.id}`,
                           );
                         }}
                       >
@@ -330,7 +330,6 @@ export default function MyPlan() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(router?.query?.slug, programs);
     if (!router?.query?.slug) {
       setViewPlan();
       setViewWorkout();
@@ -363,7 +362,6 @@ export default function MyPlan() {
     data.date = `${yyyy}-${mm}-${dd}`;
     let variables = { id: profileId };
     //const exerciseId = (data?.name).replace(" ", "-").toLowerCase();
-    console.log("update profile data", data);
 
     if (data?.exerciseId) {
       const currentResults = state?.user?.profile?.exerciseResults ?? [];

@@ -34,7 +34,6 @@ export default function MultiSelect({ data, handleSelected, label = "Add" }) {
           handleSelected(newValue);
         }}
         renderInput={(params) => {
-          console.log("params", params);
           return (
             <TextField
               {...params}

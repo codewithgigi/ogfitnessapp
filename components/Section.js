@@ -60,7 +60,7 @@ const Section = ({ bgColor, children, title, subtitle, goBack, ...rest }) => {
     </Grid>
   );
   return (
-    <div>
+    <div style={{ marginTop: !isMdDown ? 100 : 5 }}>
       {isMdDown && title && pageHeader}
       <section
         style={{

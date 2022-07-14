@@ -11,9 +11,7 @@ import WorkoutPlans from "../components/admin/workoutplans";
 import ReactPlayer from "react-player";
 
 export default function VideoPlayer({ videoid }) {
-  useEffect(() => {
-    console.log("user", state?.user);
-  }, [state?.user]);
+  useEffect(() => {}, [state?.user]);
 
   return (
     <>

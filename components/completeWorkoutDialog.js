@@ -28,7 +28,6 @@ export default function CompleteWorkoutDialog({ item, updateProfile }) {
   const handleChange = (e) => {
     setNotes(e?.target?.value);
   };
-  console.log("item dialog notes", item);
 
   return (
     <React.Fragment>

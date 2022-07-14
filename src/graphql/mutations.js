@@ -135,12 +135,11 @@ export const createExercise = /* GraphQL */ `
     createExercise(input: $input, condition: $condition) {
       id
       name
-      muscles
-      bodypart
-      equipment
       instructions
       image
       video
+      sets
+      reps
       createdAt
       updatedAt
     }
@@ -154,12 +153,11 @@ export const updateExercise = /* GraphQL */ `
     updateExercise(input: $input, condition: $condition) {
       id
       name
-      muscles
-      bodypart
-      equipment
       instructions
       image
       video
+      sets
+      reps
       createdAt
       updatedAt
     }
@@ -173,102 +171,11 @@ export const deleteExercise = /* GraphQL */ `
     deleteExercise(input: $input, condition: $condition) {
       id
       name
-      muscles
-      bodypart
-      equipment
       instructions
       image
       video
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createWorkout = /* GraphQL */ `
-  mutation CreateWorkout(
-    $input: CreateWorkoutInput!
-    $condition: ModelWorkoutConditionInput
-  ) {
-    createWorkout(input: $input, condition: $condition) {
-      id
-      name
-      description
-      image
-      video
-      instructions
-      exercises {
-        id
-        name
-        muscles
-        bodypart
-        equipment
-        instructions
-        image
-        video
-        sets
-        reps
-        order
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateWorkout = /* GraphQL */ `
-  mutation UpdateWorkout(
-    $input: UpdateWorkoutInput!
-    $condition: ModelWorkoutConditionInput
-  ) {
-    updateWorkout(input: $input, condition: $condition) {
-      id
-      name
-      description
-      image
-      video
-      instructions
-      exercises {
-        id
-        name
-        muscles
-        bodypart
-        equipment
-        instructions
-        image
-        video
-        sets
-        reps
-        order
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteWorkout = /* GraphQL */ `
-  mutation DeleteWorkout(
-    $input: DeleteWorkoutInput!
-    $condition: ModelWorkoutConditionInput
-  ) {
-    deleteWorkout(input: $input, condition: $condition) {
-      id
-      name
-      description
-      image
-      video
-      instructions
-      exercises {
-        id
-        name
-        muscles
-        bodypart
-        equipment
-        instructions
-        image
-        video
-        sets
-        reps
-        order
-      }
+      sets
+      reps
       createdAt
       updatedAt
     }
@@ -282,9 +189,8 @@ export const createProgram = /* GraphQL */ `
     createProgram(input: $input, condition: $condition) {
       id
       name
-      image
-      video
       description
+      instructions
       active
       goal
       gender
@@ -292,19 +198,28 @@ export const createProgram = /* GraphQL */ `
       level
       weeks
       workoutList {
+        id
+        name
         day
         week
-        type
-        workout {
-          id
+        warmup {
+          instructions
+          video
+          image
+        }
+        cooldown {
+          instructions
+          video
+          image
+        }
+        exercises {
           name
-          description
+          instructions
           image
           video
-          instructions
+          sets
+          reps
         }
-        workoutName
-        workoutDescription
       }
       createdAt
       updatedAt
@@ -319,9 +234,8 @@ export const updateProgram = /* GraphQL */ `
     updateProgram(input: $input, condition: $condition) {
       id
       name
-      image
-      video
       description
+      instructions
       active
       goal
       gender
@@ -329,19 +243,28 @@ export const updateProgram = /* GraphQL */ `
       level
       weeks
       workoutList {
+        id
+        name
         day
         week
-        type
-        workout {
-          id
+        warmup {
+          instructions
+          video
+          image
+        }
+        cooldown {
+          instructions
+          video
+          image
+        }
+        exercises {
           name
-          description
+          instructions
           image
           video
-          instructions
+          sets
+          reps
         }
-        workoutName
-        workoutDescription
       }
       createdAt
       updatedAt
@@ -356,9 +279,8 @@ export const deleteProgram = /* GraphQL */ `
     deleteProgram(input: $input, condition: $condition) {
       id
       name
-      image
-      video
       description
+      instructions
       active
       goal
       gender
@@ -366,19 +288,28 @@ export const deleteProgram = /* GraphQL */ `
       level
       weeks
       workoutList {
+        id
+        name
         day
         week
-        type
-        workout {
-          id
+        warmup {
+          instructions
+          video
+          image
+        }
+        cooldown {
+          instructions
+          video
+          image
+        }
+        exercises {
           name
-          description
+          instructions
           image
           video
-          instructions
+          sets
+          reps
         }
-        workoutName
-        workoutDescription
       }
       createdAt
       updatedAt

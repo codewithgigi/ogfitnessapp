@@ -8,7 +8,7 @@ export default function Home() {
   const { state } = React.useContext(Context);
   const router = useRouter();
 
-  if (state?.user?.profile?.onboarding) router.push("/trainingplans");
+  if (state?.user?.profile?.onboarding) router.push("/training");
   else if (state?.user && !state?.user?.profile?.onboarding)
     return <Onboarding />;
   else return <Welcome />;
