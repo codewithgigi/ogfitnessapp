@@ -95,7 +95,7 @@ type Program
 
 type WorkoutList {
   id: String
-  name: string
+  name: String
   day: Int
   week: Int
   warmup: WarmupCooldown
