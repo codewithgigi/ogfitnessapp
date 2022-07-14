@@ -1,7 +1,6 @@
 import React from "react";
 import Context from "../src/context";
 import Onboarding from "./onboarding";
-import MyPlan from "./trainingplans/backup";
 import Welcome from "./welcome";
 import { useRouter } from "next/router";
 

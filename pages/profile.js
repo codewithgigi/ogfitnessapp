@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import Context from "../src/context";
 import Section from "../components/Section";
 import { Auth } from "aws-amplify";
+
+import { beginnermg } from "../lib/female-musclegain-beginner-31-45";
 export const getProfile = /* GraphQL */ `
   query GetProfile($id: ID!) {
     getProfile(id: $id) {
@@ -67,6 +69,8 @@ export default function Profile() {
     }
   };
 
+  console.log("beginner p", beginnermg?.workoutList[1]?.exercises);
+
   return (
     <Section>
       <Typography variant="h3">Profile</Typography>
@@ -98,11 +102,12 @@ export default function Profile() {
         </Typography>
       </Box>
       <Button onClick={() => signOut()}>Logout</Button>
-      <Box mt={3}>
-        {isAdmin && (
+      {isAdmin && (
+        <Box mt={3}>
+          <div>Programs</div>
           <Button onClick={() => router.push("/admin-page")}>Admin Page</Button>
-        )}
-      </Box>
+        </Box>
+      )}
     </Section>
   );
 }
