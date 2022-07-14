@@ -18,13 +18,14 @@ export default function ExerciseNotesDialog({ item, updateProfile, profile }) {
   const [open, setOpen] = useState(false);
   const [notes, setNotes] = useState("");
   const [date, setDate] = useState(new Date());
+  const itemId = item?.name.toLowerCase().replaceAll(" ", "-");
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
-    updateProfile({ notes, date, exerciseId: item?.id });
+    updateProfile({ notes, date, exerciseId: itemId });
     setOpen(false);
   };
   const handleChange = (e) => {
@@ -32,7 +33,7 @@ export default function ExerciseNotesDialog({ item, updateProfile, profile }) {
   };
 
   const previousResults = (profile?.exerciseResults || []).filter(
-    (x) => x.exerciseId === item?.id,
+    (x) => x.exerciseId === itemId,
   );
 
   return (

@@ -8,30 +8,32 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import PlayCircleIcon from "@mui/icons-material/PlayCircleFilled";
+import PlayCircleIcon from "@mui/icons-material/PlayCircleOutlineTwoTone";
 import CloseIcon from "@mui/icons-material/Close";
 import { palette } from "../src/theme";
 
-export default function VideoDialog({ item, size }) {
+export default function VideoDialog({ item, size, setSelected }) {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
+    setSelected(item);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  const itemVideo = item?.video ? item?.video : "assets/exercise/squat.mp4";
+
   return (
     <React.Fragment>
       <Button onClick={handleClickOpen} sx={{ marginRight: 1, padding: 0 }}>
-        {item?.image && <img src={item?.image} height={60} />}
+        {/* {item?.image && <img src={item?.image} height={60} />} */}
         <PlayCircleIcon
           fontSize={size ? size : "large"}
           sx={{
-            color: item?.image ? palette.white : palette.black,
-            position: "absolute",
+            color: palette.green,
           }}
           className="playbutton"
         />
@@ -56,7 +58,7 @@ export default function VideoDialog({ item, size }) {
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          {item?.video && (
+          {itemVideo && (
             <video
               controls
               width="100%"
@@ -64,8 +66,8 @@ export default function VideoDialog({ item, size }) {
               controlsList="nodownload"
             >
               <source
-                //src={`https://ogfitnessapp192906-dev.s3.us-west-2.amazonaws.com/public/${item?.video}`}
-                src={`/${item?.video}`}
+                //src={`https://ogfitnessapp192906-dev.s3.us-west-2.amazonaws.com/public/${itemVideo}`}
+                src={`/${itemVideo}`}
                 type="video/mp4"
               />
               Sorry, your browser doesn't support embedded videos.

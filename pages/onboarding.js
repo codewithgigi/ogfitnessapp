@@ -91,7 +91,6 @@ export default function Onboarding() {
   });
 
   useEffect(() => {
-    console.log("onboardin......");
     if (state?.user?.profile?.onboarding) {
       setOnboarding(state?.user?.profile.onboarding);
       setStep(5);

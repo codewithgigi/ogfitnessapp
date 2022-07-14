@@ -10,6 +10,7 @@ import {
   Box,
 } from "@mui/material";
 import DatePicker from "./datePicker";
+import WorkoutRating from "./workoutRating";
 
 export default function CompleteWorkoutDialog({ item, updateProfile }) {
   const [open, setOpen] = useState(false);
@@ -37,6 +38,7 @@ export default function CompleteWorkoutDialog({ item, updateProfile }) {
         size="small"
         sx={{ mt: 3 }}
         onClick={handleClickOpen}
+        fullWidth
       >
         Done
       </Button>
@@ -47,7 +49,8 @@ export default function CompleteWorkoutDialog({ item, updateProfile }) {
         <DialogContent>
           <Box mt={1}>
             <DatePicker date={date} setDate={setDate} />
-            <TextField
+            {/* <WorkoutRating /> */}
+            {/* <TextField
               sx={{ marginTop: 2 }}
               fullWidth
               multiline
@@ -59,7 +62,7 @@ export default function CompleteWorkoutDialog({ item, updateProfile }) {
               placeholder="Notes"
               value={notes}
               inputProps={{ maxLength: 50 }}
-            />
+            /> */}
           </Box>
         </DialogContent>
         <DialogActions>

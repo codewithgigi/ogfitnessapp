@@ -12,6 +12,8 @@ export const palette = {
   lightgrey: "#EBECF0",
   black: "#000000",
   magenta: "#ca2266",
+  softBlack: "#2A2A2B",
+  paleGreen: "#0ad88c",
 };
 export const layout = {
   //contentWidth: 1236,
@@ -59,32 +61,32 @@ const theme = createTheme({
       fontSize: "2rem",
       fontWeight: "500",
       textTransform: "capitalize",
-      marginBottom: 16,
     },
     h2: {
       fontWeight: "500",
       fontSize: "1.625rem",
-      marginBottom: 16,
+      textTransform: "capitalize",
     },
     h3: {
       fontWeight: "500",
       fontSize: "1.375rem",
-      marginBottom: 10,
+      textTransform: "capitalize",
     },
     h4: {
       fontSize: "1.25rem",
       fontWeight: "500",
       color: "#1e2022",
-      marginBottom: 10,
       textTransform: "capitalize",
     },
     h5: {
       fontSize: "1.125rem",
       fontWeight: "500",
+      textTransform: "capitalize",
     },
     subtitle1: {
-      fontSize: "1.25rem",
+      fontSize: "1.125rem",
       color: "#677788",
+      textTransform: "capitalize",
     },
   },
 });

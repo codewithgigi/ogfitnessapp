@@ -88,8 +88,7 @@ function MyApp({
           <CssBaseline />
           <div
             style={{
-              maxWidth: maintheme.layout.contentWidth,
-              margin: "0 auto",
+              backgroundColor: "whitesmoke",
             }}
           >
             {(!state?.user || !isMdDown) && <ResposiveAppBar />}

@@ -1,22 +1,13 @@
 import * as React from "react";
-import {
-  Grid,
-  Divider,
-  Typography,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-} from "@mui/material";
+import { Button, Grid, Typography, List } from "@mui/material";
 import VideoDialog from "./videoDialog";
-import { formatDate } from "../lib/formatDate";
-
+import PlayCircleIcon from "@mui/icons-material/PlayCircleOutlineTwoTone";
 import ExerciseNotesDialog from "./exerciseNotesDialog";
+import { palette } from "../src/theme";
 
-export const ExerciseList = ({ list, updateProfile, profile }) => {
-  console.log("list", list);
+export const ExerciseList = ({ list, updateProfile, profile, setSelected }) => {
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+    <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       {(list ?? []).map((x, index) => {
         const previousResults = (profile?.exerciseResults || []).filter(
           (p) => p.exerciseId === x?.id,
@@ -26,38 +17,95 @@ export const ExerciseList = ({ list, updateProfile, profile }) => {
 
         return (
           <React.Fragment key={index}>
-            <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                {x?.video && <VideoDialog item={x} />}
-              </ListItemAvatar>
-              <ListItemText
-                sx={{ textTransform: "capitalize", fontWeight: 700 }}
-                primary={x?.order ? `${x?.order}.   ${x?.name}` : ` ${x?.name}`}
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: "inline" }}
-                      component="span"
-                      variant="body2"
-                      color="text.secondary"
-                    >
-                      {x?.sets} X {x?.reps}
-                    </Typography>
-                    <ExerciseNotesDialog
-                      item={x}
-                      updateProfile={updateProfile}
-                      profile={profile}
+            <Grid
+              container
+              justifyContent={"flex-start"}
+              direction="row"
+              wrap="nowrap"
+              sx={{ marginBottom: 2 }}
+            >
+              {x?.image ? (
+                <Grid item>
+                  <img src={x?.image} height={50} />
+                </Grid>
+              ) : (
+                <Grid item sx={{ marginRight: 1 }}>
+                  <img src="/assets/exercise/squatimage.png" height={50} />
+                </Grid>
+              )}
+              <Grid item xs={10}>
+                <Typography
+                  sx={{
+                    display: "inline",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {x?.name}
+                </Typography>
+                <br />
+                <Typography
+                  sx={{
+                    display: "inline",
+                    textTransform: "capitalize",
+                    paddingLeft: 1,
+                  }}
+                  component="span"
+                  variant="body2"
+                  color="text.secondary"
+                >
+                  {x?.sets} X {x?.reps}
+                  <ExerciseNotesDialog
+                    item={x}
+                    updateProfile={updateProfile}
+                    profile={profile}
+                  />
+                </Typography>
+              </Grid>
+              {x?.video ? (
+                <Grid item>
+                  <Button
+                    onClick={() => {
+                      setSelected(x);
+                      document.body.scrollTop = 0;
+                      document.documentElement.scrollTop = 0;
+                    }}
+                    sx={{ marginRight: 1, padding: 0 }}
+                  >
+                    <PlayCircleIcon
+                      fontSize={"large"}
+                      sx={{
+                        color: palette.green,
+                      }}
+                      className="playbutton"
                     />
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
+                  </Button>
+                </Grid>
+              ) : (
+                <Grid item>
+                  <Button
+                    onClick={() => {
+                      setSelected(x);
+                      document.body.scrollTop = 0;
+                      document.documentElement.scrollTop = 0;
+                    }}
+                    sx={{ marginRight: 1, padding: 0 }}
+                  >
+                    <PlayCircleIcon
+                      fontSize={"large"}
+                      sx={{
+                        color: palette.green,
+                      }}
+                      className="playbutton"
+                    />
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
             {mostRecentNote && (
               <Typography sx={{ color: "green", marginLeft: 2 }}>
                 {formatDate(mostRecentNote?.date)}: {mostRecentNote?.notes}
               </Typography>
             )}
-            <Divider />
           </React.Fragment>
         );
       })}
