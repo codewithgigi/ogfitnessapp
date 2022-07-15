@@ -82,6 +82,8 @@ type Program
   ) {
   id: ID!
   name: String
+  subtitle: String
+  duration: String
   description: String
   instructions: String
   active: Boolean
@@ -97,10 +99,11 @@ type WorkoutList {
   id: String
   name: String
   day: Int
+  instructions: String
   week: Int
   warmup: WarmupCooldown
   cooldown: WarmupCooldown
-  exercises: ExerciseList
+  exercises: [ExerciseList]
 }
 
 type WarmupCooldown {
@@ -110,7 +113,8 @@ type WarmupCooldown {
 }
 
 type ExerciseList {
-  name: String!
+  id: String
+  name: String
   instructions: String
   image: String
   video: String

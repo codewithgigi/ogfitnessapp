@@ -4,24 +4,66 @@ import {
   Card,
   Box,
   Grid,
+  CardActionArea,
   CardContent,
   CardMedia,
   Divider,
+  Chip,
   Button,
   Typography,
 } from "@mui/material";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 import { palette } from "../../src/theme";
 import { formatDate } from "../../lib/formatDate";
-import { getTrainingPlans } from "../../lib/api/trainingPlans";
+// import { getTrainingPlans } from "../../lib/api/trainingPlans";
 import PlayCircleIcon from "@mui/icons-material/PlayCircleOutlineTwoTone";
 
 import { useRouter } from "next/router";
 
 import Section from "../../components/Section";
+import SectionHeader from "../../components/SectionHeader";
 import Context from "../../src/context";
 import { ExerciseList } from "../../components/exerciseList";
 import CompleteWorkoutDialog from "../../components/completeWorkoutDialog";
+
+export const listPrograms = /* GraphQL */ `
+  query ListPrograms(
+    $filter: ModelProgramFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPrograms(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        subtitle
+        duration
+        description
+        instructions
+        active
+        goal
+        gender
+        age
+        level
+        weeks
+        workoutList {
+          id
+          name
+          instructions
+          day
+          week
+          exercises {
+            name
+            sets
+            reps
+          }
+        }
+      }
+      nextToken
+    }
+  }
+`;
 
 export const updateProfileResults = /* GraphQL */ `
   mutation UpdateProfile(
@@ -82,102 +124,92 @@ const ViewPrograms = ({ profile, programs }) => {
           </p>
         </Box>
       )}
-      <Grid container direction="row" spacing={1}>
-        {(programs || []).map((program, index) => (
-          <Grid item xs={6} md={3} key={index}>
-            <Card
-              onClick={() =>
-                router.push({
-                  pathname: `/training/${program?.id}`,
-                })
-              }
-            >
-              <CardMedia
-                component="img"
-                image={`/assets/fat-loss-female-${index + 1}.png`}
-                alt={program?.name}
-                sx={{ height: 110 }}
-              />
-              <CardContent>
-                <Typography variant="h4"> {program?.name}</Typography>
-                <Typography variant="subtitle1">{program?.subtitle}</Typography>
-                <Typography variant="body2">{program?.duration}</Typography>
-              </CardContent>
-            </Card>
-            {program.workoutList?.type}
-          </Grid>
-        ))}
-      </Grid>
+      {(programs || []).map((program, index) => (
+        <Card
+          elevation={0}
+          sx={{
+            display: "flex",
+            backgroundColor: palette.lightgrey,
+            padding: 1,
+          }}
+          onClick={() => {
+            router.push(`/training/${program?.id}/${workout?.id}`);
+          }}
+        >
+          <CardMedia
+            component="img"
+            image={`/assets/fat-loss-female-${index + 1}.png`}
+            alt={program?.name}
+            sx={{ width: "40%", borderRadius: 1, objectFit: "cover" }}
+          />
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <CardContent sx={{ flex: "1 0 auto" }}>
+              <Typography variant="h4"> {program?.name}</Typography>
+              <Typography variant="subtitle1">{program?.subtitle}</Typography>
+              <Typography sx={{ color: palette.blue }} variant="body2">
+                view plan
+              </Typography>
+            </CardContent>
+          </Box>
+        </Card>
+      ))}
     </Section>
   );
 };
 
-const ProgramDetail = ({ program, day, setDay }) => {
+const ProgramDetail = ({ program }) => {
   const router = useRouter();
 
   return (
     <Section title={program?.name} subtitle={program?.subtitle} goBack={true}>
       <Box
-        justifyContent={"center"}
-        display="flex"
-        alignItems="center"
-        sx={{ color: palette.blue, fontSize: 14 }}
-      ></Box>
-      <Box mt={2}>
-        <Box>
-          {[1, 2, 3, 4, 5, 6, 7].map((label, index) => {
-            const workoutsByDay = (program.workoutList || []).filter((list) => {
-              if (list?.day === label) {
-                return list;
-              }
-            });
-            return (
-              <Box key={index}>
-                <Card
-                  sx={{
-                    backgroundColor: "white",
-                    padding: 1,
-                    marginBottom: 1,
-                  }}
-                >
-                  <Typography variant="h4" align="center">
-                    Day {label} {workoutsByDay.length <= 0 ? " - Rest Day" : ""}
+        sx={{
+          backgroundColor: palette.lightestgrey,
+          border: ".5px solid lightgrey",
+          borderRadius: 2,
+          cursor: "pointer",
+        }}
+      >
+        {(program?.workoutList || []).map((workout, index) => {
+          return (
+            <Box
+              onClick={() => {
+                router.push(`/training/${program?.id}/${workout?.id}`);
+              }}
+            >
+              <Grid
+                container
+                spacing={1}
+                sx={{
+                  padding: 2,
+                }}
+                alignItems="flex-start"
+                key={index}
+              >
+                <Grid item>
+                  <Chip
+                    label={`Day ${workout?.day}`}
+                    sx={{ cursor: "pointer" }}
+                  />
+                </Grid>
+                <Grid item>
+                  <Typography variant="h5">
+                    {workout?.name}
+                    <span style={{ color: palette.blue, fontSize: ".9rem" }}>
+                      {"  "}
+                      view
+                    </span>
                   </Typography>
-                  {(workoutsByDay || []).map((workout, i) => (
-                    <Box>
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          textTransform: "capitalize",
-                        }}
-                        onClick={() => {
-                          setDay(workout?.day);
-                          router.push(
-                            `/training/${program?.id}/${workout?.id}`,
-                          );
-                        }}
-                      >
-                        {workout?.name}
-                      </Typography>
 
-                      <Typography
-                        sx={{ display: "inline" }}
-                        component="span"
-                        variant="body2"
-                        color="text.secondary"
-                      >
-                        {workout?.instructions}
-                      </Typography>
-                      {i < workoutsByDay.length - 1 && (
-                        <Divider sx={{ marginBottom: 2, marginTop: 1 }} />
-                      )}
-                    </Box>
-                  ))}
-                </Card>
-              </Box>
-            );
-          })}
-        </Box>
+                  <Typography variant="body2" color="text.secondary">
+                    {workout?.instructions}
+                  </Typography>
+                </Grid>
+              </Grid>
+              {index < program?.workoutList.length - 1 && <Divider />}
+            </Box>
+          );
+        })}
       </Box>
     </Section>
   );
@@ -326,8 +358,39 @@ export default function MyPlan() {
   const [programs, setPrograms] = useState();
   const [viewPlan, setViewPlan] = useState();
   const [viewWorkout, setViewWorkout] = useState();
-  const [day, setDay] = useState(1);
   const router = useRouter();
+
+  useEffect(() => {
+    if (state?.user?.profile?.onboarding) getPrograms();
+  }, [state?.user?.profile?.onboarding]);
+
+  async function getPrograms() {
+    let {
+      goal = "",
+      experience = "",
+      gender = "",
+      age = "",
+    } = state?.user?.profile?.onboarding ?? {};
+    const variables = {};
+    let filter = {};
+    if (goal) filter.goal = { contains: goal };
+    if (experience) filter.level = { contains: experience };
+    if (age) filter.age = { contains: age };
+    if (gender) filter.gender = { contains: gender };
+    variables.filter = filter;
+    try {
+      const { data } = await API.graphql({
+        query: listPrograms,
+        variables: variables,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+      });
+      const items = data?.listPrograms?.items;
+      console.log("items", items);
+      setPrograms(items);
+    } catch (error) {
+      console.log("Error with api listWorkouts", error);
+    }
+  }
 
   useEffect(() => {
     if (!router?.query?.slug) {
@@ -348,10 +411,6 @@ export default function MyPlan() {
     }
   }, [router?.query, programs]);
 
-  useEffect(() => {
-    if (state?.user?.profile) getProgramList();
-  }, [state?.user?.profile?.onboarding]);
-
   async function updateProfile(data) {
     const profileId = state?.user?.profile?.id;
     let newDate = new Date(data?.date ?? "");
@@ -361,7 +420,6 @@ export default function MyPlan() {
     //awsDateformat string in the format YYYY-MM-DD
     data.date = `${yyyy}-${mm}-${dd}`;
     let variables = { id: profileId };
-    //const exerciseId = (data?.name).replace(" ", "-").toLowerCase();
 
     if (data?.exerciseId) {
       const currentResults = state?.user?.profile?.exerciseResults ?? [];
@@ -392,33 +450,9 @@ export default function MyPlan() {
       }
   }
 
-  async function getProgramList() {
-    let {
-      goal = "",
-      experience = "",
-      gender = "",
-      age = "",
-    } = state?.user?.profile?.onboarding ?? {};
-    const variables = { limit: 300 };
-    let filter = {};
-    if (goal) filter.goal = { contains: goal };
-    if (experience) filter.level = { contains: experience };
-    if (age) filter.age = { contains: age };
-    if (gender) filter.gender = { contains: gender };
-    variables.filter = filter;
-    const matchingprograms = getTrainingPlans({
-      goal,
-      experience,
-      gender,
-      age,
-    });
-    if (!matchingprograms?.error) setPrograms(matchingprograms);
-  }
-
   const profile = state?.user?.profile ?? null;
 
-  if (viewPlan && !viewWorkout)
-    return <ProgramDetail program={viewPlan} day={day} setDay={setDay} />;
+  if (viewPlan && !viewWorkout) return <ProgramDetail program={viewPlan} />;
   else if (viewWorkout)
     return (
       <WorkoutDetail workout={viewWorkout} updateProfile={updateProfile} />

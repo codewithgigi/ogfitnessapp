@@ -8,6 +8,7 @@ import theme from "../src/theme";
  *
  * @param {Object} props
  */
+
 const Section = ({ bgColor, children, title, subtitle, goBack, ...rest }) => {
   const isMdDown = useMediaQuery(theme.breakpoints.down("md"));
   const router = useRouter();
@@ -19,18 +20,17 @@ const Section = ({ bgColor, children, title, subtitle, goBack, ...rest }) => {
       flexDirection={"row"}
       justifyContent="center"
       alignItems="center"
-      sx={{
-        backgroundColor: isMdDown ? "white" : "",
-        paddingTop: 2,
-        paddingBottom: 2,
-      }}
     >
       {goBack && (
         <Grid item xs={2}>
           <Button
             onClick={() => router.back()}
             size="small"
-            sx={{ fontSize: 14, textTransform: "capitalize", fontWeight: 400 }}
+            sx={{
+              fontSize: 14,
+              textTransform: "capitalize",
+              fontWeight: 400,
+            }}
             startIcon={<ArrowBackIosIcon />}
           ></Button>
         </Grid>
@@ -38,10 +38,10 @@ const Section = ({ bgColor, children, title, subtitle, goBack, ...rest }) => {
       <Grid item xs={8}>
         <Typography
           variant="h4"
+          gutterBottom
           sx={{
             textTransform: "capitalize",
             textAlign: "center",
-            marginBottom: 0,
           }}
         >
           {title}
@@ -49,7 +49,6 @@ const Section = ({ bgColor, children, title, subtitle, goBack, ...rest }) => {
             <>
               <br />
               <span style={{ color: "grey", fontSize: "1rem" }}>
-                {" "}
                 {subtitle}
               </span>
             </>
@@ -60,8 +59,8 @@ const Section = ({ bgColor, children, title, subtitle, goBack, ...rest }) => {
     </Grid>
   );
   return (
-    <div style={{ marginTop: !isMdDown ? 100 : 5 }}>
-      {isMdDown && title && pageHeader}
+    <div style={{ marginTop: 70 }}>
+      {/* {isMdDown && title && pageHeader} */}
       <section
         style={{
           minHeight: "95vh",
@@ -71,7 +70,7 @@ const Section = ({ bgColor, children, title, subtitle, goBack, ...rest }) => {
         }}
         {...rest}
       >
-        {!isMdDown && pageHeader}
+        {pageHeader}
         {children}
       </section>
     </div>

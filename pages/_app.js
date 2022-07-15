@@ -86,19 +86,16 @@ function MyApp({
       <CacheProvider value={emotionCache}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <div
-            style={{
-              backgroundColor: "whitesmoke",
-            }}
-          >
-            {(!state?.user || !isMdDown) && <ResposiveAppBar />}
+          <div>
+            {/* {(!state?.user || !isMdDown) && <ResposiveAppBar />} */}
+            <ResposiveAppBar />
             <Component {...pageProps} />
           </div>
-          {isMdDown && state?.user && (
+          {/* {isMdDown && state?.user && (
             <div style={{ marginTop: 80 }} id="bottom-nav">
               <BottomNav />
             </div>
-          )}
+          )} */}
           {!isMdDown && <Footer />}
         </ThemeProvider>
       </CacheProvider>

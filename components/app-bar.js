@@ -9,6 +9,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Grid from "@mui/material/Grid";
+import { Avatar } from "@mui/material";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { palette } from "../src/theme";
@@ -60,10 +61,9 @@ const ResponsiveAppBar = () => {
 
   return (
     <AppBar
-      //position="static"
       sx={{ backgroundColor: palette.white }}
       position="fixed"
-      elevation={0}
+      elevation={1}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -190,18 +190,12 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             {state?.user ? (
               <Box>
-                <Button
-                  id="basic-button"
-                  aria-controls={open ? "basic-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}
-                  onClick={handleClick}
-                  startIcon={<Person />}
-                  color={"secondary"}
-                  size="small"
-                >
-                  {state?.user?.attributes?.preferred_username}
-                </Button>
+                <IconButton onClick={handleClick} sx={{ p: 0 }}>
+                  <Avatar
+                    alt={state?.user?.attributes?.preferred_username}
+                    src="/static/images/avatar/2.jpg"
+                  />
+                </IconButton>
                 <Menu
                   id="basic-menu"
                   anchorEl={anchorEl}

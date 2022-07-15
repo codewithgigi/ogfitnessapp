@@ -128,6 +128,8 @@ export const getProgram = /* GraphQL */ `
     getProgram(id: $id) {
       id
       name
+      subtitle
+      duration
       description
       instructions
       active
@@ -140,6 +142,7 @@ export const getProgram = /* GraphQL */ `
         id
         name
         day
+        instructions
         week
         warmup {
           instructions
@@ -152,6 +155,7 @@ export const getProgram = /* GraphQL */ `
           image
         }
         exercises {
+          id
           name
           instructions
           image
@@ -175,6 +179,8 @@ export const listPrograms = /* GraphQL */ `
       items {
         id
         name
+        subtitle
+        duration
         description
         instructions
         active
@@ -187,6 +193,7 @@ export const listPrograms = /* GraphQL */ `
           id
           name
           day
+          instructions
           week
         }
         createdAt

@@ -168,6 +168,8 @@ export const onCreateProgram = /* GraphQL */ `
     onCreateProgram {
       id
       name
+      subtitle
+      duration
       description
       instructions
       active
@@ -180,6 +182,7 @@ export const onCreateProgram = /* GraphQL */ `
         id
         name
         day
+        instructions
         week
         warmup {
           instructions
@@ -192,6 +195,7 @@ export const onCreateProgram = /* GraphQL */ `
           image
         }
         exercises {
+          id
           name
           instructions
           image
@@ -210,6 +214,8 @@ export const onUpdateProgram = /* GraphQL */ `
     onUpdateProgram {
       id
       name
+      subtitle
+      duration
       description
       instructions
       active
@@ -222,6 +228,7 @@ export const onUpdateProgram = /* GraphQL */ `
         id
         name
         day
+        instructions
         week
         warmup {
           instructions
@@ -234,6 +241,7 @@ export const onUpdateProgram = /* GraphQL */ `
           image
         }
         exercises {
+          id
           name
           instructions
           image
@@ -252,6 +260,8 @@ export const onDeleteProgram = /* GraphQL */ `
     onDeleteProgram {
       id
       name
+      subtitle
+      duration
       description
       instructions
       active
@@ -264,6 +274,7 @@ export const onDeleteProgram = /* GraphQL */ `
         id
         name
         day
+        instructions
         week
         warmup {
           instructions
@@ -276,6 +287,7 @@ export const onDeleteProgram = /* GraphQL */ `
           image
         }
         exercises {
+          id
           name
           instructions
           image
