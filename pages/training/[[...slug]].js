@@ -133,7 +133,7 @@ const ViewPrograms = ({ profile, programs }) => {
             padding: 1,
           }}
           onClick={() => {
-            router.push(`/training/${program?.id}/${workout?.id}`);
+            router.push(`/training/${program?.id}`);
           }}
         >
           <CardMedia
