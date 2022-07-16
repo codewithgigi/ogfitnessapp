@@ -237,81 +237,79 @@ const WorkoutDetail = ({ workout, updateProfile }) => {
       subtitle={`Day ${workout?.day}`}
       goBack={true}
     >
-      <Box sx={{ backgroundColor: palette.lightestgrey, padding: 1 }}>
-        {workout?.instructions && (
-          <Typography variant="body1" gutterBottom>
-            {workout?.instructions}
-          </Typography>
-        )}
-        {workout?.warmup && (
-          <Box justifyContent={"space-between"}>
-            <Typography variant="h5" gutterBottom>
-              <VideoDialog
-                color={true}
-                item={{
-                  name: "warmup",
-                  video: workout?.warmup?.video,
-                  instructions: workout?.warmup?.instructions,
-                }}
-              />
-              Warmup
+      <Card sx={{ backgroundColor: palette.lightgrey }} elevation={0}>
+        <CardContent>
+          {workout?.instructions && (
+            <Typography variant="body1" gutterBottom>
+              {workout?.instructions}
             </Typography>
-            <Typography variant="caption" gutterBottom>
-              {workout?.warmup?.instructions}
+          )}
+          {workout?.warmup && (
+            <Box
+              display="flex"
+              justifyContent={"space-between"}
+              sx={{ backgroundColor: palette.lightgrey }}
+            >
+              <Typography variant="h5" gutterBottom>
+                Warmup
+                <VideoDialog
+                  color={true}
+                  item={{
+                    name: "warmup",
+                    video: workout?.warmup?.video,
+                    instructions: workout?.warmup?.instructions,
+                  }}
+                />
+              </Typography>
+            </Box>
+          )}
+          {workout?.exercises && (
+            <>
+              <Typography variant="h5">Workout</Typography>
+              {workout?.exercises && workout?.exercises.length > 0 && (
+                <ExerciseList
+                  list={workout?.exercises}
+                  updateProfile={updateProfile}
+                  profile={state?.user?.profile}
+                />
+              )}
+            </>
+          )}
+          {workout?.cooldown && (
+            <Box display="flex" justifyContent={"space-between"}>
+              <Typography variant="h5" gutterBottom>
+                Cooldown
+                <VideoDialog
+                  color={true}
+                  item={{
+                    name: workout?.cooldown?.name,
+                    instructions: workout?.cooldow?.instructions,
+                    video: workout?.cooldown?.video,
+                  }}
+                />
+              </Typography>
+            </Box>
+          )}
+          <CompleteWorkoutDialog item={workout} updateProfile={updateProfile} />
+          {state?.user?.profile?.workoutResults && (
+            <Typography variant="h5" mt={1}>
+              Comments
             </Typography>
-            <Divider />
-          </Box>
-        )}
-        {workout?.exercises && (
-          <>
-            {/* <Typography variant="h5" sx={{ border: "1px solid black" }}>
-              Workout
-            </Typography> */}
-            {workout?.exercises && workout?.exercises.length > 0 && (
-              <ExerciseList
-                list={workout?.exercises}
-                updateProfile={updateProfile}
-                profile={state?.user?.profile}
-              />
-            )}
-          </>
-        )}
-        {workout?.cooldown && (
-          <Box display="flex">
-            <Divider />
-            <Typography variant="h5" gutterBottom>
-              <VideoDialog
-                color={true}
-                item={{
-                  name: workout?.cooldown?.name,
-                  instructions: workout?.cooldow?.instructions,
-                  video: workout?.cooldown?.video,
-                }}
-              />
-              Cooldown
-            </Typography>
-            <Typography variant="caption" gutterBottom>
-              {workout?.cooldown?.instructions}
-            </Typography>
-          </Box>
-        )}
-        <CompleteWorkoutDialog item={workout} updateProfile={updateProfile} />
-        {state?.user?.profile?.workoutResults && (
-          <Typography variant="h5" mt={1}>
-            Comments
-          </Typography>
-        )}
-        {(state?.user?.profile?.workoutResults || []).map((results, index) => {
-          if (results?.workoutId === workout?.id)
-            return (
-              <Box key={index}>
-                <Typography variant="caption" sx={{ color: "green" }}>
-                  {formatDate(results?.date)}: {results?.notes}
-                </Typography>
-              </Box>
-            );
-        })}
-      </Box>
+          )}
+          {(state?.user?.profile?.workoutResults || []).map(
+            (results, index) => {
+              if (results?.workoutId === workout?.id)
+                return (
+                  <Box key={index}>
+                    <Typography variant="caption" sx={{ color: "green" }}>
+                      {formatDate(results?.date)}: {results?.notes}
+                    </Typography>
+                  </Box>
+                );
+            },
+          )}
+        </CardContent>
+      </Card>
     </Section>
   );
 };

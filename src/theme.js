@@ -15,6 +15,7 @@ export const palette = {
   magenta: "#ca2266",
   softBlack: "#2A2A2B",
   paleGreen: "#0ad88c",
+  grey: "darkgrey",
 };
 export const layout = {
   //contentWidth: 1236,
