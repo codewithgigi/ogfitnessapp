@@ -1,22 +1,7 @@
 import React from "react";
 import { Grid, Typography, Divider } from "@mui/material";
 
-// image: "",
-// video: "",
-// name: "",
-// muscles: "", //Abs - Lower
-// bodypart: "", // Core, Lower, upper
-// level: "",
-// push: false, //if false its a pull
-// joint: "", //SM, M
-// modality: "",
-// description: "",
-// instructions: "",
-// image: "",
-// video: "",
-// vimeoId: "",
 export default function ExerciseDetail({ exercise, imageUpload }) {
-  const instructions = exercise?.instructions ?? "";
   return (
     <Grid container spacing={2} justifyContent="center">
       <Grid item xs={8} md={6}>

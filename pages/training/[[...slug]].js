@@ -15,8 +15,6 @@ import VideoDialog from "../../components/videoDialog";
 
 import { palette } from "../../src/theme";
 import { formatDate } from "../../lib/formatDate";
-// import { getTrainingPlans } from "../../lib/api/trainingPlans";
-import PlayCircleIcon from "@mui/icons-material/PlayCircleOutlineTwoTone";
 
 import { useRouter } from "next/router";
 
