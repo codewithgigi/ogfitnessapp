@@ -1,15 +1,5 @@
 import * as React from "react";
-import {
-  Grid,
-  Typography,
-  List,
-  Card,
-  CardMedia,
-  Box,
-  CardContent,
-  Chip,
-  Divider,
-} from "@mui/material";
+import { Grid, Typography, Box, Divider } from "@mui/material";
 import VideoDialog from "./videoDialog";
 import ExerciseNotesDialog from "./exerciseNotesDialog";
 import { palette } from "../src/theme";

@@ -4,7 +4,6 @@ import {
   Card,
   Box,
   Grid,
-  CardActionArea,
   CardContent,
   CardMedia,
   Divider,
@@ -132,6 +131,7 @@ const ViewPrograms = ({ profile, programs }) => {
       )}
       {(programs || []).map((program, index) => (
         <Card
+          key={index}
           elevation={0}
           sx={{
             display: "flex",
@@ -179,6 +179,7 @@ const ProgramDetail = ({ program }) => {
         {(program?.workoutList || []).map((workout, index) => {
           return (
             <Box
+              key={index}
               onClick={() => {
                 router.push(`/training/${program?.id}/${workout?.id}`);
               }}
@@ -348,7 +349,6 @@ export default function MyPlan() {
         authMode: "AMAZON_COGNITO_USER_POOLS",
       });
       const items = data?.listPrograms?.items;
-      console.log("items", items);
       setPrograms(items);
     } catch (error) {
       console.log("Error with api listWorkouts", error);
