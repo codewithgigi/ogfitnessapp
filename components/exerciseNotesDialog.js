@@ -44,9 +44,9 @@ export default function ExerciseNotesDialog({ item, updateProfile, profile }) {
       />
       <Dialog fullWidth maxWidth="md" open={open} onClose={handleClose}>
         <DialogTitle>
-          <Typography variant="h3">Exercise Notes </Typography>
-          <Typography variant="h3" sx={{ textTransform: "capitalize" }}>
-            {item?.name}
+          <Typography variant="h3">{item?.name}</Typography>
+          <Typography variant="caption" sx={{ textTransform: "capitalize" }}>
+            Track weights, reps or anything you like. (optional)
           </Typography>
         </DialogTitle>
         <DialogContent>
@@ -59,9 +59,9 @@ export default function ExerciseNotesDialog({ item, updateProfile, profile }) {
               rows={2}
               variant="outlined"
               name="name"
-              label="Exercise notes (optional)"
+              label="Notes"
               onChange={handleChange}
-              placeholder="Weights and reps"
+              placeholder="Notes (anything you want to track)"
               value={notes}
               inputProps={{ maxLength: 50 }}
             />
