@@ -42,16 +42,22 @@ export const ExerciseList = ({ list, updateProfile, profile }) => {
               </Grid>
               <Grid item xs={8}>
                 <Typography variant="h5">
-                  {index + 1}. {x?.name}
+                  {index + 1}.{"  "} {x?.name}
                 </Typography>
-                <Typography variant="subtitle" color="text.secondary">
+                <Typography
+                  variant="subtitle"
+                  color="text.secondary"
+                  sx={{ paddingLeft: 2.4 }}
+                >
                   {x?.sets} X {x?.reps}{" "}
-                  <ExerciseNotesDialog
-                    item={x}
-                    updateProfile={updateProfile}
-                    profile={profile}
-                  />
                 </Typography>
+              </Grid>
+              <Grid item xs={2}>
+                <ExerciseNotesDialog
+                  item={x}
+                  updateProfile={updateProfile}
+                  profile={profile}
+                />
               </Grid>
             </Grid>
             {index < list.length - 1 && <Divider />}

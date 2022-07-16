@@ -14,52 +14,34 @@ const Section = ({ bgColor, children, title, subtitle, goBack, ...rest }) => {
   const router = useRouter();
 
   const pageHeader = (
-    <Grid
-      container
-      display="flex"
-      flexDirection={"row"}
-      justifyContent="center"
-      alignItems="center"
-    >
+    <Box display="flex" direction="row" justifyContent={"center"}>
       {goBack && (
-        <Grid item xs={2}>
-          <Button
-            onClick={() => router.back()}
-            size="small"
-            sx={{
-              fontSize: 14,
-              textTransform: "capitalize",
-              fontWeight: 400,
-            }}
-            startIcon={<ArrowBackIosIcon />}
-          ></Button>
-        </Grid>
+        <ArrowBackIosIcon
+          color="primary"
+          size="small"
+          onClick={() => router.back()}
+        />
       )}
-      <Grid item xs={8}>
-        <Typography
-          variant="h4"
-          gutterBottom
-          sx={{
-            textTransform: "capitalize",
-            textAlign: "center",
-          }}
-        >
-          {title}
-          {subtitle && (
-            <>
-              <br />
-              <span style={{ color: "grey", fontSize: "1rem" }}>
-                {subtitle}
-              </span>
-            </>
-          )}
-        </Typography>
-      </Grid>
-      {goBack && <Grid item xs={2}></Grid>}
-    </Grid>
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{
+          textTransform: "capitalize",
+          textAlign: "center",
+        }}
+      >
+        {title}
+        {subtitle && (
+          <>
+            <br />
+            <span style={{ color: "grey", fontSize: "1rem" }}>{subtitle}</span>
+          </>
+        )}
+      </Typography>
+    </Box>
   );
   return (
-    <div style={{ marginTop: 70 }}>
+    <div style={{ marginTop: 60 }}>
       {/* {isMdDown && title && pageHeader} */}
       <section
         style={{

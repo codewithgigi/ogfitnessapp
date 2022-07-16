@@ -1,13 +1,16 @@
 import React, { useContext } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
+import {
+  Container,
+  Button,
+  Typography,
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { Avatar } from "@mui/material";
 import { useRouter } from "next/router";
@@ -59,11 +62,13 @@ const ResponsiveAppBar = () => {
     setAnchorEl(null);
   };
 
+  const title = router?.asPath.includes("training") ? "Training Plan" : "no";
+
   return (
     <AppBar
-      sx={{ backgroundColor: palette.white }}
+      sx={{ backgroundColor: palette.navdark }}
       position="fixed"
-      elevation={1}
+      elevation={0}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -72,8 +77,8 @@ const ResponsiveAppBar = () => {
               <img
                 alt="og fitness"
                 onClick={() => router.push("/")}
-                src="/assets/oglogoblack.png"
-                width={75}
+                src="/assets/oglogowhite.png"
+                width={55}
               />
             </Box>
           ) : (
@@ -85,7 +90,7 @@ const ResponsiveAppBar = () => {
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
               >
-                <MenuIcon />
+                <MenuIcon color="default" />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -108,7 +113,7 @@ const ResponsiveAppBar = () => {
                 {pages.map((page, index) => (
                   <MenuItem
                     key={index}
-                    sx={{ color: palette.black }}
+                    sx={{ color: palette.white }}
                     onClick={() => handleCloseNavMenu(page?.path)}
                   >
                     <Link href={page.path}>
@@ -145,8 +150,8 @@ const ResponsiveAppBar = () => {
               <img
                 alt={"og fitness"}
                 onClick={() => router.push("/")}
-                src="/assets/oglogoblack.png"
-                width={75}
+                src="/assets/oglogowhite.png"
+                height={55}
               />
             </Box>
           )}

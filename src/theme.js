@@ -16,6 +16,7 @@ export const palette = {
   softBlack: "#2A2A2B",
   paleGreen: "#0ad88c",
   grey: "darkgrey",
+  navdark: "#000000cc",
 };
 export const layout = {
   //contentWidth: 1236,
