@@ -16,7 +16,7 @@ import createEmotionCache from "../src/createEmotionCache";
 import theme from "../src/theme";
 import "../src/styles/payments.css";
 import "../src/styles/global.css";
-import ResposiveAppBar from "../components/app-bar";
+import Navigation from "../components/app-bar";
 import BottomNav from "../components/BottomNav";
 import { getProfile } from "./profile";
 
@@ -87,15 +87,9 @@ function MyApp({
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <div>
-            {/* {(!state?.user || !isMdDown) && <ResposiveAppBar />} */}
-            <ResposiveAppBar />
+            <Navigation />
             <Component {...pageProps} />
           </div>
-          {/* {isMdDown && state?.user && (
-            <div style={{ marginTop: 80 }} id="bottom-nav">
-              <BottomNav />
-            </div>
-          )} */}
           {!isMdDown && <Footer />}
         </ThemeProvider>
       </CacheProvider>

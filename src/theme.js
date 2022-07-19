@@ -36,7 +36,7 @@ const theme = createTheme({
       contrastText: "#fff",
     },
     secondary: {
-      main: palette.green,
+      main: palette.navdark,
       contrastText: "#FFF",
     },
     error: {

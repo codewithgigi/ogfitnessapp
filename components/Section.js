@@ -41,7 +41,7 @@ const Section = ({ bgColor, children, title, subtitle, goBack, ...rest }) => {
     </Box>
   );
   return (
-    <div style={{ marginTop: 60 }}>
+    <div style={{ marginTop: 0 }}>
       {/* {isMdDown && title && pageHeader} */}
       <section
         style={{
