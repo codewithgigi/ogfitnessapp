@@ -26,8 +26,8 @@ const Navigation = () => {
     <Container
       sx={{
         height: 60,
-        position: "sticky",
-        top: 0,
+        // position: "sticky",
+        // top: 0,
         borderBottom: "1px solid lightgrey",
         backgroundColor: "white",
       }}
