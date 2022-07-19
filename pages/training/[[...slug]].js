@@ -19,10 +19,10 @@ import { formatDate } from "../../lib/formatDate";
 import { useRouter } from "next/router";
 
 import Section from "../../components/Section";
-import SectionHeader from "../../components/SectionHeader";
 import Context from "../../src/context";
 import { ExerciseList } from "../../components/exerciseList";
 import CompleteWorkoutDialog from "../../components/completeWorkoutDialog";
+import CommentIcon from "@mui/icons-material/InsertCommentOutlined";
 
 export const listPrograms = /* GraphQL */ `
   query ListPrograms(
@@ -295,21 +295,28 @@ const WorkoutDetail = ({ workout, updateProfile }) => {
           </>
         )}
         <CompleteWorkoutDialog item={workout} updateProfile={updateProfile} />
-        {state?.user?.profile?.workoutResults && (
-          <Typography variant="h5" mt={1}>
-            Comments
-          </Typography>
-        )}
+
         {/* {(state?.user?.profile?.workoutResults || []).map((results, index) => {
           if (results?.workoutId === workout?.id)
             return (
               <Box key={index}>
                 <Typography variant="caption" sx={{ color: "green" }}>
-                  {formatDate(results?.date)}: {results?.notes}
+                  {formatDate(results?.date)}: {results?.rating}{" "}
+                  {results?.notes}
                 </Typography>
               </Box>
             );
         })} */}
+      </Box>
+      <Box
+        display="flex"
+        justifyContent={"space-between"}
+        mt={1}
+        alignItems="center"
+        sx={{ padding: 1 }}
+      >
+        <Typography variant="h5">Comments </Typography>
+        <CommentIcon size="large" />
       </Box>
     </Section>
   );
