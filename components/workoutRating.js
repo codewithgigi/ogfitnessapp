@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Box, Typography } from "@mui/material";
 import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
 import Rating from "@mui/material/Rating";
@@ -28,8 +27,6 @@ const customIcons = {
   },
 };
 
-console.log("icons", customIcons[0]?.icon);
-
 function IconContainer(props) {
   const { value, ...other } = props;
   return <span {...other}>{customIcons[value]?.icon}</span>;
@@ -39,30 +36,20 @@ IconContainer.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function WorkoutRating() {
+export default function WorkoutRating({ setRating }) {
   return (
-    <>
-      <StyledRating
-        name="highlight-selected-only"
-        defaultValue={2}
-        IconContainerComponent={IconContainer}
-        getLabelText={(value) => customIcons[value]?.label}
-        highlightSelectedOnly
-      />
-      {/* <Box display={"flex"}>
-        {customIcons.map((x, i) => {
-          return (
-            <Box
-              display="flex"
-              flexDirection={"column"}
-              justifyContent="center"
-              alginItems="center"
-            >
-              {x.icon} <Typography align="center">{x.label}</Typography>
-            </Box>
-          );
-        })}
-      </Box> */}
-    </>
+    <StyledRating
+      name="highlight-selected-only"
+      defaultValue={2}
+      IconContainerComponent={IconContainer}
+      getLabelText={(value) => customIcons[value]?.label}
+      highlightSelectedOnly
+      onChange={(e) => {
+        console.log("rating", e?.target?.value);
+        if (e?.target?.value === 1) setRating("don't like");
+        if (e?.target?.value === 2) setRating("like");
+        if (e?.target?.value === 3) setRating("love");
+      }}
+    />
   );
 }

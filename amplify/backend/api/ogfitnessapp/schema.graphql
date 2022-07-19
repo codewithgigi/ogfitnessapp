@@ -21,6 +21,7 @@ type WorkoutResult {
   workoutId: String
   date: AWSDate
   notes: String
+  rating: String
 }
 type ExerciseResult {
   exerciseId: String
