@@ -13,6 +13,7 @@ import DatePicker from "./datePicker";
 import TextSnippetIcon from "@mui/icons-material/TextSnippet";
 import { palette } from "../src/theme";
 import { formatDate } from "../lib/formatDate";
+import InfoIcon from "@mui/icons-material/Info";
 
 export default function ExerciseNotesDialog({ item, updateProfile, profile }) {
   const [open, setOpen] = useState(false);
@@ -44,10 +45,17 @@ export default function ExerciseNotesDialog({ item, updateProfile, profile }) {
       />
       <Dialog fullWidth maxWidth="md" open={open} onClose={handleClose}>
         <DialogTitle>
-          <Typography variant="h3">{item?.name}</Typography>
-          <Typography variant="caption" sx={{ textTransform: "capitalize" }}>
+          <Box display="flex" alignItems="center">
+            <Typography variant="h3">
+              {item?.name}{" "}
+              <span style={{ fontSize: "1rem", fontWeight: 400 }}>
+                (optional notes)
+              </span>{" "}
+            </Typography>
+          </Box>
+          {/* <Typography variant="caption" sx={{ textTransform: "capitalize" }}>
             Track weights, reps or anything you like. (optional)
-          </Typography>
+          </Typography> */}
         </DialogTitle>
         <DialogContent>
           <Box mt={1}>
@@ -61,7 +69,7 @@ export default function ExerciseNotesDialog({ item, updateProfile, profile }) {
               name="name"
               label="Notes"
               onChange={handleChange}
-              placeholder="Notes (anything you want to track)"
+              placeholder="Track weights, reps etc."
               value={notes}
               inputProps={{ maxLength: 50 }}
             />

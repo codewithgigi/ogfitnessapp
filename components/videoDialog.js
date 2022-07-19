@@ -29,11 +29,11 @@ export default function VideoDialog({ item, size, color }) {
   return (
     <React.Fragment>
       <PlayCircleIcon
-        fontSize={size ? size : "large"}
         sx={{
           color: palette.navdark,
           marginRight: 1,
           padding: 0,
+          fontSize: "2rem",
         }}
         className="playbutton"
         onClick={handleClickOpen}

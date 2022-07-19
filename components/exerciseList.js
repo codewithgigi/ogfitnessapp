@@ -22,7 +22,7 @@ export const ExerciseList = ({ list, updateProfile, profile }) => {
               sx={{
                 paddingBottom: 1,
                 paddingTop: 1,
-                backgroundColor: palette.lightestgrey,
+                backgroundColor: palette.lightgrey,
               }}
             >
               <Grid item xs={2}>

@@ -45,9 +45,10 @@ export default function CompleteWorkoutDialog({ item, updateProfile }) {
           <Typography variant="h3">Workout Notes</Typography>
         </DialogTitle>
         <DialogContent>
-          <Box mt={1}>
+          <Box mt={1} display="flex" alignItems="center" flexDirection="column">
             <DatePicker date={date} setDate={setDate} />
-            {/* <WorkoutRating /> */}
+            <Box mt={3} />
+            <WorkoutRating />
             {/* <TextField
               sx={{ marginTop: 2 }}
               fullWidth
@@ -64,21 +65,21 @@ export default function CompleteWorkoutDialog({ item, updateProfile }) {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button
+          {/* <Button
             fullWidth
             variant="outlined"
             color="primary"
             onClick={() => setOpen(false)}
           >
             Cancel
-          </Button>
+          </Button> */}
           <Button
             fullWidth
             variant="contained"
             color="primary"
             onClick={handleClose}
           >
-            Save
+            Mark Complete
           </Button>
         </DialogActions>
       </Dialog>

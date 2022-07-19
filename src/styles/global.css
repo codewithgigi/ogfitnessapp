@@ -21,6 +21,11 @@
   margin: 4px 2px;
   cursor: pointer;
 }
+.borderedBox {
+  background-color: #F5F5F7;
+  border: .5px solid lightgrey;
+  border-radius: 5px;
+}
 
 .button:hover {
   background-color: #304a92;

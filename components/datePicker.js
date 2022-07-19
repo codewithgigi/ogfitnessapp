@@ -14,7 +14,7 @@ export default function DatePicker({ date, setDate }) {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3}>
         <MobileDatePicker
-          label="workout date"
+          label="Date"
           inputFormat="MM/dd/yyyy"
           value={date}
           onChange={handleChange}

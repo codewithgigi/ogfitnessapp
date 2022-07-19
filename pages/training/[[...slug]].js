@@ -166,14 +166,7 @@ const ProgramDetail = ({ program }) => {
 
   return (
     <Section title={program?.name} subtitle={program?.subtitle} goBack={true}>
-      <Box
-        sx={{
-          backgroundColor: palette.lightestgrey,
-          border: ".5px solid lightgrey",
-          borderRadius: 2,
-          cursor: "pointer",
-        }}
-      >
+      <Box className="borderedBox" sx={{ cursor: "pointer" }}>
         {(program?.workoutList || []).map((workout, index) => {
           return (
             <Box
@@ -236,30 +229,31 @@ const WorkoutDetail = ({ workout, updateProfile }) => {
       subtitle={`Day ${workout?.day}`}
       goBack={true}
     >
-      <Box sx={{ backgroundColor: palette.lightestgrey, padding: 1 }}>
+      <Box className="borderedBox" sx={{ padding: 1.5 }}>
         {workout?.instructions && (
           <Typography variant="body1" gutterBottom>
             {workout?.instructions}
           </Typography>
         )}
         {workout?.warmup && (
-          <Box justifyContent={"space-between"}>
-            <Typography variant="h5" gutterBottom>
+          <>
+            <Box flexDirection={"row"} display="flex" alignItems={"center"}>
               <VideoDialog
-                color={true}
                 item={{
                   name: "warmup",
                   video: workout?.warmup?.video,
                   instructions: workout?.warmup?.instructions,
                 }}
               />
-              Warmup
-            </Typography>
-            <Typography variant="caption" gutterBottom>
-              {workout?.warmup?.instructions}
-            </Typography>
+              <Typography variant="h5">Warmup</Typography>
+            </Box>
+            <Box sx={{ marginLeft: 5 }}>
+              <Typography variant="caption" gutterBottom>
+                {workout?.warmup?.instructions}{" "}
+              </Typography>
+            </Box>
             <Divider />
-          </Box>
+          </>
         )}
         {workout?.exercises && (
           <>
@@ -276,23 +270,29 @@ const WorkoutDetail = ({ workout, updateProfile }) => {
           </>
         )}
         {workout?.cooldown && (
-          <Box display="flex">
+          <>
             <Divider />
-            <Typography variant="h5" gutterBottom>
+            <Box
+              flexDirection={"row"}
+              display="flex"
+              alignItems={"center"}
+              mt={1}
+            >
               <VideoDialog
-                color={true}
                 item={{
-                  name: workout?.cooldown?.name,
-                  instructions: workout?.cooldow?.instructions,
+                  name: "warmup",
                   video: workout?.cooldown?.video,
+                  instructions: workout?.cooldown?.instructions,
                 }}
               />
-              Cooldown
-            </Typography>
-            <Typography variant="caption" gutterBottom>
-              {workout?.cooldown?.instructions}
-            </Typography>
-          </Box>
+              <Typography variant="h5">Cooldown</Typography>
+            </Box>
+            <Box sx={{ marginLeft: 5 }}>
+              <Typography variant="caption" gutterBottom>
+                {workout?.cooldown?.instructions}
+              </Typography>
+            </Box>
+          </>
         )}
         <CompleteWorkoutDialog item={workout} updateProfile={updateProfile} />
         {state?.user?.profile?.workoutResults && (
@@ -300,7 +300,7 @@ const WorkoutDetail = ({ workout, updateProfile }) => {
             Comments
           </Typography>
         )}
-        {(state?.user?.profile?.workoutResults || []).map((results, index) => {
+        {/* {(state?.user?.profile?.workoutResults || []).map((results, index) => {
           if (results?.workoutId === workout?.id)
             return (
               <Box key={index}>
@@ -309,7 +309,7 @@ const WorkoutDetail = ({ workout, updateProfile }) => {
                 </Typography>
               </Box>
             );
-        })}
+        })} */}
       </Box>
     </Section>
   );
