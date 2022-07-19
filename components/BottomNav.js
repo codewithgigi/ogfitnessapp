@@ -31,18 +31,18 @@ export default function BottomNav() {
         backgroundColor
       >
         <BottomNavigationAction
+          label="Dashboard"
+          icon={<AssessmentIcon sx={{ fontSize: 20 }} />}
+          onClick={() => {
+            router.push("/dashboard");
+          }}
+        />
+        <BottomNavigationAction
           sx={{ fontSize: 12 }}
           label="Workout"
           icon={<FitnessCenterIcon sx={{ fontSize: 20 }} />}
           onClick={() => {
             router.push("/training");
-          }}
-        />
-        <BottomNavigationAction
-          label="Dashboard"
-          icon={<AssessmentIcon sx={{ fontSize: 20 }} />}
-          onClick={() => {
-            router.push("/dashboard");
           }}
         />
         <BottomNavigationAction
