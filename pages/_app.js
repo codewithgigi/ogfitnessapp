@@ -91,6 +91,7 @@ function MyApp({
             <Component {...pageProps} />
           </div>
           {!isMdDown && <Footer />}
+          {isMdDown && <BottomNav />}
         </ThemeProvider>
       </CacheProvider>
     </Context.Provider>

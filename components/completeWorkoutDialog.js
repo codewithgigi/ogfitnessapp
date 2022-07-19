@@ -33,8 +33,7 @@ export default function CompleteWorkoutDialog({ item, updateProfile }) {
     <React.Fragment>
       <Button
         variant="contained"
-        color="secondary"
-        size="small"
+        color="primary"
         sx={{ mt: 3 }}
         onClick={handleClickOpen}
         fullWidth

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Box, Chip, Typography } from "@mui/material";
+import { Box, Chip, Typography, Button } from "@mui/material";
 import Section from "../components/Section";
 import Context from "../src/context";
 import { useRouter } from "next/router";
@@ -80,7 +80,6 @@ export default function Onboarding() {
   const { state, dispatch } = React.useContext(Context);
   const [step, setStep] = React.useState(0);
   const router = useRouter();
-  const buttonRef = useRef();
 
   const [onboarding, setOnboarding] = React.useState({
     goal: "",
@@ -305,14 +304,15 @@ export default function Onboarding() {
             onboarding.compete &&
             onboarding.competeLevel)) && (
           <div>
-            <button
-              className="button"
-              ref={buttonRef}
-              type="submit"
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 3 }}
               onClick={onSubmit}
+              fullWidth
             >
-              View Training
-            </button>
+              View Workouts
+            </Button>
           </div>
         )}
     </Section>

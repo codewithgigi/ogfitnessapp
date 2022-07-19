@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import RunCircleIcon from "@mui/icons-material/RunCircle";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import MonitorWeightIcon from "@mui/icons-material/MonitorWeight";
+import AssessmentIcon from "@mui/icons-material/Assessment";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 export default function BottomNav() {
   const [value, setValue] = React.useState(0);
@@ -29,25 +31,26 @@ export default function BottomNav() {
         backgroundColor
       >
         <BottomNavigationAction
-          label="Training"
-          icon={<FitnessCenterIcon />}
+          sx={{ fontSize: 12 }}
+          label="Workout"
+          icon={<FitnessCenterIcon sx={{ fontSize: 20 }} />}
           onClick={() => {
             router.push("/training");
           }}
         />
         <BottomNavigationAction
-          label="Track"
-          icon={<MonitorWeightIcon />}
+          label="Dashboard"
+          icon={<AssessmentIcon sx={{ fontSize: 20 }} />}
           onClick={() => {
             router.push("/dashboard");
           }}
         />
         <BottomNavigationAction
-          label="Profile"
+          label="Settings"
           onClick={() => {
             router.push("/profile");
           }}
-          icon={<AccountCircleIcon />}
+          icon={<SettingsIcon sx={{ fontSize: 20 }} />}
         />
       </BottomNavigation>
     </Paper>

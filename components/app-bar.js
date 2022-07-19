@@ -23,13 +23,15 @@ const Navigation = () => {
   const isMdDown = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
-    <Container
+    <Box
       sx={{
-        height: 60,
-        // position: "sticky",
-        // top: 0,
+        position: "sticky",
+        top: 0,
         borderBottom: "1px solid lightgrey",
         backgroundColor: "white",
+        paddingRight: 1,
+        paddingLeft: 2,
+        paddingTop: 0.3,
       }}
     >
       <Grid container justifyContent={"space-between"} alignItems="center">
@@ -38,14 +40,14 @@ const Navigation = () => {
             alt="og fitness"
             onClick={() => router.push("/")}
             src="/assets/oglogoblack.png"
-            width={70}
+            width={40}
           />
         </Grid>
         {!state?.user ? (
           <Grid item>
             <Button onClick={() => router.push("/auth/signin")}>SIGN IN</Button>
           </Grid>
-        ) : (
+        ) : !isMdDown ? (
           <Grid item>
             <Button
               sx={{
@@ -58,17 +60,7 @@ const Navigation = () => {
               onClick={() => router.push("/training")}
               variant="text"
             >
-              {!isMdDown && "Training"}
-              {isMdDown && (
-                <FitnessCenterIcon
-                  color={
-                    router?.pathname.includes("training")
-                      ? "primary"
-                      : "secondary"
-                  }
-                  sx={{ fontSize: "1.5rem" }}
-                />
-              )}
+              Workouts
             </Button>
             <Button
               sx={{
@@ -80,23 +72,12 @@ const Navigation = () => {
               }}
               onClick={() => router.push("/dashboard")}
             >
-              {!isMdDown && "Progress"}
-              {isMdDown && (
-                <AssessmentIcon
-                  color={
-                    router?.pathname.includes("dashboard")
-                      ? "primary"
-                      : "secondary"
-                  }
-                  sx={{ fontSize: "1.5rem" }}
-                />
-              )}
+              Dashboard
             </Button>
             <IconButton onClick={() => router.push("/profile")}>
               <Avatar
                 sx={{
                   bgcolor: palette.contrastBlue,
-                  paddingTop: 0.4,
                 }}
               >
                 {state?.user?.attributes?.preferred_username
@@ -105,9 +86,27 @@ const Navigation = () => {
               </Avatar>
             </IconButton>
           </Grid>
+        ) : (
+          <Grid item>
+            <IconButton size="small" onClick={() => router.push("/profile")}>
+              <Avatar
+                sx={{
+                  bgcolor: palette.contrastBlue,
+                  width: 28,
+                  height: 28,
+                }}
+              >
+                <span style={{ fontSize: ".9rem" }}>
+                  {state?.user?.attributes?.preferred_username
+                    .split("")[0]
+                    .toUpperCase()}
+                </span>
+              </Avatar>
+            </IconButton>
+          </Grid>
         )}
       </Grid>
-    </Container>
+    </Box>
   );
 };
 export default Navigation;
