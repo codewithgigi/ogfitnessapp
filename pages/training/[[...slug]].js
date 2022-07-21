@@ -12,9 +12,9 @@ import {
   Typography,
 } from "@mui/material";
 import VideoDialog from "../../components/videoDialog";
+import CommentsDialog from "../../components/commentsSlideDialog";
 
 import { palette } from "../../src/theme";
-import { formatDate } from "../../lib/formatDate";
 
 import { useRouter } from "next/router";
 
@@ -23,6 +23,9 @@ import Context from "../../src/context";
 import { ExerciseList } from "../../components/exerciseList";
 import CompleteWorkoutDialog from "../../components/completeWorkoutDialog";
 import CommentIcon from "@mui/icons-material/InsertCommentOutlined";
+
+import { createComments } from "../../src/graphql/mutations";
+import { listComments } from "../../src/graphql/queries";
 
 export const listPrograms = /* GraphQL */ `
   query ListPrograms(
@@ -216,12 +219,31 @@ const ProgramDetail = ({ program }) => {
 const WorkoutDetail = ({ workout, updateProfile }) => {
   const { state } = useContext(Context);
 
+  const [comments, setComments] = useState();
+
   useEffect(() => {
     if (workout?.exercises) {
       const exercise = workout?.exercises[0];
       if (!exercise.video) exercise.video = "assets/exercise/squat.mp4";
     }
   }, []);
+
+  const addComments = () => {
+    console.log("add comment");
+  };
+
+  async function getComments() {
+    try {
+      const { data } = await API.graphql({
+        query: listComments,
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+      });
+      const items = data?.listComments?.items;
+      setComments(items);
+    } catch (error) {
+      console.log("Error with api listWorkouts", error);
+    }
+  }
 
   return (
     <Section
@@ -295,28 +317,14 @@ const WorkoutDetail = ({ workout, updateProfile }) => {
           </>
         )}
         <CompleteWorkoutDialog item={workout} updateProfile={updateProfile} />
-
-        {/* {(state?.user?.profile?.workoutResults || []).map((results, index) => {
-          if (results?.workoutId === workout?.id)
-            return (
-              <Box key={index}>
-                <Typography variant="caption" sx={{ color: "green" }}>
-                  {formatDate(results?.date)}: {results?.rating}{" "}
-                  {results?.notes}
-                </Typography>
-              </Box>
-            );
-        })} */}
       </Box>
       <Box
         display="flex"
-        justifyContent={"space-between"}
+        justifyContent={"flex-end"}
         mt={1}
         alignItems="center"
-        sx={{ padding: 1 }}
       >
-        <Typography variant="h5">Comments </Typography>
-        <CommentIcon size="large" />
+        <CommentsDialog />
       </Box>
     </Section>
   );

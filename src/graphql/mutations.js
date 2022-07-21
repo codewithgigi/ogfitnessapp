@@ -32,6 +32,7 @@ export const createProfile = /* GraphQL */ `
         workoutId
         date
         notes
+        rating
       }
       exerciseResults {
         exerciseId
@@ -74,6 +75,7 @@ export const updateProfile = /* GraphQL */ `
         workoutId
         date
         notes
+        rating
       }
       exerciseResults {
         exerciseId
@@ -116,6 +118,7 @@ export const deleteProfile = /* GraphQL */ `
         workoutId
         date
         notes
+        rating
       }
       exerciseResults {
         exerciseId
@@ -124,6 +127,54 @@ export const deleteProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
+    }
+  }
+`;
+export const createComments = /* GraphQL */ `
+  mutation CreateComments(
+    $input: CreateCommentsInput!
+    $condition: ModelCommentsConditionInput
+  ) {
+    createComments(input: $input, condition: $condition) {
+      id
+      userId
+      username
+      comment
+      createdAt
+      updatedAt
+      user
+    }
+  }
+`;
+export const updateComments = /* GraphQL */ `
+  mutation UpdateComments(
+    $input: UpdateCommentsInput!
+    $condition: ModelCommentsConditionInput
+  ) {
+    updateComments(input: $input, condition: $condition) {
+      id
+      userId
+      username
+      comment
+      createdAt
+      updatedAt
+      user
+    }
+  }
+`;
+export const deleteComments = /* GraphQL */ `
+  mutation DeleteComments(
+    $input: DeleteCommentsInput!
+    $condition: ModelCommentsConditionInput
+  ) {
+    deleteComments(input: $input, condition: $condition) {
+      id
+      userId
+      username
+      comment
+      createdAt
+      updatedAt
+      user
     }
   }
 `;

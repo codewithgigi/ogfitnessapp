@@ -29,6 +29,7 @@ export const onCreateProfile = /* GraphQL */ `
         workoutId
         date
         notes
+        rating
       }
       exerciseResults {
         exerciseId
@@ -68,6 +69,7 @@ export const onUpdateProfile = /* GraphQL */ `
         workoutId
         date
         notes
+        rating
       }
       exerciseResults {
         exerciseId
@@ -107,6 +109,7 @@ export const onDeleteProfile = /* GraphQL */ `
         workoutId
         date
         notes
+        rating
       }
       exerciseResults {
         exerciseId
@@ -115,6 +118,45 @@ export const onDeleteProfile = /* GraphQL */ `
       }
       createdAt
       updatedAt
+    }
+  }
+`;
+export const onCreateComments = /* GraphQL */ `
+  subscription OnCreateComments($user: String) {
+    onCreateComments(user: $user) {
+      id
+      userId
+      username
+      comment
+      createdAt
+      updatedAt
+      user
+    }
+  }
+`;
+export const onUpdateComments = /* GraphQL */ `
+  subscription OnUpdateComments($user: String) {
+    onUpdateComments(user: $user) {
+      id
+      userId
+      username
+      comment
+      createdAt
+      updatedAt
+      user
+    }
+  }
+`;
+export const onDeleteComments = /* GraphQL */ `
+  subscription OnDeleteComments($user: String) {
+    onDeleteComments(user: $user) {
+      id
+      userId
+      username
+      comment
+      createdAt
+      updatedAt
+      user
     }
   }
 `;

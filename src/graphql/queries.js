@@ -29,6 +29,7 @@ export const getProfile = /* GraphQL */ `
         workoutId
         date
         notes
+        rating
       }
       exerciseResults {
         exerciseId
@@ -73,6 +74,7 @@ export const listProfiles = /* GraphQL */ `
           workoutId
           date
           notes
+          rating
         }
         exerciseResults {
           exerciseId
@@ -81,6 +83,39 @@ export const listProfiles = /* GraphQL */ `
         }
         createdAt
         updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getComments = /* GraphQL */ `
+  query GetComments($id: ID!) {
+    getComments(id: $id) {
+      id
+      userId
+      username
+      comment
+      createdAt
+      updatedAt
+      user
+    }
+  }
+`;
+export const listComments = /* GraphQL */ `
+  query ListComments(
+    $filter: ModelCommentsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userId
+        username
+        comment
+        createdAt
+        updatedAt
+        user
       }
       nextToken
     }
